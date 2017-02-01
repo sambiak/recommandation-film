@@ -7,16 +7,16 @@ file = open("movies.csv","r")
 reader = csv.reader(file)
 
 movies=[]
-id=[]
+id_o=[]
 
 
 for row in reader:
-    movies = movies + [row[1]]
-    id=id+[row[0]]
+    movies.append(row[1])
+    id_o.append(row[0])
 
 
 del movies[0]
-del id[0]
+del id_o[0]
 
 file.close()
 
@@ -41,14 +41,29 @@ for row in reader2:
 del users[0]
 del ratings[0]
 del movieId[0]
+
+
 n_user = []
 for i, usert in enumerate(users):
     user = int(usert)
     if user > len(n_user):
         n_user.append({})
     n_user[user-1][movieId[i]]= ratings[i]
-for i,user in enumerate(n_user):
-    print(i)
-    print(user)
+#for i,user in enumerate(n_user):
+#    print(i)
+#    print(user)
+
+
+id={}
+for i, truc in enumerate(movies):
+    id[movies[i]] = id_o[i]
+
+
+movie_id={}
+for i, machin in enumerate(id_o):
+    movie_id[id_o[i]] = movies[i]
+
+print(movie_id)
+
 file2.close()
 
