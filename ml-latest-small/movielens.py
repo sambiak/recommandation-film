@@ -41,6 +41,14 @@ for row in reader2:
 del users[0]
 del ratings[0]
 del movieId[0]
-
+n_user = []
+for i, usert in enumerate(users):
+    user = int(usert)
+    if user > len(n_user):
+        n_user.append({})
+    n_user[user-1][movieId[i]]= ratings[i]
+for i,user in enumerate(n_user):
+    print(i)
+    print(user)
 file2.close()
 
