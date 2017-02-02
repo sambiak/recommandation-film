@@ -59,7 +59,55 @@ movie_id={}
 for i, machin in enumerate(id_o):
     movie_id[id_o[i]] = movies[i]
 
-print(movie_id)
 
 file2.close()
+
+
+
+
+# fonction id prenant en argument le nom d'un film en chaine de caractères
+# et retournant un entier correspondant à l'id de ce film dans movies.csv
+# faire attention le titre d'un film contient aussi sa date de parution : par exemple "Toy Story (1995)"
+
+def id(titre_du_film):
+
+    assert type(titre_du_film) == str
+
+    file = open("movies.csv")
+    reader = csv.reader(file)
+
+    for row in reader:
+        if row[1] == titre_du_film:
+            a = row[0]
+            file.close()
+            return int(a)
+
+    print("Le film nommé '", titre_du_film, "' n'a pas été trouvé dans la liste de films movies.csv")
+
+
+
+# fonction titre prenant en argument l'id d'un film (entier ou chaine de caractere)
+# et retournant en chaine de caractère le titre du film correspondant à l'id dans movies.csv
+
+def titre(id):
+
+    assert type(id) == str or type(id)==int
+
+    if type(id) == int:
+        id=str(id)
+
+    file = open("movies.csv")
+    reader = csv.reader(file)
+
+    for row in reader:
+        if row[0] == id:
+            a = row[1]
+            file.close()
+            return a
+
+    print("Aucun film ne correspond à l'id", id, "dans movies.csv")
+
+
+
+
 
