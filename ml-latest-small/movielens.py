@@ -49,10 +49,6 @@ for i, usert in enumerate(users):
     if user > len(n_user):
         n_user.append({})
     n_user[user-1][movieId[i]]= ratings[i]
-#for i,user in enumerate(n_user):
-#    print(i)
-#    print(user)
-
 
 id={}
 for i, truc in enumerate(movies):
