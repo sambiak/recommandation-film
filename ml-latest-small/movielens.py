@@ -1,7 +1,7 @@
 import csv
 
 #liste des films
-#liste des id des films : id[6] c'est l'id du film rangé à films[10]
+#liste des id des films : id[6] c'est l'id du film rangé à films[6]
 
 file = open("movies.csv","r")
 reader = csv.reader(file)
