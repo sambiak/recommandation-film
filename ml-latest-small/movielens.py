@@ -113,6 +113,7 @@ def tableau_des_notes():
     """
     Fonction temporaire pour commencer a travailler sur d'autres parties du projet
     ne renvoit pas un tableau correspondant a quoi que ce soit de reelle
+    pour gerer les Nan utilise math.isnan
     :return: un array numpy contenant les notes des filmes ordonne avec array[utilisateur][film]
     """
     NaN = math.nan
