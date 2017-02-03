@@ -1,4 +1,7 @@
 import csv
+import numpy as np
+import math
+
 
 #liste des films
 #liste des id des films : id[6] c'est l'id du film rangé à films[6]
@@ -106,6 +109,14 @@ def titre(id):
             return a
 
     print("Aucun film ne correspond à l'id", id, "dans movies.csv")
+def tableau_des_notes():
+    """
+    Fonction temporaire pour commencer a travailler sur d'autres parties du projet
+    ne renvoit pas un tableau correspondant a quoi que ce soit de reelle
+    :return: un array numpy contenant les notes des filmes ordonne avec array[utilisateur][film]
+    """
+    NaN = math.nan
+    return np.array([[4.0, NaN, 3.0, 2.0, 4.5, NaN, 3.5],[3.5, 4.5, NaN, 2.0, 4.5, NaN, 4.5], [5.0, 5.0, 4.0, 2.0, 2.5, 5.0, 3.5]])
 
 
 
