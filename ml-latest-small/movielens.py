@@ -167,15 +167,15 @@ def tableau_des_notes():
 
 def moyennedesnotesparfilm(tableau_des_notes()):
     moy=0
-    listmoy=[]
+    list_moy=[]
     k=0
     for i in range(9125):
         for j in array :
             moy+=j[i]
             k+=1
         moy=moy/k
-        listmoy+=[moy]
-    return listmoy
+        list_moy+=[moy]
+    return list_moy
 
 print(moyennedesnotesparfilm(tableau_des_notes()))
 
