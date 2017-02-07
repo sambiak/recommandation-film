@@ -120,18 +120,45 @@ class conversions():
         return self.dic[id]
 
     print("Aucun film ne correspond à l'id", id, "dans movies.csv")
+
 def tableau_des_notes():
-    """
-    Fonction temporaire pour commencer a travailler sur d'autres parties du projet
-    ne renvoit pas un tableau correspondant a quoi que ce soit de reelle
+    """    Fonction temporaire pour commencer a travailler sur d'autres parties du projet
     pour gerer les Nan utilise math.isnan
+        -crée listes array et liste NaN du premier utilisateur(9125)
+        -check dans le fichier à partir de la 2eme ligne
+        -si l'utilisateur reste le même, à l'index donné par l'id du film, on ajoute la note à la liste de l'utilisateur
+        -sinon, on ajoute la liste de l'utilisateur à la liste array, puis on recrée une liste d'utilisateur de NaN
+        -et c'est reparti
+    
     :return: un array numpy contenant les notes des filmes ordonne avec array[utilisateur][film]
     """
+    convertisseur = conversions()
     NaN = math.nan
-    return np.array([[4.0, NaN, 3.0, 2.0, 4.5, NaN, 3.5],[3.5, 4.5, NaN, 2.0, 4.5, NaN, 4.5], [5.0, 5.0, 4.0, 2.0, 2.5, 5.0, 3.5]])
+    
+    array = []
+    
+    liste_par_utilisateur = []
+    file = open("ratings.csv","r")
+    reader = csv.reader(file)
+    liste_par_utilisateur = []
+    for i in range (1,9126):
+        liste_par_utilisateur.append(NaN)
+    for i ,row in enumerate(reader):
+        if i == 1:
+            dernier_utilisateur = row[0]
+        if i != 0:
+            if row[0] == dernier_utilisateur:
+                liste_par_utilisateur[convertisseur.renvoyer_index(int(row[1]))] = row[2]
+                dernier_utilisateur = row[0]
+            else:
+                array.append(liste_par_utilisateur)
+                liste_par_utilisateur = []
+                for i in range (1,9126):
+                    liste_par_utilisateur.append(NaN)
+                dernier_utilisateur = row[0]          
 
+    return np.array(array)
 
-
-
-
-
+for i, el in enumerate(tableau_des_notes()[0]):
+    if i == 30:
+        print(i, el)
