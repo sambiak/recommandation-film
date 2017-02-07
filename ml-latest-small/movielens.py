@@ -67,12 +67,13 @@ file2.close()
 
 
 
-
-# fonction id prenant en argument le nom d'un film en chaine de caractères
-# et retournant un entier correspondant à l'id de ce film dans movies.csv
-# faire attention le titre d'un film contient aussi sa date de parution : par exemple "Toy Story (1995)"
-
 def id(titre_du_film):
+
+    """
+    fonction id prenant en argument le nom d'un film en chaine de caractères
+    et retournant un entier correspondant à l'id de ce film dans movies.csv
+    faire attention le titre d'un film contient aussi sa date de parution : par exemple "Toy Story (1995)"
+    """
 
     assert type(titre_du_film) == str
 
@@ -89,10 +90,12 @@ def id(titre_du_film):
 
 
 
-# fonction titre prenant en argument l'id d'un film (entier ou chaine de caractere)
-# et retournant en chaine de caractère le titre du film correspondant à l'id dans movies.csv
-
 def titre(id):
+
+    """
+    fonction titre prenant en argument l'id d'un film (entier ou chaine de caractere)
+    et retournant en chaine de caractère le titre du film correspondant à l'id dans movies.csv
+    """
 
     assert type(id) == str or type(id)==int
 
@@ -107,6 +110,9 @@ def titre(id):
             a = row[1]
             file.close()
             return a
+
+
+
 class conversions():
     def __init__(self):
         file = open("movies.csv")
