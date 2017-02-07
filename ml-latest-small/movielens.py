@@ -107,6 +107,17 @@ def titre(id):
             a = row[1]
             file.close()
             return a
+class conversions():
+    def __init__(self):
+        file = open("movies.csv")
+        reader = csv.reader(file)
+        self.dic = {}
+        for i, row in enumerate(reader):
+            if i != 0:
+                self.dic[int(row[0])] = i - 1
+
+    def renvoyer_index(self, id):
+        return self.dic[id]
 
     print("Aucun film ne correspond à l'id", id, "dans movies.csv")
 def tableau_des_notes():
@@ -118,6 +129,7 @@ def tableau_des_notes():
     """
     NaN = math.nan
     return np.array([[4.0, NaN, 3.0, 2.0, 4.5, NaN, 3.5],[3.5, 4.5, NaN, 2.0, 4.5, NaN, 4.5], [5.0, 5.0, 4.0, 2.0, 2.5, 5.0, 3.5]])
+
 
 
 
