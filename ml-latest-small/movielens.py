@@ -165,6 +165,19 @@ def tableau_des_notes():
 
     return np.array(array)
 
-for i, el in enumerate(tableau_des_notes()[0]):
-    if i == 30:
-        print(i, el)
+def moyennedesnotesparfilm(tableau_des_notes()):
+    moy=0
+    listmoy=[]
+    k=0
+    for i in range(9125):
+        for j in array :
+            moy+=j[i]
+            k+=1
+        moy=moy/k
+        listmoy+=[moy]
+    return listmoy
+
+print(moyennedesnotesparfilm(tableau_des_notes()))
+
+
+
