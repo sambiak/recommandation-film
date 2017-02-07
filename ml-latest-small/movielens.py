@@ -122,37 +122,34 @@ class conversions():
     print("Aucun film ne correspond à l'id", id, "dans movies.csv")
 def tableau_des_notes():
     """
-    Fonction temporaire pour commencer a travailler sur d'autres parties du projet
-    ne renvoit pas un tableau correspondant a quoi que ce soit de reelle
-    pour gerer les Nan utilise math.isnan
-    :return: un array numpy contenant les notes des filmes ordonne avec array[utilisateur][film]
+    tableau_des_notes()[0] == NaN puisque l'utilisateur 0 n'existe pas
+    :return: un tableau contenant les notes des films ordonnées
+    faire tableau_des_notes()[numéro de l'utilisateur][id du film converti avec renvoyer_index] afin d'obtenir la note associée
     """
     NaN = math.nan
     convertisseur = conversions()
-    tableau=[]
-    file=open("ratings.csv","r")
-    reader=csv.reader(file)
-    idfilm=[]
-    notes=[]
-    i=1
+    tableau = []
+    file = open("ratings.csv","r")
+    reader = csv.reader(file)
+    idfilm = []
+    notes = []
+    i=0
     for row in reader:
-        if i!=row[0]:
-            ligne=[NaN]*9125
-            for n in range(len(idfilm)+1):
-                ligne[int(idfilm[n])]=[float(notes[n])]
-            tableau=tableau.append(ligne)
-            notes=[]
-            idfilm=[]
-            i=i+1
-        notes=notes.append(row[2])
-        idfilm=idfilm.append(convertisseur.renvoyer_index(int(row[1])))
+        if i != 0:
+            if i != int(row[0]):
+                ligne = [NaN]*9125
+                for n in range(len(idfilm)):
+                    ligne[int(idfilm[n])] = float(notes[n])
+                tableau.append(ligne)
+                notes = []
+                idfilm = []
+                i = i + 1
+            notes.append(row[2])
+            idfilm.append(convertisseur.renvoyer_index(int(row[1])))
+        else:
+            i = i + 1
+    tableau = [NaN] + tableau
     file.close()
     return tableau
-
-
-print(tableau_des_notes())
-
-
-
 
 
