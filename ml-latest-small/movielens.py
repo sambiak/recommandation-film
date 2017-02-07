@@ -137,9 +137,10 @@ def tableau_des_notes():
         -et c'est reparti
     
     :return: un array numpy contenant les notes des filmes ordonne avec array[utilisateur][film]
+    
     """
     convertisseur = conversions()
-    NaN = math.nan
+    NaN = float('nan')
     
     array = []
     
@@ -165,19 +166,32 @@ def tableau_des_notes():
 
     return np.array(array)
 
-def moyennedesnotesparfilm(tableau_des_notes()):
+def moyenne_des_notes_par_film(fonction):
     moy=0
     list_moy=[]
     k=0
     for i in range(9125):
+<<<<<<< Updated upstream
         for j in np.array(array)  :
             moy+=j[i]
             k+=1
         moy=moy/k
         list_moy+=[moy]
     return list_moy
+=======
+        for j in fonction :
+            if not math.isnan(float(j[i])):            
+                moy+=j[i]
+                k+=1
+        if k != 0:
+            moy = moy/k
+        else:
+            moy = float('nan')
+        listmoy += [moy]
+    return listmoy
+>>>>>>> Stashed changes
 
-print(moyennedesnotesparfilm(tableau_des_notes()))
+print(moyenne_des_notes_par_film(tableau_des_notes()))
 
 
 
