@@ -128,8 +128,29 @@ def tableau_des_notes():
     :return: un array numpy contenant les notes des filmes ordonne avec array[utilisateur][film]
     """
     NaN = math.nan
-    return np.array([[4.0, NaN, 3.0, 2.0, 4.5, NaN, 3.5],[3.5, 4.5, NaN, 2.0, 4.5, NaN, 4.5], [5.0, 5.0, 4.0, 2.0, 2.5, 5.0, 3.5]])
+    convertisseur = conversions()
+    tableau=[]
+    file=open("ratings.csv","r")
+    reader=csv.reader(file)
+    idfilm=[]
+    notes=[]
+    i=1
+    for row in reader:
+        if i!=row[0]:
+            ligne=[NaN]*9125
+            for n in range(len(idfilm)+1):
+                ligne[int(idfilm[n])]=[float(notes[n])]
+            tableau=tableau.append(ligne)
+            notes=[]
+            idfilm=[]
+            i=i+1
+        notes=notes.append(row[2])
+        idfilm=idfilm.append(convertisseur.renvoyer_index(int(row[1])))
+    file.close()
+    return tableau
 
+
+print(tableau_des_notes())
 
 
 
