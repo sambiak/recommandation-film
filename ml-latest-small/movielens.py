@@ -128,7 +128,7 @@ class conversions():
     print("Aucun film ne correspond à l'id", id, "dans movies.csv")
 
 def tableau_des_notes():
-    """    Fonction temporaire pour commencer a travailler sur d'autres parties du projet
+    """
     pour gerer les Nan utilise math.isnan
         -crée listes array et liste NaN du premier utilisateur(9125)
         -check dans le fichier à partir de la 2eme ligne
