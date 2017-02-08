@@ -129,7 +129,6 @@ class conversions():
 
 def tableau_des_notes():
     """
-    pour gerer les Nan utilise math.isnan
         -crée listes array et liste NaN du premier utilisateur(9125)
         -check dans le fichier à partir de la 2eme ligne
         -si l'utilisateur reste le même, à l'index donné par l'id du film, on ajoute la note à la liste de l'utilisateur
