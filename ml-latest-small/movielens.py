@@ -3,70 +3,6 @@ import numpy as np
 import math
 
 
-#liste des films
-#liste des id des films : id[6] c'est l'id du film rangé à films[6]
-
-file = open("movies.csv","r")
-reader = csv.reader(file)
-
-movies=[]
-id_o=[]
-
-
-for row in reader:
-    movies.append(row[1])
-    id_o.append(row[0])
-
-
-del movies[0]
-del id_o[0]
-
-file.close()
-
-
-
-
-file2 = open("ratings.csv","r")
-reader2 = csv.reader(file2)
-
-users=[]
-ratings=[]
-movieId=[]
-
-
-
-for row in reader2:
-    users.append(row[0])
-    ratings.append(row[2])
-    movieId.append(row[1])
-
-
-del users[0]
-del ratings[0]
-del movieId[0]
-
-
-n_user = []
-for i, usert in enumerate(users):
-    user = int(usert)
-    if user > len(n_user):
-        n_user.append({})
-    n_user[user-1][movieId[i]]= ratings[i]
-
-id={}
-for i, truc in enumerate(movies):
-    id[movies[i]] = id_o[i]
-
-
-movie_id={}
-for i, machin in enumerate(id_o):
-    movie_id[id_o[i]] = movies[i]
-
-
-file2.close()
-
-
-
 def id(titre_du_film):
 
     """
@@ -89,7 +25,6 @@ def id(titre_du_film):
     print("Le film nommé '", titre_du_film, "' n'a pas été trouvé dans la liste de films movies.csv")
 
 
-
 def titre(id):
 
     """
@@ -97,10 +32,10 @@ def titre(id):
     et retournant en chaine de caractère le titre du film correspondant à l'id dans movies.csv
     """
 
-    assert type(id) == str or type(id)==int
+    assert type(id) == str or type(id) == int
 
     if type(id) == int:
-        id=str(id)
+        id = str(id)
 
     file = open("movies.csv")
     reader = csv.reader(file)
@@ -112,8 +47,10 @@ def titre(id):
             return a
 
 
-
-class conversions():
+class Conversions:
+    """Classe ayant pour but d'englober les fonctions qui renvoient les donnés avec une
+    organisation facilement exploitable.
+    """
     def __init__(self):
         file = open("movies.csv")
         reader = csv.reader(file)
@@ -123,9 +60,9 @@ class conversions():
                 self.dic[int(row[0])] = i - 1
 
     def renvoyer_index(self, id):
+        """Fait correspondre a chaque id de film un index"""
         return self.dic[id]
 
-    print("Aucun film ne correspond à l'id", id, "dans movies.csv")
 
 def tableau_des_notes():
     """
@@ -138,18 +75,15 @@ def tableau_des_notes():
     :return: un array numpy contenant les notes des filmes ordonne avec array[utilisateur][film]
     
     """
-    convertisseur = conversions()
-    NaN = float('nan')
-    
+    convertisseur = Conversions()
+    na_n = float('nan')
     array = []
-    
-    liste_par_utilisateur = []
-    file = open("ratings.csv","r")
+    file = open("ratings.csv", 'r')
     reader = csv.reader(file)
     liste_par_utilisateur = []
-    for i in range (1,9126):
-        liste_par_utilisateur.append(NaN)
-    for i ,row in enumerate(reader):
+    for i in range(1, 9126):
+        liste_par_utilisateur.append(na_n)
+    for i, row in enumerate(reader):
         if i == 1:
             dernier_utilisateur = row[0]
         if i != 0:
@@ -159,29 +93,28 @@ def tableau_des_notes():
             else:
                 array.append(liste_par_utilisateur)
                 liste_par_utilisateur = []
-                for i in range (1,9126):
-                    liste_par_utilisateur.append(NaN)
+                for j in range(1, 9126):
+                    liste_par_utilisateur.append(na_n)
                 dernier_utilisateur = row[0]          
 
     return np.array(array)
 
+
 def moyenne_des_notes_par_film(fonction):
-    moy=0
-    list_moy=[]
-    k=0
+    """renvoit la liste des moyennes des notes par film en prenant le tableau des notes"""
+    moy = 0
+    list_moy = []
+    k = 0
     for i in range(9125):
-        for j in fonction :
+        for j in fonction:
             if not math.isnan(float(j[i])):            
-                moy+=j[i]
-                k+=1
+                moy += j[i]
+                k += 1
         if k != 0:
-            moy = moy/k
+            moy = moy / k
         else:
             moy = float('nan')
         list_moy += [moy]
     return list_moy
 
 print(moyenne_des_notes_par_film(tableau_des_notes()))
-
-
-
