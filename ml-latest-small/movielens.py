@@ -154,7 +154,7 @@ def tableau_des_notes():
             dernier_utilisateur = row[0]
         if i != 0:
             if row[0] == dernier_utilisateur:
-                liste_par_utilisateur[convertisseur.renvoyer_index(int(row[1]))] = row[2]
+                liste_par_utilisateur[convertisseur.renvoyer_index(int(row[1]))] = float(row[2])
                 dernier_utilisateur = row[0]
             else:
                 array.append(liste_par_utilisateur)
