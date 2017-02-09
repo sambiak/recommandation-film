@@ -1,6 +1,20 @@
 from movielens import *
-def note_moyenne():
-    """Fonction qui renvoie la note moyenne"""
-    notes = tableau_des_notes()
-    print(notes)
-note_moyenne()
+import math
+def moyenne_des_notes_des_film(array):
+    """renvoit la liste des moyennes des notes par film en prenant le tableau des notes"""
+    list_moy = []
+    k=0
+    moy=0
+    for i in range(9125):
+        for j in (array[:,i]):
+            if not math.isnan(j) :
+                k+=1
+                moy+=j
+        if k==0:
+            list_moy += [math.nan]
+        else:
+            list_moy += [moy/k]
+    return list_moy
+
+
+
