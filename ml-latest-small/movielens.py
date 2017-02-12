@@ -98,6 +98,22 @@ def tableau_des_notes():
                 dernier_utilisateur = row[0]          
 
     return np.array(array)
+def a_vu_tout_les_films(utilisateur, trié, tableau):
+    for i in range(1, 11):
+        if math.isnan(tableau[utilisateur,trié[i][1]]):
+            return False
+    return True
+def sous_ensemeble():
+    tableau = tableau_des_notes()
+    réduit = [(tableau[:,i][~np.isnan(tableau[:,i])], i)for i in range(9125)]
+    trié = sorted(réduit, reverse=True, key=lambda entrée: len(entrée[0]))
+    utilisateurs_ayant_vu_le_premier_film = [i for i, u in enumerate(tableau[:,trié[0][1]]) if not math.isnan(u)]
+    utilisateurs_ayant_vu_les_film = [u for u in utilisateurs_ayant_vu_le_premier_film if a_vu_tout_les_films(u, trié, tableau)]
+    index_11_premiers_films = [trié[i][1] for i in range(11)]
+    tableau_concentré = [[note for i, note in enumerate(tableau[u]) if (i in index_11_premiers_films)] for u in utilisateurs_ayant_vu_les_film]
+    return tableau_concentré
+test = sous_ensemeble()
+print(test)
 
 
 
