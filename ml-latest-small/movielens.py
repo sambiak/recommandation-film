@@ -103,7 +103,7 @@ def a_vu_tout_les_films(utilisateur, trié, tableau):
         if math.isnan(tableau[utilisateur,trié[i][1]]):
             return False
     return True
-def sous_ensemeble():
+def sous_ensemble():
     tableau = tableau_des_notes()
     réduit = [(tableau[:,i][~np.isnan(tableau[:,i])], i)for i in range(9125)]
     trié = sorted(réduit, reverse=True, key=lambda entrée: len(entrée[0]))
@@ -112,8 +112,7 @@ def sous_ensemeble():
     index_11_premiers_films = [trié[i][1] for i in range(11)]
     tableau_concentré = [[note for i, note in enumerate(tableau[u]) if (i in index_11_premiers_films)] for u in utilisateurs_ayant_vu_les_film]
     return tableau_concentré
-test = sous_ensemeble()
-print(test)
+
 
 
 
