@@ -116,3 +116,61 @@ def sous_ensemble():
 
 
 
+ta=tableau_des_notes()
+
+
+def idmin_film_ayant_été_noté_min_n_fois(tableau,n,idminmin):
+    for i in range (idminmin,len(ta[0])):
+        c=0
+        for j in range(len(tableau)):
+            if i in tableau[j][1:]:
+                c+=1
+        if c>=n:
+            return [i,c]
+    return False
+
+
+def tableau_utile(ta):
+    tableau_utile=[]
+    for i in range(len(ta)):
+        tableau_utile+=[[]]
+    for i in range(len(ta)):
+        for j in range(len(ta[0])):
+            if not math.isnan(ta[i,j]):
+                tableau_utile[i]+=[j]
+        tableau_utile[i]=[i]+tableau_utile[i]
+    return tableau_utile
+
+
+def extraction_de_tableau(tableau,id):
+    tableau_extrait=[]
+    for i in range(len(tableau)):
+        if id in tableau[i][1:]:
+            tableau_extrait+=[tableau[i]]
+    return tableau_extrait
+
+def meilleur_ss_ensemble_à_n_ligne(ta,n):
+    idminmin = 0
+    idminmin2 = 0
+    l=[]
+    tableau_util=tableau_utile(ta)
+    while idminmin<len(ta) and type(idmin_film_ayant_été_noté_min_n_fois(tableau_util,n,idminmin))!=bool:
+        print(idminmin)
+        id=idmin_film_ayant_été_noté_min_n_fois(tableau_util,n,idminmin)
+        tae=extraction_de_tableau(tableau_util,id[0])
+        while idminmin2<len(ta) and type(idmin_film_ayant_été_noté_min_n_fois(tae,n,idminmin2))!=bool:
+            id2=idmin_film_ayant_été_noté_min_n_fois(tae,n,idminmin2)
+            tae=extraction_de_tableau(tae,id2[0])
+            idminmin2=id2[0]+1
+        l2=[]
+        for i in tae[0][1:]:
+            l2+=[i]
+        if len(l2)>len(l):
+            l=[]
+            for i in l2:
+                l+=[i]
+        idminmin=id[0]+1
+    return(l)
+
+""""meilleur_ss_ensemble_à_n_ligne(ta,180) renvoie une liste de 1699 id de films qui ont tous étés notés 180 fois par les memes utilissateurs
+à mon avis c le meilleur tableau extrait kon peut trouver meme si ça reste a vérifier"""
