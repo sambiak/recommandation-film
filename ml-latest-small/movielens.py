@@ -163,23 +163,27 @@ def meilleur_ss_ensemble_à_n_ligne(ta,n):
         while idminmin2<len(ta) and type(idmin_film_ayant_été_noté_min_n_fois(tae,n,idminmin2,ta))!=bool:
             id2=idmin_film_ayant_été_noté_min_n_fois(tae,n,idminmin2,ta)
             tae=extraction_de_tableau(tae,id2)
-            print(tae)
             à_enlever=[]
             for i in range (len(tae)):
-                for j in range(len(tae[i])):
+                for j in range(1,len(tae[i])):
                     if tae[i][j]<id2 and tae[i][j]>=idstock:
                         à_enlever+=[[i,j]]
                     elif tae[i][j]>=id2:
                         break
             for i in range (len(à_enlever)):
                 del tae[à_enlever[i][0]][à_enlever[i][1]]
-                # la ça marche pas pck au fur et a mesure que ça effece bah ça change tout les index faut arranger donc
+                for j in range(i+1,len(à_enlever)):
+                    if à_enlever[j][0]==à_enlever[i][0]:
+                        à_enlever[j][1]=à_enlever[j][1]-1
+                    else:
+                        break
+                # la ça marche pas pck au fur et a mesure que ça efface bah ça change tout les index faut arranger donc
             idstock=id2+1
             idminmin2=id2+1
         àeff=[]
         for i in range (len(tae)):
-            for j in range (len(tae[i])):
-                if j==id2:
+            for j in range (1,len(tae[i])):
+                if tae[i][j]==id2:
                     àeff+=[[i,j+1]]
                     break
         for i in range(len(àeff)):
@@ -211,22 +215,12 @@ def meilleur_ss_ensemble_à_n_ligne(ta,n):
     tae=[l]+tae
     return tae
 
-
-
-tae=meilleur_ss_ensemble_à_n_ligne(ta,180)
-for i in range (len(tae)):
-    print(tae[i])
-
-
-
-
-
-
-
-
-
-
-
-
-
+def ss_ensemble_avec_le_plus_de_colonnes_possible_et_minimum_n_lignes(n):
+    j=0
+    tae=[[]]
+    while len(tae[0])>=j:
+        j=len(tae[0])
+        tae=meilleur_ss_ensemble_à_n_ligne(ta,n)
+        n+=1
+    return meilleur_ss_ensemble_à_n_ligne(ta,n-2)
 
