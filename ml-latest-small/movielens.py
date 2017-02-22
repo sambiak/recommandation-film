@@ -119,14 +119,14 @@ def sous_ensemble():
 ta=tableau_des_notes()
 
 
-def idmin_film_ayant_été_noté_min_n_fois(tableau,n,idminmin):
-    for i in range (idminmin,len(ta[0])):
+def idmin_film_ayant_été_noté_min_n_fois(tableau,n,idminmin,tableau_des_notes):
+    for i in range (idminmin,len(tableau_des_notes[1])):
         c=0
         for j in range(len(tableau)):
             if i in tableau[j][1:]:
                 c+=1
-        if c>=n:
-            return [i,c]
+            if c==n:
+                return i
     return False
 
 
@@ -135,7 +135,7 @@ def tableau_utile(ta):
     for i in range(len(ta)):
         tableau_utile+=[[]]
     for i in range(len(ta)):
-        for j in range(len(ta[0])):
+        for j in range(len(ta[1])):
             if not math.isnan(ta[i,j]):
                 tableau_utile[i]+=[j]
         tableau_utile[i]=[i]+tableau_utile[i]
@@ -151,26 +151,82 @@ def extraction_de_tableau(tableau,id):
 
 def meilleur_ss_ensemble_à_n_ligne(ta,n):
     idminmin = 0
-    idminmin2 = 0
     l=[]
+    u=[]
     tableau_util=tableau_utile(ta)
-    while idminmin<len(ta) and type(idmin_film_ayant_été_noté_min_n_fois(tableau_util,n,idminmin))!=bool:
+    while idminmin<len(ta) and type(idmin_film_ayant_été_noté_min_n_fois(tableau_util,n,idminmin,ta))!=bool:
+        idstock=0
+        idminmin2=0
         print(idminmin)
-        id=idmin_film_ayant_été_noté_min_n_fois(tableau_util,n,idminmin)
-        tae=extraction_de_tableau(tableau_util,id[0])
-        while idminmin2<len(ta) and type(idmin_film_ayant_été_noté_min_n_fois(tae,n,idminmin2))!=bool:
-            id2=idmin_film_ayant_été_noté_min_n_fois(tae,n,idminmin2)
-            tae=extraction_de_tableau(tae,id2[0])
-            idminmin2=id2[0]+1
+        id=idmin_film_ayant_été_noté_min_n_fois(tableau_util,n,idminmin,ta)
+        tae=extraction_de_tableau(tableau_util,id)
+        while idminmin2<len(ta) and type(idmin_film_ayant_été_noté_min_n_fois(tae,n,idminmin2,ta))!=bool:
+            id2=idmin_film_ayant_été_noté_min_n_fois(tae,n,idminmin2,ta)
+            tae=extraction_de_tableau(tae,id2)
+            print(tae)
+            à_enlever=[]
+            for i in range (len(tae)):
+                for j in range(len(tae[i])):
+                    if tae[i][j]<id2 and tae[i][j]>=idstock:
+                        à_enlever+=[[i,j]]
+                    elif tae[i][j]>=id2:
+                        break
+            for i in range (len(à_enlever)):
+                del tae[à_enlever[i][0]][à_enlever[i][1]]
+                # la ça marche pas pck au fur et a mesure que ça effece bah ça change tout les index faut arranger donc
+            idstock=id2+1
+            idminmin2=id2+1
+        àeff=[]
+        for i in range (len(tae)):
+            for j in range (len(tae[i])):
+                if j==id2:
+                    àeff+=[[i,j+1]]
+                    break
+        for i in range(len(àeff)):
+            del tae[àeff[i][0]][àeff[i][1]:]
         l2=[]
+        u2=[]
         for i in tae[0][1:]:
             l2+=[i]
+        for i in range (len(tae)):
+            u2+=[tae[i][0]]
         if len(l2)>len(l):
             l=[]
+            u=[]
             for i in l2:
                 l+=[i]
-        idminmin=id[0]+1
-    return(l)
+            for i in u2:
+                u+=[i]
+        idminmin=id+1
+    tae=[]
+    for i in range (len(u)):
+        tae+=[[]]
+    for i in range(len(u)):
+        for j in range (len(l)):
+            tae[i]+=[ta[u[i]][l[j]]]
+    na_n = float('nan')
+    l=[na_n]+l
+    for i in range (len(u)):
+        tae[i]=[u[i]]+tae[i]
+    tae=[l]+tae
+    return tae
 
-""""meilleur_ss_ensemble_à_n_ligne(ta,180) renvoie une liste de 1699 id de films qui ont tous étés notés 180 fois par les memes utilissateurs
-à mon avis c le meilleur tableau extrait kon peut trouver meme si ça reste a vérifier"""
+
+
+tae=meilleur_ss_ensemble_à_n_ligne(ta,180)
+for i in range (len(tae)):
+    print(tae[i])
+
+
+
+
+
+
+
+
+
+
+
+
+
+
