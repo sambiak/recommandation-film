@@ -115,10 +115,6 @@ def sous_ensemble():
 
 
 
-
-ta=tableau_des_notes()
-
-
 def idmin_film_ayant_été_noté_min_n_fois(tableau,n,idminmin,tableau_des_notes):
     for i in range (idminmin,len(tableau_des_notes[1])):
         c=0
@@ -177,7 +173,6 @@ def meilleur_ss_ensemble_à_n_ligne(ta,n):
                         à_enlever[j][1]=à_enlever[j][1]-1
                     else:
                         break
-                # la ça marche pas pck au fur et a mesure que ça efface bah ça change tout les index faut arranger donc
             idstock=id2+1
             idminmin2=id2+1
         àeff=[]
@@ -215,12 +210,12 @@ def meilleur_ss_ensemble_à_n_ligne(ta,n):
     tae=[l]+tae
     return tae
 
-def ss_ensemble_avec_le_plus_de_colonnes_possible_et_minimum_n_lignes(n):
+def ss_ensemble_avec_le_plus_de_colonnes_possible_et_minimum_n_lignes(n,tableau_des_notes):
     j=0
     tae=[[]]
     while len(tae[0])>=j:
         j=len(tae[0])
-        tae=meilleur_ss_ensemble_à_n_ligne(ta,n)
+        tae=meilleur_ss_ensemble_à_n_ligne(tableau_des_notes,n)
         n+=1
-    return meilleur_ss_ensemble_à_n_ligne(ta,n-2)
+    return meilleur_ss_ensemble_à_n_ligne(tableau_des_notes,n-2)
 
