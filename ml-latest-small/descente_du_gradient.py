@@ -15,11 +15,11 @@ def fonction_cout(theta, x, y):
     return cout / (2 * len(y))
 
 
-def derivée_partielle(theta_i, theta, x, y):
+def derivée_partielle_par_rapport_à_theta_j(j, theta, x, y):
     valeur = 0
     for i in range(len(x)):
-        valeur += (h_theta(theta, x[i]) - y[i])
-    return valeur * theta_i / len(x)
+        valeur += (h_theta(theta, x[i]) - y[i])*x[i][j-1]
+    return valeur / len(x)
 
 
 def derivée_partielle_0( theta, x, y):
@@ -31,8 +31,8 @@ def derivée_partielle_0( theta, x, y):
 
 def etape_du_gradient(alpha, theta, x, y):
     n_theta = [theta[0] - alpha * derivée_partielle_0(theta, x, y)]
-    for theta_i in theta[1:]:
-        n_theta.append(theta_i - alpha * derivée_partielle(theta_i, theta, x, y))
+    for i,theta_i in enumerate(theta[1:]):
+        n_theta.append(theta_i - alpha * derivée_partielle_par_rapport_à_theta_j(i+1, theta, x, y))
     return n_theta
 
 def h_theta_b(theta, x_i):
@@ -65,7 +65,7 @@ print(np.random.random((1, len(tableau[0]))))"""
 
 def écart_relatif_en_pourcentage_entre_y_i_et_h_de_x_i_apres_descente_du_gradient(i,sous_ensemble):
     """
-    fonction qui peut encore etre ameliorée
+    fonction qui peut encore etre ameliorée mais est ce que ce srait vraiment utile d avoir les ecart relatifs?
     """
     ss_ensemble=list(sous_ensemble)
     x_i=ss_ensemble[i][:-1]
@@ -116,7 +116,7 @@ def moyenne_des_ecarts_absolus(sous_ensemble):
     ecart=0
     for y in range(len(sous_ensemble[0])):
         for i in range(len(sous_ensemble)):
-            #print(écart_absolu_entre_y_i_et_h_de_x_i_apres_descente_du_gradient(y,i,sous_ensemble))
+            print(écart_absolu_entre_y_i_et_h_de_x_i_apres_descente_du_gradient(y,i,sous_ensemble))
             ecart+=écart_absolu_entre_y_i_et_h_de_x_i_apres_descente_du_gradient(y,i,sous_ensemble)
     return ecart/len(sous_ensemble)**2
 
