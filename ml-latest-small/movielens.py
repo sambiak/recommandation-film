@@ -220,21 +220,36 @@ def ss_ensemble_avec_le_plus_de_colonnes_possible_et_minimum_n_lignes(n,tableau_
     return meilleur_ss_ensemble_à_n_ligne(tableau_des_notes,n-2)
 
 def tableau_bricolé_de_l_lignes_et_c_colonnes(tableau_des_notes,l,c):
-    tableau=list(tableau_des_notes)
-    tableau_bricolé=[]
-    for i in range(0,l):
+    num_ligne = []
+    num_colonne = []
+    for j in range(0,l):
         nb_de_notes=0
-        index=0
-        for i in range (len(tableau)):
+        for i in range (len(tableau_des_notes)):
             compte=0
-            for note in tableau[i]:
+            for note in tableau_des_notes[i]:
                 if not math.isnan(note):
                     compte+=1
-            if compte>nb_de_notes:
-                nb_de_notes=len(tableau[i])
-                index=i
-        tableau_bricolé+=tableau[index]
-        del tableau[index]
+            if compte>nb_de_notes and i not in num_ligne:
+                nb_de_notes=compte
+                n=i
+        num_ligne+=[n]
+    tableau_bricolé=tableau_des_notes.take(num_ligne,axis=0)
+    for jj in range(c):
+        nb_de_notes = 0
+        for i in range (len(tableau_bricolé[0])):
+            compte=0
+            for j in range (len(tableau_bricolé)):
+                if not math.isnan(tableau_bricolé[j][i]):
+                    compte+=1
+            if compte>nb_de_notes and i not in num_colonne:
+                nb_de_notes=compte
+                n=i
+        num_colonne+=[n]
+    return tableau_bricolé.take(num_colonne,axis=1)
+
+
+
+
 
 
 
