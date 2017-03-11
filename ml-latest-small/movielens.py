@@ -219,40 +219,35 @@ def ss_ensemble_avec_le_plus_de_colonnes_possible_et_minimum_n_lignes(n,tableau_
         n+=1
     return meilleur_ss_ensemble_à_n_ligne(tableau_des_notes,n-2)
 
+
 def tableau_bricolé_de_l_lignes_et_c_colonnes(tableau_des_notes,l,c):
     num_ligne = []
     num_colonne = []
-    for j in range(0,l):
-        nb_de_notes=0
-        for i in range (len(tableau_des_notes)):
-            compte=0
-            for note in tableau_des_notes[i]:
-                if not math.isnan(note):
-                    compte+=1
-            if compte>nb_de_notes and i not in num_ligne:
-                nb_de_notes=compte
-                n=i
-        num_ligne+=[n]
+    nb_de_notes=[]
+    for i in range (len(tableau_des_notes)):
+        compte=0
+        for note in tableau_des_notes[i]:
+            if not math.isnan(note):
+                compte+=1
+        if len(num_ligne)<l:
+            nb_de_notes.append(compte)
+            num_ligne.append(i)
+        elif compte > min(nb_de_notes):
+            a = nb_de_notes.index(min(nb_de_notes))
+            nb_de_notes[a] = compte
+            num_ligne[a] = i
     tableau_bricolé=tableau_des_notes.take(num_ligne,axis=0)
-    for jj in range(c):
-        nb_de_notes = 0
-        for i in range (len(tableau_bricolé[0])):
-            compte=0
-            for j in range (len(tableau_bricolé)):
-                if not math.isnan(tableau_bricolé[j][i]):
-                    compte+=1
-            if compte>nb_de_notes and i not in num_colonne:
-                nb_de_notes=compte
-                n=i
-        num_colonne+=[n]
+    nb_de_notes = []
+    for i in range (len(tableau_bricolé[0])):
+        compte=0
+        for j in range (len(tableau_bricolé)):
+            if not math.isnan(tableau_bricolé[j][i]):
+                compte+=1
+        if len(num_colonne)<c:
+            nb_de_notes.append(compte)
+            num_colonne.append(i)
+        elif compte>min(nb_de_notes):
+            a=nb_de_notes.index(min(nb_de_notes))
+            nb_de_notes[a]=compte
+            num_colonne[a]=i
     return tableau_bricolé.take(num_colonne,axis=1)
-
-
-
-
-
-
-
-
-
-
