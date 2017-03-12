@@ -90,7 +90,7 @@ def moyenne_des_ecarts_relatifs(sous_ensemble):
 
 def écart_absolu_entre_y_i_et_h_de_x_i_apres_descente_du_gradient(y,i,sous_ensemble):
     """
-    :param y: numéro de la colonne du tableau extrait que l'on choisi pour etre le resultat (de 0 à len(sous_ensemble-1))
+    :param y: numéro de la colonne du tableau extrait que l'on choisi pour etre le resultat (de 0 à len(sous_ensemble)-1)
     :param i: numero de la ligne à laquelle on va appliquer h_theta apres descente du gradient pour comparer l'écart absolu entre cette valeur et y_i
     :param sous_ensemble: tableau extrait à partir duquel on veut travailler
     :return: écart absolu entre h_theta(x_i) et y_i apres descente du gradient
