@@ -71,5 +71,5 @@ def descente_du_gradient(y, l, nb_etapes, alpha):
 y=tableau_des_notes()
 y[0,30]= float('nan')
 
-theta, x = descente_du_gradient(y, 5, 50, 0.0001)
+theta, x = descente_du_gradient(y, 10, 100, 0.0001)
 

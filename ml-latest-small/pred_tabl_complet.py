@@ -2,6 +2,17 @@ import numpy as np
 from movielens import tableau_des_notes
 
 
+def fonction_cout(y, theta, x):
+    valeur = 0
+    c = 0
+    for i in range (len(y)):
+        for j in range (len(y[0])):
+            if not math.isnan(y[i,j]):
+                c+=1
+                valeur += np.dot(theta[j].T, x[i])-y[i,j]
+    return valeur/c
+
+
 def etape_gradient(α, l, x, θ, y):
     nu = len(y)
     nf = len(y[0])
@@ -17,8 +28,8 @@ def etape_gradient(α, l, x, θ, y):
         θ[j] = t
 
 
-α = 0.1
-l = 10
+α = 0.0001
+l = 5
 y = tableau_des_notes()
 nu = len(y)
 nf = len(y[0])
@@ -27,6 +38,7 @@ x = np.random.random((nf, l))
 print(len(y[0]))
 for i in range(10):
     etape_gradient(α, l, x, θ, y)
-    print(θ[0])
-    print(x[0])
-
+    print(i)
+    print(fonction_cout(y,θ,x))
+    """print(θ[0])
+    print(x[0])"""
