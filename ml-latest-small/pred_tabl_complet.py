@@ -9,7 +9,7 @@ def fonction_cout(y, theta, x):
         for j in range (len(y[0])):
             if not math.isnan(y[i,j]):
                 c+=1
-                valeur += np.dot(theta[j].T, x[i])-y[i,j]
+                valeur += abs(np.dot(theta[j].T, x[i])-y[i,j])
     return valeur/c
 
 
