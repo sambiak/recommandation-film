@@ -64,12 +64,12 @@ def descente_du_gradient(y, l, nb_etapes, alpha):
     for etape in range (nb_etapes):
         theta, x = etape_du_gradient(y, alpha, theta, x)
         print(etape)
-        print(np.dot(theta[0], x[30]))
+        #print(np.dot(theta[0], x[30]))
         print(fonction_cout(y, theta, x))
     return theta, x
 
 y=tableau_des_notes()
-y[0,30]= float('nan')
+#y[0,30]= float('nan')
 
-theta, x = descente_du_gradient(y, 10, 100, 0.0001)
+theta, x = descente_du_gradient(y, 10, 200, 0.0001)
 
