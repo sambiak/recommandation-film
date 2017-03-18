@@ -37,31 +37,29 @@ def grad_J_par_rapport_a_x_i(Y, x_i, i, theta):
     return np.dot(theta_tilde.T, np.dot(theta_tilde, x_i.T) - y_i_tilde).T
 
 
-def etape_du_gradient(Y, alpha, theta, X):
+def etape_du_gradient(Y, alpha_X, alpha_theta, theta, X):
 
     n_theta = []
     for j, theta_j in enumerate(theta):
-        n_theta.append(theta_j - alpha * grad_J_par_rapport_a_theta_j(Y, theta_j, j, X))
+        n_theta.append(theta_j - alpha_theta * grad_J_par_rapport_a_theta_j(Y, theta_j, j, X))
 
     n_X = []
     for i, x_i in enumerate(X):
-        n_X.append(x_i - alpha * grad_J_par_rapport_a_x_i(Y, x_i, i, theta))
+        n_X.append(x_i - alpha_X * grad_J_par_rapport_a_x_i(Y, x_i, i, theta))
 
     return np.array(n_theta), np.array(n_X)
 
 
-def descente_du_gradient(Y, l, nb_etapes, alpha):
-    #ça serait surement plus efficace de prendre deux alpha differents pour X et theta
+def descente_du_gradient(Y, l, nb_etapes, alpha_X, alpha_theta):
     theta = np.random.random((len(Y[0]), l))
     X = np.random.random((len(Y), l))
     for etape in range (nb_etapes):
-        theta, X = etape_du_gradient(Y, alpha, theta, X)
+        theta, X = etape_du_gradient(Y, alpha_X, alpha_theta, theta, X)
         print(etape)
-        #print(np.dot(theta[0], x[30]))
         print(sorte_de_fonction_cout(Y, theta, X))
     return theta, X
 
 
 Y=tableau_des_notes()
 
-descente_du_gradient(Y, 10, 500, 0.0001)
+descente_du_gradient(Y, 10, 500, 0.0001, 0.001)
