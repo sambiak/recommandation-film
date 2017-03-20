@@ -46,6 +46,20 @@ def titre(id):
             file.close()
             return a
 
+def id_film(index):
+    """
+    :param index: index du film dans tableau des notes
+    :return: l'id du film dans le fichier movies.csv
+    """
+    file = open("movies.csv")
+    reader = csv.reader(file)
+    for i, row in enumerate(reader):
+        if i-1==index:
+            file.close()
+            return(row[0])
+
+
+
 
 class Conversions:
     """Classe ayant pour but d'englober les fonctions qui renvoient les donnés avec une
@@ -250,4 +264,11 @@ def tableau_bricolé_de_l_lignes_et_c_colonnes(tableau_des_notes,l,c):
             a=nb_de_notes.index(min(nb_de_notes))
             nb_de_notes[a]=compte
             num_colonne[a]=i
-    return tableau_bricolé.take(num_colonne,axis=1)
+    return tableau_bricolé.take(num_colonne,axis=1), num_colonne
+
+"""
+NE PAS TOUCHER A CA
+print(tableau_bricolé_de_l_lignes_et_c_colonnes(tableau_des_notes(), 30, 14)[0])
+for num in tableau_bricolé_de_l_lignes_et_c_colonnes(tableau_des_notes(), 30, 14)[1]:
+    print(id_film(num), titre(id_film(num)))
+"""
