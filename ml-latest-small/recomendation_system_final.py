@@ -1,6 +1,6 @@
 import numpy as np
 import math
-from movielens import tableau_des_notes
+from movielens import tableau_des_notes, tableau_bricolé_de_l_lignes_et_c_colonnes
 
 
 def sorte_de_fonction_cout(Y, theta, X):
@@ -59,7 +59,31 @@ def descente_du_gradient(Y, l, nb_etapes, alpha_X, alpha_theta):
         print(sorte_de_fonction_cout(Y, theta, X))
     return theta, X
 
-
+"""
 Y=tableau_des_notes()
-
 descente_du_gradient(Y, 10, 500, 0.0001, 0.001)
+"""
+
+"""
+#tableau que j ai extrait en prenant 5 utilisateurs qui ont notés ou pas dans l ordre :
+#forrest gump (war,romance,comedy,drama), gost buster (action, comedy, sf), star wars (action aventure sf)
+#et jurassic park (action aventure sf thriller)
+# c galere a analyser en fait sur un tt petit tableau il sort pas forcement des trucs logiques qui sautent aux yeux
+
+Y = tableau_bricolé_de_l_lignes_et_c_colonnes(tableau_des_notes(), 30, 14)[0].take([0,1,4,6], axis = 1).take([10, 11, 13, 20, 23], axis = 0)
+theta, X = descente_du_gradient(Y, 5, 20000, 0.0001, 0.001)
+print(theta)
+print(" ")
+print(X)
+"""
+
+"""
+tableau du mooc : notre programme separe bien l'action de la romance
+
+na_n = float('nan')
+Y = np.array([[5,5,0,0],[5,na_n,na_n,0],[na_n,4,0,na_n],[0,0,5,4],[0,0,5,na_n]]).T
+theta, X = descente_du_gradient(Y, 2, 10000, 0.0001, 0.001)
+print(theta)
+print(" ")
+print(X)
+"""

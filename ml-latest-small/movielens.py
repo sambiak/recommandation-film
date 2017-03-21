@@ -264,11 +264,10 @@ def tableau_bricolé_de_l_lignes_et_c_colonnes(tableau_des_notes,l,c):
             a=nb_de_notes.index(min(nb_de_notes))
             nb_de_notes[a]=compte
             num_colonne[a]=i
-    return tableau_bricolé.take(num_colonne,axis=1), num_colonne
+    return tableau_bricolé.take(num_colonne,axis=1), num_colonne, num_ligne
 
 """
-NE PAS TOUCHER A CA
-print(tableau_bricolé_de_l_lignes_et_c_colonnes(tableau_des_notes(), 30, 14)[0])
+print(tableau_bricolé_de_l_lignes_et_c_colonnes(tableau_des_notes(), 30, 14)[0].take([0,1,4,6], axis = 1).take([10, 11, 13, 20, 23], axis = 0), tableau_bricolé_de_l_lignes_et_c_colonnes(tableau_des_notes(), 30, 14)[2])
 for num in tableau_bricolé_de_l_lignes_et_c_colonnes(tableau_des_notes(), 30, 14)[1]:
     print(id_film(num), titre(id_film(num)))
 """
