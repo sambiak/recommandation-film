@@ -10,7 +10,7 @@ def sorte_de_fonction_cout(Y, theta, X):
         for j in range (len(Y[0])):
             if not math.isnan(Y[i, j]):
                 c+=1
-                valeur += abs(np.dot(theta[i], X[j].T)-Y[i, j])
+                valeur += abs(np.dot(X[j], theta[i].T)-Y[i, j])
     return valeur/c
 
 
@@ -59,10 +59,10 @@ def descente_du_gradient(Y, l, nb_etapes, alpha_X, alpha_theta):
         print(sorte_de_fonction_cout(Y, theta, X))
     return theta, X
 
-"""
+
 Y=tableau_des_notes()
 descente_du_gradient(Y, 10, 500, 0.001, 0.0001)
-"""
+
 
 """
 #tableau que j ai extrait en prenant 5 utilisateurs qui ont notés ou pas dans l ordre :
