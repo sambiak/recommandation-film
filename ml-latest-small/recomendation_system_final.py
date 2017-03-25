@@ -10,22 +10,22 @@ def sorte_de_fonction_cout(Y, theta, X):
         for j in range (len(Y[0])):
             if not math.isnan(Y[i, j]):
                 c+=1
-                valeur += abs(np.dot(theta[j].T, X[i])-Y[i, j])
+                valeur += abs(np.dot(theta[i], X[j].T)-Y[i, j])
     return valeur/c
 
 
-def grad_J_par_rapport_a_theta_j(Y, theta_j, j, X):
+def grad_J_par_rapport_a_x_j(Y, x_j, j, theta):
     y_j_tilde = Y.take(j, axis = 1)
     l = []
     for i, y_j_k in enumerate(y_j_tilde):
         if not math.isnan(y_j_k):
             l.append(i)
     y_j_tilde = y_j_tilde.take(l, axis=0)
-    X_tilde = X.take(l, axis=0)
-    return np.dot(X_tilde.T, np.dot(X_tilde, theta_j.T) - y_j_tilde).T
+    theta_tilde = theta.take(l, axis=0)
+    return np.dot(theta_tilde.T, np.dot(theta_tilde, x_j.T) - y_j_tilde).T
 
 
-def grad_J_par_rapport_a_x_i(Y, x_i, i, theta):
+def grad_J_par_rapport_a_theta_i(Y, theta_i, i, X):
     y_i_tilde = Y.take(i, axis = 0)
     y_i_tilde = y_i_tilde.T
     l = []
@@ -33,26 +33,26 @@ def grad_J_par_rapport_a_x_i(Y, x_i, i, theta):
         if not math.isnan(y_i_k):
             l.append(i)
     y_i_tilde = y_i_tilde.take(l, axis=0)
-    theta_tilde = theta.take(l, axis=0)
-    return np.dot(theta_tilde.T, np.dot(theta_tilde, x_i.T) - y_i_tilde).T
+    X_tilde = X.take(l, axis=0)
+    return np.dot(X_tilde.T, np.dot(X_tilde, theta_i.T) - y_i_tilde).T
 
 
 def etape_du_gradient(Y, alpha_X, alpha_theta, theta, X):
 
-    n_theta = []
-    for j, theta_j in enumerate(theta):
-        n_theta.append(theta_j - alpha_theta * grad_J_par_rapport_a_theta_j(Y, theta_j, j, X))
-
     n_X = []
-    for i, x_i in enumerate(X):
-        n_X.append(x_i - alpha_X * grad_J_par_rapport_a_x_i(Y, x_i, i, theta))
+    for j, x_j in enumerate(X):
+        n_X.append(x_j - alpha_X * grad_J_par_rapport_a_x_j(Y, x_j, j, theta))
+
+    n_theta = []
+    for i, theta_i in enumerate(theta):
+        n_theta.append(theta_i - alpha_theta * grad_J_par_rapport_a_theta_i(Y, theta_i, i, X))
 
     return np.array(n_theta), np.array(n_X)
 
 
 def descente_du_gradient(Y, l, nb_etapes, alpha_X, alpha_theta):
-    theta = np.random.random((len(Y[0]), l))
-    X = np.random.random((len(Y), l))
+    X = np.random.random((len(Y[0]), l))
+    theta = np.random.random((len(Y), l))
     for etape in range (nb_etapes):
         theta, X = etape_du_gradient(Y, alpha_X, alpha_theta, theta, X)
         print(etape)
@@ -61,7 +61,7 @@ def descente_du_gradient(Y, l, nb_etapes, alpha_X, alpha_theta):
 
 """
 Y=tableau_des_notes()
-descente_du_gradient(Y, 10, 500, 0.0001, 0.001)
+descente_du_gradient(Y, 10, 500, 0.001, 0.0001)
 """
 
 """
@@ -78,7 +78,7 @@ print(X)
 """
 
 """
-tableau du mooc : notre programme separe bien l'action de la romance
+#tableau du mooc : notre programme separe bien l'action de la romance
 
 na_n = float('nan')
 Y = np.array([[5,5,0,0],[5,na_n,na_n,0],[na_n,4,0,na_n],[0,0,5,4],[0,0,5,na_n]]).T
