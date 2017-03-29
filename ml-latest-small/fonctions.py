@@ -16,8 +16,4 @@ def moyenne_des_notes_des_film(array):
         else:
             list_moy += [moy/k]
     return list_moy
-
-
-
-
-
+  
