@@ -1,4 +1,5 @@
-from movielens import *
+from movielens import sous_ensemble
+import numpy as np
 import math
 def moyenne_des_notes_des_film(array):
     """renvoit la liste des moyennes des notes par film en prenant le tableau des notes"""
@@ -15,9 +16,4 @@ def moyenne_des_notes_des_film(array):
         else:
             list_moy += [moy/k]
     return list_moy
-
-
-
-
-
-
+  
