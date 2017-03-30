@@ -2,12 +2,14 @@ import unittest
 import csv
 from movielens import Conversions, nombre_films
 
+
 class TestConversions(unittest.TestCase):
     def test_renvoyer_index(self):
         conv = Conversions()
         self.assertEqual(conv.renvoyer_index(1), 0)
         for i in range(nombre_films()):
             self.assertEqual(conv.renvoyer_index(conv.renvoyer_id(i)), i)
+
     def test_renvoyer_nom(self):
         conv = Conversions()
         self.assertEqual("Toy Story (1995)", conv.renvoyer_nom_index(0))

@@ -46,6 +46,7 @@ def titre(id):
             file.close()
             return a
 
+
 def id_film(index):
     """
     :param index: index du film dans tableau des notes
@@ -57,8 +58,6 @@ def id_film(index):
         if i-1==index:
             file.close()
             return(row[0])
-
-
 
 
 class Conversions:
@@ -79,17 +78,21 @@ class Conversions:
         file.close()
 
     def renvoyer_index(self, id):
-        """Fait correspondre a chaque id de film un index"""
+        """Fait correspondre a chaque id de film un index de 0 à nombre filmes"""
         return self.dic[id]
 
     def renvoyer_id(self, index):
+        """Fait l'inverse de renvoyer index"""
         return  self.donnes[index][0]
+
     def renvoyer_nom_index(self, index):
+        """renvoie le nom du film a l'index indiqué"""
         return self.donnes[index][1]
+
     def renvoyer_nom_id(self, id):
+        """Renvoie le nom du film qui a cette movieId"""
         return self.noms[id]
 
-    
 
 def nombre_films():
     return 9125
@@ -129,22 +132,25 @@ def tableau_des_notes():
                 dernier_utilisateur = row[0]          
 
     return np.array(array)
+
+
 def a_vu_tout_les_films(utilisateur, trié, tableau):
     for i in range(1, 11):
-        if math.isnan(tableau[utilisateur,trié[i][1]]):
+        if math.isnan(tableau[utilisateur ,trié[i][1]]):
             return False
     return True
+
+
 def sous_ensemble():
     """Renvoie un sous_tableau sans nan en regardant """
     tableau = tableau_des_notes()
-    réduit = [(tableau[:,i][~np.isnan(tableau[:,i])], i)for i in range(9125)]
+    réduit = [(tableau[:,i][~np.isnan(tableau[:,i])], i) for i in range(9125)]
     trié = sorted(réduit, reverse=True, key=lambda entrée: len(entrée[0]))
-    utilisateurs_ayant_vu_le_premier_film = [i for i, u in enumerate(tableau[:,trié[0][1]]) if not math.isnan(u)]
+    utilisateurs_ayant_vu_le_premier_film = [i for i, u in enumerate(tableau[: ,trié[0][1]]) if not math.isnan(u)]
     utilisateurs_ayant_vu_les_film = [u for u in utilisateurs_ayant_vu_le_premier_film if a_vu_tout_les_films(u, trié, tableau)]
     index_11_premiers_films = [trié[i][1] for i in range(11)]
     tableau_concentré = [[note for i, note in enumerate(tableau[u]) if (i in index_11_premiers_films)] for u in utilisateurs_ayant_vu_les_film]
     return tableau_concentré
-
 
 
 def idmin_film_ayant_été_noté_min_n_fois(tableau,n,idminmin,tableau_des_notes):
@@ -152,7 +158,7 @@ def idmin_film_ayant_été_noté_min_n_fois(tableau,n,idminmin,tableau_des_notes
         c=0
         for j in range(len(tableau)):
             if i in tableau[j][1:]:
-                c+=1
+                c += 1
             if c==n:
                 return i
     return False
