@@ -69,13 +69,30 @@ class Conversions:
         file = open("movies.csv")
         reader = csv.reader(file)
         self.dic = {}
+        self.noms = {}
+        self.donnes = []
         for i, row in enumerate(reader):
             if i != 0:
                 self.dic[int(row[0])] = i - 1
+                self.donnes.append((int(row[0]),row[1]))
+                self.noms[int(row[0])] = row[1]
+        file.close()
 
     def renvoyer_index(self, id):
         """Fait correspondre a chaque id de film un index"""
         return self.dic[id]
+
+    def renvoyer_id(self, index):
+        return  self.donnes[index][0]
+    def renvoyer_nom_index(self, index):
+        return self.donnes[index][1]
+    def renvoyer_nom_id(self, id):
+        return self.noms[id]
+
+    
+
+def nombre_films():
+    return 9125
 
 
 def tableau_des_notes():
@@ -118,6 +135,7 @@ def a_vu_tout_les_films(utilisateur, trié, tableau):
             return False
     return True
 def sous_ensemble():
+    """Renvoie un sous_tableau sans nan en regardant """
     tableau = tableau_des_notes()
     réduit = [(tableau[:,i][~np.isnan(tableau[:,i])], i)for i in range(9125)]
     trié = sorted(réduit, reverse=True, key=lambda entrée: len(entrée[0]))
