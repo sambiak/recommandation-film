@@ -17,6 +17,7 @@ def grad_J_par_rapport_a_theta_i(Y, theta_i, i, X):
 
 def etape_du_gradient(Y, alpha_theta, theta, X):
     n_theta = []
+    print(Y)
     for i, theta_i in enumerate(theta):
         n_theta.append(theta_i - alpha_theta * grad_J_par_rapport_a_theta_i(Y, theta_i, i, X))
     return np.array(n_theta)
@@ -26,29 +27,32 @@ class Utilisateur:
     def __init__(self):
         self.films = {}
         self.conv = Conversions()
-        self._theta = np.random.random((1, 10))
+        self._theta = np.random.random((1, 50))
 
     def ajout_film(self, id_film, note):
         self.films[id_film] = note
 
     def theta(self, x, etapes):
-        y = np.array([math.nan] * nombre_films())
+        y = np.array([[math.nan] * nombre_films()])
         for key in self.films:
-            y[self.conv.renvoyer_index(key)] = self.films[key]
+            y[0][self.conv.renvoyer_index(key)] = self.films[key]
         for etape in range(etapes):
-            self._theta = etape_du_gradient(y, 0.1, self._theta, x)
+            self._theta = etape_du_gradient(y, 0.0001, self._theta, x)
         return self._theta
 
     def reccomandation(self, x):
-        y = np.array([math.nan] * nombre_films())
+        y = np.array([[math.nan] * nombre_films()])
         for key in self.films:
-            y[self.conv.renvoyer_index(key)] = self.films[key]
+            y[0][self.conv.renvoyer_index(key)] = self.films[key]
         max_i = 0
         n_max = 0
         t = np.dot(x, self._theta.T)
-        for i, el in enumerate(y):
-            if el == math.nan and t[i] > n_max:
-                n_max = t[i]
+        print(t)
+        for i, el in enumerate(y[0]):
+            if np.isnan(el) and t[i, 0] > n_max:
+                print("film : ", self.conv.renvoyer_nom_index(i), "note :", n_max)
+                n_max = t[i, 0]
                 max_i = i
-
+        print(t)
+        print(self._theta)
         return self.conv.renvoyer_nom_index(max_i)

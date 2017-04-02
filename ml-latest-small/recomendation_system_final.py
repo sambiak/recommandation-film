@@ -53,15 +53,15 @@ def etape_du_gradient(Y, alpha_X, alpha_theta, theta, X):
 def descente_du_gradient(Y, l, nb_etapes, alpha_X, alpha_theta):
     X = np.random.random((len(Y[0]), l))
     theta = np.random.random((len(Y), l))
-    for etape in range (nb_etapes):
+    for etape in range(nb_etapes):
         theta, X = etape_du_gradient(Y, alpha_X, alpha_theta, theta, X)
-        print(etape)
+        print("et", etape)
         print(sorte_de_fonction_cout(Y, theta, X))
     return theta, X
 
-
-Y=tableau_des_notes()
-descente_du_gradient(Y, 10, 500, 0.001, 0.0001)
+if __name__ == "__main__":
+    Y=tableau_des_notes()
+    descente_du_gradient(Y, 10, 500, 0.001, 0.0001)
 
 
 """
