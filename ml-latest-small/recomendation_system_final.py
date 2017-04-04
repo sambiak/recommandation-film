@@ -29,13 +29,13 @@ def grad_J_par_rapport_a_theta_i(Y, theta_i, i, X):
 
 def etape_du_gradient(Y, alpha_X, alpha_theta, theta, X):
 
-    n_X = []
+    n_X = [0] * len(X)
     for j, x_j in enumerate(X):
-        n_X.append(x_j - alpha_X * grad_J_par_rapport_a_x_j(Y, x_j, j, theta))
+        n_X[j] = (x_j - alpha_X * grad_J_par_rapport_a_x_j(Y, x_j, j, theta))
 
-    n_theta = []
+    n_theta = [0] * len(theta)
     for i, theta_i in enumerate(theta):
-        n_theta.append(theta_i - alpha_theta * grad_J_par_rapport_a_theta_i(Y, theta_i, i, X))
+        n_theta[i] = (theta_i - alpha_theta * grad_J_par_rapport_a_theta_i(Y, theta_i, i, X))
 
     return np.array(n_theta), np.array(n_X)
 
