@@ -152,7 +152,8 @@ def sous_ensemble():
     tableau_concentré = [[note for i, note in enumerate(tableau[u]) if (i in index_11_premiers_films)] for u in utilisateurs_ayant_vu_les_film]
     return tableau_concentré
 
-
+"""
+# essais d extraction d un tableau plein mais fonctionne moins bien que la fonction sous_ensemble
 def idmin_film_ayant_été_noté_min_n_fois(tableau,n,idminmin,tableau_des_notes):
     for i in range (idminmin,len(tableau_des_notes[1])):
         c=0
@@ -256,9 +257,10 @@ def ss_ensemble_avec_le_plus_de_colonnes_possible_et_minimum_n_lignes(n,tableau_
         tae=meilleur_ss_ensemble_à_n_ligne(tableau_des_notes,n)
         n+=1
     return meilleur_ss_ensemble_à_n_ligne(tableau_des_notes,n-2)
-
+"""
 
 def tableau_bricolé_de_l_lignes_et_c_colonnes(tableau_des_notes,l,c):
+    # renvoie un tableau extrait qui comporte peu de nan, c pas optimal mais c pas mal
     num_ligne = []
     num_colonne = []
     nb_de_notes=[]
