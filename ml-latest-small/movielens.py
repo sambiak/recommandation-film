@@ -142,7 +142,7 @@ def a_vu_tout_les_films(utilisateur, trié, tableau):
 
 
 def sous_ensemble():
-    """Renvoie un sous_tableau sans nan en regardant """
+    """Renvoie un sous_tableau sans nan en regardant les films les plus regardés et prend les utlisateurs present dans ces films"""
     tableau = tableau_des_notes()
     réduit = [(tableau[:,i][~np.isnan(tableau[:,i])], i) for i in range(9125)]
     trié = sorted(réduit, reverse=True, key=lambda entrée: len(entrée[0]))
