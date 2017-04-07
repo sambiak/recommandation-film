@@ -8,7 +8,7 @@ def fonction_cout(Y, theta, X):
     :param Y: tableau de notes avec utilisateurs en lignes et films en colonnes
     :param theta: tableau avec des lignes de profils d'utilisateurs
     :param X: tableau avec des lignes de caracteristiques de films
-    :return: valeur de la fonction de cout
+    :return: valeur la fonction de cout en theta et X
     """
     return np.nanmean((np.dot(X, theta.T) - Y.T) ** 2)
 
@@ -82,7 +82,7 @@ def descente_du_gradient(Y, l, nb_etapes, alpha_X, alpha_theta):
 
 if __name__ == "__main__":
     Y=tableau_des_notes()
-    descente_du_gradient(Y, 10, 500, 0.001, 0.0001)
+    descente_du_gradient(Y, 10, 10000, 0.001, 0.0001)
 
 
 """
