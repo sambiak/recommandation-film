@@ -24,15 +24,19 @@ def etape_du_gradient(Y, alpha_theta, theta, X):
 
 
 class Utilisateur:
+    """Une classe censé représenté un utilisateur"""
     def __init__(self):
+        """Initialise avec theta aléatoire"""
         self.films = {}
         self.conv = Conversions()
         self._theta = np.random.random((1, 50))
 
     def ajout_film(self, id_film, note):
+        """Ajoute un film selon son id"""
         self.films[id_film] = note
 
     def theta(self, x, etapes):
+        """Fait etapes etapes du gradient sur theta du film puis le renvoie"""
         y = np.array([[math.nan] * nombre_films()])
         for key in self.films:
             y[0][self.conv.renvoyer_index(key)] = self.films[key]
@@ -41,6 +45,7 @@ class Utilisateur:
         return self._theta
 
     def reccomandation(self, x):
+        """"""
         y = np.array([[math.nan] * nombre_films()])
         for key in self.films:
             y[0][self.conv.renvoyer_index(key)] = self.films[key]
