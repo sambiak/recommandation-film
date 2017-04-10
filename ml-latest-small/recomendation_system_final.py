@@ -8,7 +8,7 @@ def fonction_cout(Y, theta, X):
     :param Y: tableau de notes avec utilisateurs en lignes et films en colonnes
     :param theta: tableau avec des lignes de profils d'utilisateurs
     :param X: tableau avec des lignes de caracteristiques de films
-    :return: valeur de la fonction de cout
+    :return: valeur la fonction de cout en theta et X
     """
     return np.nanmean((np.dot(X, theta.T) - Y.T) ** 2)
 
@@ -63,17 +63,17 @@ def etape_du_gradient(Y, alpha_X, alpha_theta, theta, X):
     return np.array(n_theta), np.array(n_X)
 
 
-def descente_du_gradient(Y, l, nb_etapes, alpha_X, alpha_theta):
+def descente_du_gradient(Y, nb_carac, nb_etapes, alpha_X, alpha_theta):
     """
     :param Y: tableau de notes avec utilisateurs en lignes et films en colonnes
-    :param l: nombre de caracteristiques de films (nb de colonnes de theta et X)
+    :param nb_carac: nombre de caracteristiques de films (nb de colonnes de theta et X)
     :param nb_etapes: nb d etapes de descente du gradient à realiser
     :param alpha_X: taux d apprentissage pour la modification de X avec la descente du gradient
     :param alpha_theta: taux d apprentissage pour la modification de theta avec la descente du gradient
     :return: theta et X modifiés après nb_etapes d'étapes de descente du gradient
     """
-    X = np.random.random((len(Y[0]), l))
-    theta = np.random.random((len(Y), l))
+    X = np.random.random((len(Y[0]), nb_carac))
+    theta = np.random.random((len(Y), nb_carac))
     for etape in range(nb_etapes):
         theta, X = etape_du_gradient(Y, alpha_X, alpha_theta, theta, X)
         print("etape", etape)
@@ -82,7 +82,7 @@ def descente_du_gradient(Y, l, nb_etapes, alpha_X, alpha_theta):
 
 if __name__ == "__main__":
     Y=tableau_des_notes()
-    descente_du_gradient(Y, 10, 500, 0.001, 0.0001)
+    descente_du_gradient(Y, 10, 10000, 0.001, 0.0001)
 
 
 """
