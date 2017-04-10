@@ -48,21 +48,6 @@ def h_theta_b(theta, x_i):
     return valeur
 
 
-
-tableau = sous_ensemble()
-"""print(tableau)
-theta = np.random.random((1, len(tableau[0])))[0]
-print(theta)
-x = np.array([x_i[:-1]for x_i in tableau])
-y = np.array([y_i[-1] for y_i in tableau])
-for i in range(100):
-    print("cout", fonction_cout(theta, x, y))
-    print("theta", theta)
-    theta = etape_du_gradient(0.01, theta, x, y)
-print("stop")
-print(np.random.random((1, len(tableau[0]))))"""
-
-
 def écart_relatif_en_pourcentage_entre_y_i_et_h_de_x_i_apres_descente_du_gradient(i,sous_ensemble):
     """
     fonction qui peut encore etre ameliorée mais est ce que ce srait vraiment utile d avoir les ecart relatifs?
@@ -120,4 +105,6 @@ def moyenne_des_ecarts_absolus(sous_ensemble):
             ecart+=écart_absolu_entre_y_i_et_h_de_x_i_apres_descente_du_gradient(y,i,sous_ensemble)
     return ecart/len(sous_ensemble)**2
 
-print(moyenne_des_ecarts_absolus(tableau))
+if __name__ == "__main__":
+    tableau = sous_ensemble()
+    print(moyenne_des_ecarts_absolus(tableau))
