@@ -1,0 +1,88 @@
+\documentclass[a4paper,10pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{makeidx}
+\usepackage{amsmath}
+\usepackage[french]{babel}
+\usepackage[T1]{fontenc}
+
+%opening
+\makeindex
+\title{Projet}
+\author{}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+A l’ère du numérique, la collecte de données d’une multitude d’utilisateurs peut devenir très intéressante pour leur faire des suggestions personnalisées de tout type. C’est une chose qu’on rencontre souvent : recommandations d’amis sur Facebook, suggestions d’achats sur Internet, etc.
+
+Nous avons choisi de nous intéresser à la recommandation automatique de films. En effet la recommandation automatique d’un film obéit à plusieurs critères Ajout. Comment concevoir un programme informatique qui prenne en compte tous ces critères pour produire une recommandation personnalisée pertinente ?
+Les méthodes proposées lors de ce projet consistent à estimer les notes que mettrait l’utilisateur, afin de trouver les films les plus accordés à ses goûts. Cela se fait en regardant les prédictions des notes les plus hautes. Deux méthodes sont proposées. Pour la première, on suppose qu’il existe une relation linéaire entre l’ensemble des notes données par un utilisateur et la note qu’on cherche à prévoir. Cette méthode consiste à trouver cette relation. Pour ce faire nous utilisons un algorithme, qui sera explicitée par la suite. Nous proposons aussi un second modèle que nous comparons au premier. Dans celui ci, nous supposons que chaque film possède des caractéristiques et chaque utilisateur des préférences, toutes deux liées linéairement. La deuxième méthode consiste donc à déterminer ces préférences et caractéristiques à l’aide d’une utilisation plus avancée de la descente du gradient.
+\end{abstract}
+\section{Notre approche du problème}
+\subsection{Nos données}
+\subsubsection{Extraction des données}
+Notre projet nous a forcément mener à posséder des données sur des films déjà vu et noté par quelques utilisateurs. 
+Cela nous à guider vers une grande base de données appelé `` movielens '' qui est un site communautaire de recommandation de films où les utilisateurs du site notent des films de 1 à 5. 
+Plusieurs jeux de données étaient disponibles et différé entre eux selon leur taille, 
+nous avons choisi de travailler avec une base de données de 670 utilisateurs et 9125 films. 
+On a donc extrait 2 fichiers : l’un contenant les 9125 films avec leurs titres et un numéro attribué , 
+l’autre avec les notes des utilisateurs qui était avaient chacun un identifiants, 
+le fichier était du type : identifiant de l’utilisateur, id du film qu’il a noté, note.
+Ces 2 fichiers étaient donc peu pratiques pour commencer à faire quelque chose avec, 
+nous avons donc créer une fonction tableau\_des\_notes() qui permet de ranger toutes ces notes dans un tableau numpy 9125*670 avec en lignes les utilisateurs, 
+et en colonnes les films. Quand un utilisateur n’a pas vu un film donc qu’il ne l’a pas noté, 
+on insère un `` Nan ''(Not a Number) qui est un `` symbole '' facile à traiter. On appellera ce tableau Y tout au long du projet.
+
+
+(image de Y)
+
+
+
+
+Pour continuer notre projet a bien, nous avons étudié nos données pour mieux les traiter plus tard.
+\subsubsection{Analyse des données}
+Dans la logique des choses, notre tableau Y étant bien trop grand pour en tirer des conclusions 
+juste à l’œil, nous avons créer des fonctions permettant de faire des sortes de statistiques sur nos données.
+Nous avons créer quelques fonctions pour étudier nos données: l’une permettant de compter combien de films chaque utilisateur a vu (cf nbre\_de\_films\_vu\_par\_utilisateur), et l’autre comptant combien de fois avait été noté chaque film (cf nbre\_de\_notes\_par\_film). De ces fonctions, nous avons pu tirer des graphiques nous montrant comment été répartis nos données.
+
+
+On a remarquer que la grande majorité des films posséder entre 0 et 40 notes(Plus de 8000 sur 9000). Le nombre de notes le plus récurrents étant 2 notes par film. Mais il y a tout de même quelque film qui ont été beaucoup vu sachant que celui qui avait le plus de note en avait 339.
+
+(histogramme nbre de note associés au film)
+
+Dans l’autre sens, en moyenne les utilisateurs ont noté … films, et la majorité est répartis entre blabla et babla.
+
+(autre histogramme)
+
+→ conclusion sur les données ce qu’on peut en tirer …
+Notre tableau présente 98,4 \% de NaN. Cela nous fait donc plus de 6 millions de notes à prédire… Dans la prochaine partie, nous verrons donc la méthode permettant de prédire toutes ces notes à partir de très peu de données.
+
+\subsection{Parler de la factorisation de Y : partie de Anthony lors de la présentation orale des POQ}
+Expliquer cela avec un exemple simple et des figures de Yf, theta et X
+\section{Implémentation de l’algorithme}
+\subsection{Introduction de la fonction de coût ( et pk on l a introduite) avec la norme de frobenius}
+Dire que notre but c de minimiser cette fonction en trouvant theta et X qui représentent le mieux possible nos données 
+    Explications de Yassine aux POQ sur le fait qu’on fixe aléatoirement theta et X et on les bouges l'un apres l autre plein de fois en faisant diminuer J au fur et a mesure
+\subsection{C la que l on parle du principe de la descente du gradient avec les dérivées}
+partielles et tt ça : explication de la fonction étape du gradient et descente du gradient non optimisées (sans le gradient) : ce qu'on faisait avant que Valentin nous montre le gradient et toutes ses supers formules au tableau qu on avait pris en photo
+Fig avec un bol comme dans le mooc
+\section{optimisation}
+\subsection{C la qu'on explique les changements qu'on a apportés pour obtenir la descente du gradient actuelle avec des gradients et tt ça}
+\subsection{Façon dont on mesure le taux d'erreur et comment determiner les parametres}
+\section{Mise en place de la recommandation pour un utilisateur spécifique}
+\section{conclusion}
+\appendix
+\section{Preuve}
+\begin{align*}
+[\nabla_{x} \frac{1}{2}||Ax - b||^{2}_{2}]_{j} &= [\nabla_{x} \frac{1}{2}(Ax - b).(Ax - b)]_{j}\\
+[\nabla_{x} \frac{1}{2}||Ax - b||^{2}_{2}]_{j} &= [\nabla_{x} \frac{1}{2}(\sum^{n}_{i = 1} (\sum^{p}_{k = 1} A_{i, k}x_{k})^{2} - 2b_{i}(\sum^{p}_{k = 1} A_{i, k}x_{k}) + b_{i}^{2})]_{j}\\
+[\nabla_{x} \frac{1}{2}||Ax - b||^{2}_{2}]_{j} &= \frac{\partial\frac{1}{2}(\sum^{n}_{i = 1} (\sum^{p}_{k = 1} A_{i, k}x_{k})^{2} - 2b_{i}(\sum^{p}_{k = 1} A_{i, k}x_{k}) + b_{i}^{2})}{\partial x_{j}}\\
+[\nabla_{x} \frac{1}{2}||Ax - b||^{2}_{2}]_{j} &= \frac{1}{2}(\sum^{n}_{i = 1} 2(\sum^{p}_{k = 1} A_{i, k}x_{k})A_{i, j} - 2b_{i} A_{i, j})\\
+[\nabla_{x} \frac{1}{2}||Ax - b||^{2}_{2}]_{j} &= (\sum^{n}_{i = 1} (\sum^{p}_{k = 1} A_{i, k}x_{k})A_{i, j} - b_{i} A_{i, j})\\
+[\nabla_{x} \frac{1}{2}||Ax - b||^{2}_{2}]_{j} &= (\sum^{n}_{i = 1} A_{i, j}(\sum^{p}_{k = 1} A_{i, k}x_{k}) - b_{i} )\\
+[\nabla_{x} \frac{1}{2}||Ax - b||^{2}_{2}]_{j} &= \sum^{n}_{i = 1} A^{T}_{j, i}[Ax - b]_{i}\\
+[\nabla_{x} \frac{1}{2}||Ax - b||^{2}_{2}]_{j} &= [A^{T}(Ax - b)]_{j}
+\end{align*}
+\end{document}
