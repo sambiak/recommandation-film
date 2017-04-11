@@ -5,3 +5,7 @@ __pycache__/
 *.aux
 *.backup
 *.log
+*.idx
+*.ilg
+*.ind
+
