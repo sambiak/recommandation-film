@@ -5,6 +5,9 @@ from movielens import tableau_des_notes
 from recomendation_system_final import *
 
 def notes_extraites_pour_validation(tableau_des_notes_entier):
+    """fonction qui
+    """
+    
     na_n = float('nan')
     T_validation=tableau_des_notes_entier.copy()
     L_validation = []
