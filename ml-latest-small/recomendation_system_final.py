@@ -76,7 +76,6 @@ def descente_du_gradient(Y, nb_carac, nb_etapes, alpha_X, alpha_theta):
     theta = np.random.random((len(Y), nb_carac))
     for etape in range(nb_etapes):
         theta, X = etape_du_gradient(Y, alpha_X, alpha_theta, theta, X)
-        print("etape", etape)
     return theta, X
 
 if __name__ == "__main__":
