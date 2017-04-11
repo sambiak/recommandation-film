@@ -1,10 +1,14 @@
-from random import *
+from random import randrange
 import numpy as np
 import math
 from movielens import tableau_des_notes
-from recomendation_system_final import *
+from recomendation_system_final import descente_du_gradient
 
-def pourcentage_de_non_nan(array): 
+def pourcentage_de_non_nan(array):
+    """
+    :param array: tableau de notes avec utilisateurs en lignes et films en colonnes
+    :return: pourcentage de notes (on différencie les notes et les "nan")
+    """
     k=0 
     for i in range(9125): 
         for j in array[:,i]: 
@@ -13,6 +17,11 @@ def pourcentage_de_non_nan(array):
     return k/(9125*670) 
      
 def nbre_de_film_vu_par_utilisateur(array,i): 
+    """
+    :param array: tableau de notes avec utilisateurs en lignes et films en colonnes
+    :param i: ième utilisateur
+    :return: nb de films vu par l'utilisateur
+    """
     k=0 
     for j in array[i,:]: 
         if not math.isnan(j) : 
@@ -20,9 +29,10 @@ def nbre_de_film_vu_par_utilisateur(array,i):
     return k 
 
 def notes_extraites_pour_validation(tableau_des_notes_entier):
-    """fonction qui
     """
-    
+    :param tableau_des_notes_entier: tableau de notes avec utilisateurs en lignes et films en colonnes
+    :return: tableau de notes avec 10% des notes enlevées(tableau de validation), liste indiquant les couples caractérisant les notes enlevées (utilisateur,film)
+    """
     na_n = float('nan')
     T_validation=tableau_des_notes_entier.copy()
     L_validation = []
@@ -50,6 +60,11 @@ def notes_extraites_pour_validation(tableau_des_notes_entier):
             
             
 def notes_extraites_pour_test(tableau_des_notes_validation,tableau_des_notes_entier):
+    """
+    :param tableau_des_notes_validation: tableau des notes moins 10% des notes utilisé pour optimiser
+    :param tableau_des_notes_entier: tableau de notes avec utilisateurs en lignes et films en colonnes
+    :return: tableau de notes avec 10% de notes enlevées(pas les mêmes que pour la validation), liste indiquant les couples caractérisant les notes enlevées (utilisateur,film)
+    """
     na_n = float('nan')
     T_validation = tableau_des_notes_validation.copy()
     T_test=tableau_des_notes_entier.copy()    
@@ -76,7 +91,12 @@ def notes_extraites_pour_test(tableau_des_notes_validation,tableau_des_notes_ent
             
     return [T_test,L_test]
 
-def ecart_quadratique(L_notes_enlevees,Y_predit,tableau_des_notes_entier): 
+def ecart_quadratique(L_notes_enlevees,Y_predit,tableau_des_notes_entier):
+    """
+    :param L_notes_enlevees: liste de couples caractérisant les notes enlevées du tableau (utilisateur,film)
+    :param Y_predit: tableau de notes plein avec prédiction par descente du gradient à partir du tableau de validation
+    :param tableau_des_notes_entier: tableau de notes avec utilisateurs en lignes et films en colonnes (tableau de départ)
+    """
     somme = 0
     for note in L_notes_enlevees:
         somme+= (Y_predit[note[0]][note[1]]-tableau_des_notes_entier[note[0]][note[1]])**2
@@ -84,6 +104,10 @@ def ecart_quadratique(L_notes_enlevees,Y_predit,tableau_des_notes_entier):
     return somme/9922
     
 def nb_car_optimal():
+    """
+    :print: écart quadratique pour un certain nb de caractéristiques
+    :return: liste avec tous les écarts calculés en fonction du nb de caractéristiques
+    """
     L_ecarts = []
     n = notes_extraites_pour_validation(tableau_des_notes())
     i=2**3 
