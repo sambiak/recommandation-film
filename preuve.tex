@@ -1,0 +1,26 @@
+\documentclass[a4paper,10pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+
+%opening
+\title{Preuve}
+\author{}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+
+\end{abstract}
+
+\section{}
+\[[\nabla_{x} \frac{1}{2}||Ax - b||^{2}_{2}]_{j} = [\nabla_{x} \frac{1}{2}(Ax - b).(Ax - b)]_{j}\]
+\[[\nabla_{x} \frac{1}{2}||Ax - b||^{2}_{2}]_{j} = [\nabla_{x} \frac{1}{2}(\sum^{n}_{i = 1} (\sum^{p}_{k = 1} A_{i, k}x_{k})^{2} - 2b_{i}(\sum^{p}_{k = 1} A_{i, k}x_{k}) + b_{i}^{2})]_{j}\]
+\[[\nabla_{x} \frac{1}{2}||Ax - b||^{2}_{2}]_{j} = \frac{\partial\frac{1}{2}(\sum^{n}_{i = 1} (\sum^{p}_{k = 1} A_{i, k}x_{k})^{2} - 2b_{i}(\sum^{p}_{k = 1} A_{i, k}x_{k}) + b_{i}^{2})}{\partial x_{j}}\]
+\[[\nabla_{x} \frac{1}{2}||Ax - b||^{2}_{2}]_{j} = \frac{1}{2}(\sum^{n}_{i = 1} 2(\sum^{p}_{k = 1} A_{i, k}x_{k})A_{i, j} - 2b_{i} A_{i, j}) \]
+\[[\nabla_{x} \frac{1}{2}||Ax - b||^{2}_{2}]_{j} = (\sum^{n}_{i = 1} (\sum^{p}_{k = 1} A_{i, k}x_{k})A_{i, j} - b_{i} A_{i, j}) \]
+\[[\nabla_{x} \frac{1}{2}||Ax - b||^{2}_{2}]_{j} = (\sum^{n}_{i = 1} A_{i, j}(\sum^{p}_{k = 1} A_{i, k}x_{k}) - b_{i} ) \]
+\[[\nabla_{x} \frac{1}{2}||Ax - b||^{2}_{2}]_{j} = \sum^{n}_{i = 1} A^{T}_{j, i}[Ax - b]_{i}\]
+\[[\nabla_{x} \frac{1}{2}||Ax - b||^{2}_{2}]_{j} = [A^{T}(Ax - b)]_{j}\]
+\end{document}
