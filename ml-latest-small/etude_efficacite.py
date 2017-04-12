@@ -1,6 +1,7 @@
 from random import randrange
 import numpy as np
 import math
+import matplotlib.pyplot as plt
 from movielens import tableau_des_notes
 from recomendation_system_final import descente_du_gradient
 
@@ -102,22 +103,80 @@ def ecart_quadratique(L_notes_enlevees,Y_predit,tableau_des_notes_entier):
         somme+= (Y_predit[note[0]][note[1]]-tableau_des_notes_entier[note[0]][note[1]])**2
     
     return somme/9922
-    
-def nb_car_optimal():
+
+V = notes_extraites_pour_validation(tableau_des_notes())
+T = notes_extraites_pour_test(V[0],tableau_des_notes())
+
+def nb_car_optimal(nb_etapes,alpha_X,alpha_theta):
     """
     :print: écart quadratique pour un certain nb de caractéristiques
-    :return: liste avec tous les écarts calculés en fonction du nb de caractéristiques
+    :show: graphique écart en fonction du nb_car
     """
-    L_ecarts = []
-    n = notes_extraites_pour_validation(tableau_des_notes())
-    i=2**3 
-    while i!=2**5: 
-        d = descente_du_gradient(n[0],i,500,0.001, 0.0001) 
-        ecart = ecart_quadratique(n[1],np.dot(d[1],(d[0]).T),tableau_des_notes())
-        print(ecart)
-        L_ecarts += [i,ecart] 
-        i+=4 
+    x = []
+    y = []
+    nb_car = 8 
+    while nb_car <= 16: 
+        d = descente_du_gradient(V[0],nb_car,nb_etapes,alpha_X,alpha_theta) 
+        ecart = ecart_quadratique(V[1],np.dot(d[0],(d[1]).T),tableau_des_notes())
+        print(ecart,"    ",nb_car)
+        x += [nb_car]
+        y += [ecart]
+        nb_car += 2 
+    plt.plot(x,y)
+    plt.show()    
     
-    return L_ecarts
+def nb_etapes_optimal(nb_car,alpha_X,alpha_theta):
+    """
+    :print: écart quadratique pour un certain nb d'étapes
+    :show: graphique écart en fonction du nb_etapes
+    """
+    x = []
+    y = []
+    nb_etapes = 10 
+    while nb_etapes <= 1280: 
+        d = descente_du_gradient(V[0],nb_car,nb_etapes,alpha_X, alpha_theta) 
+        ecart = ecart_quadratique(V[1],np.dot(d[0],(d[1]).T),tableau_des_notes())
+        print(ecart,"    ",nb_etapes)
+        x += [nb_car]
+        y += [ecart]
+        nb_etapes *= 2
+    plt.plot(x,y)
+    plt.show()
 
-print(nb_car_optimal())
+def alpha_X_optimal(nb_car,nb_etapes,alpha_theta):
+    """
+    :print: écart quadratique pour un certain alpha_X
+    :show: graphique écart en fonction du alpha_X
+    """
+    x = []
+    y = []
+    alpha_X = 0.1 
+    while alpha_X >= 0.00001: 
+        d = descente_du_gradient(V[0],nb_car,nb_etapes,alpha_X, alpha_theta) 
+        ecart = ecart_quadratique(V[1],np.dot(d[0],(d[1]).T),tableau_des_notes())
+        print(ecart,"    ",nb_car)
+        x += [nb_car]
+        y += [ecart]
+        alpha_X /= 2
+    plt.plot(x,y)
+    plt.show()
+      
+def alpha_theta_optimal(nb_car,nb_etapes,alpha_X):
+    """
+    :print: écart quadratique pour un certain alpha_theta
+    :show: graphique écart en fonction du alpha_theta
+    """
+    x = []
+    y = []
+    alpha_theta = 0.1 
+    while alpha_theta >= 0.00001: 
+        d = descente_du_gradient(V[0],nb_car,nb_etapes,alpha_X, alpha_theta) 
+        ecart = ecart_quadratique(V[1],np.dot(d[0],(d[1]).T),tableau_des_notes())
+        print(ecart,"    ",nb_car)
+        x += [nb_car]
+        y += [ecart]
+        alpha_theta /= 2
+    plt.plot(x,y)
+    plt.show()
+    
+print(nb_car_optimal(500,0.001,0.0001))
