@@ -3,6 +3,7 @@
 \usepackage{makeidx}
 \usepackage{amsmath}
 \usepackage[french]{babel}
+\usepackage{amsfonts}
 \usepackage[T1]{fontenc}
 
 %opening
@@ -69,8 +70,107 @@ Dire que notre but c de minimiser cette fonction en trouvant theta et X qui repr
 partielles et tt ça : explication de la fonction étape du gradient et descente du gradient non optimisées (sans le gradient) : ce qu'on faisait avant que Valentin nous montre le gradient et toutes ses supers formules au tableau qu on avait pris en photo
 Fig avec un bol comme dans le mooc
 \section{optimisation}
-\subsection{C'est la qu'on explique les changements qu'on a apportés pour obtenir la descente du gradient actuelle avec des gradients et tout ça}
-\subsection{Façon dont on mesure le taux d'erreur et comment determiner les parametres}
+
+\subsection{Notations (on pourra mettre cette partie autre part)}
+
+\`{A} remplir et dire aussi que l'on represente par des matrices colonnes les vecteurs et la notation Y y et X x et $y_{.,j}$ preciser qu on travaille avec des matrices réelles
+\subsection{Ancien algorithme}
+
+\noindent Une \'{e}tape :\\
+\indent Faire simultan\'{e}ment:\\
+\indent \indent Pour tout j $\in$ \{1, 2, ..., nf\}:\\
+\indent \indent \indent Pour tout k $\in$ \{1, 2, ..., n\} :\\
+\indent \indent \indent \indent Affecter \`{a} $x_{j,k}$ la valeur $x_{j,k}-\alpha\frac{\partial J}{\partial x_{j,k}}$\\
+\indent Faire simultan\'{e}ment:\\
+\indent \indent Pour tout i $\in$ \{1, 2, ..., nu\}:\\
+\indent \indent \indent Pour tout k $\in$ \{1, 2, ..., n\} :\\
+\indent \indent \indent \indent Affecter \`{a} $\theta_{i,k}$ la valeur $\theta_{i,k}-\alpha\frac{\partial J}{\partial \theta_{i,k}}$\\
+
+\noindent Cet algorithme poss\`{e}de deux fois deux boucles imbriqu\'{e}es ce qui le rend tr\`es lent: 30 secondes par \'{e}tapes avec 10 caract\'{e}ristiques sachant qu'il faut au moins 500 \'{e}tapes pour arriver à une approximation de Y correcte. C'est pourquoi nous voulons l'optimiser.
+
+\subsection{Utilisation du gradient}
+
+Sachant que $\forall j \in \{1, 2, ..., nf\}$ $x_{j}$ est une matrice de dimension $1 * n$, nous pouvons remarquer que faire simultan\'{e}ment:\\
+
+\noindent Pour tout j $\in$ \{1, 2, ..., nf\}:\\
+\indent Pour tout k $\in$ \{1, 2, ..., n\} :\\
+\indent \indent Affecter \`{a} $x_{j,k}$ la valeur $x_{j,k}-\alpha\frac{\partial J}{\partial x_{j,k}}(\theta, X)$\\
+
+\noindent reviens \`{a} faire simultan\'{e}ment:\\
+
+\noindent Pour tout j $\in$ \{1, 2, ..., nu\}:\\
+\indent $x_{j} := x_{j}-\alpha
+\begin{pmatrix}
+\frac{\partial J}{\partial x_{j,1}}(\theta, X) & \frac{\partial J}{\partial x_{j,2}}(\theta, X) & \cdots & \frac{\partial J}{\partial x_{j,n}}(\theta, X)
+\end{pmatrix}$\\
+
+\noindent Or, $\begin{pmatrix}
+\frac{\partial J}{\partial x_{j,1}}(\theta, X) & \frac{\partial J}{\partial x_{j,2}}(\theta, X) & \cdots & \frac{\partial J}{\partial x_{j,n}}(\theta, X)
+\end{pmatrix}
+= (\nabla_{x_{j}^T} J(\theta, X))^{T}$\\
+
+\noindent Et il n'y a ainsi plus de boucles imbriqu\'{e}es. Nous nous posons maintenant la question comment faire une fonction renvoyant rapidement $(\nabla_{x_{j}^T} J(\theta, X))^{T}$ afin de pouvoir utiliser cette astuce.\\
+
+\noindent Nous avons:\\\\
+$J(\theta, X)=\frac{1}{2}\displaystyle\sum_{\substack{i,j \\ y_{i,j} \ne nan}}(\theta_{i}x_{j}^{T}-y_{i,j})^{2}$
+
+$=\frac{1}{2}\displaystyle\sum_{k=1}^{nf}\Vert\tilde{\theta}x_{k}^{T}-\tilde{y}_{.,k}\Vert^{2}$\\
+
+\noindent Qu'est ce que $\tilde{y}_{.,k}$ et $\tilde{\theta}$? En fait $\tilde{y}_{.,k}$ est le vecteur $y_{.,k}$ auquel nous avons enlev\'{e} les composantes nan : par exemple si $y_{.,k}=
+\begin{pmatrix}
+2\\3\\nan\\5\\nan
+\end{pmatrix}$
+alors $\tilde{y}_{.,k}=
+\begin{pmatrix}
+2\\3\\5
+\end{pmatrix}$. Et si nous avons pour cela retir\'{e} les lignes $l_{1}, l_{2}, \cdots$ et $l{u}$ de y, nous retirons les m\^{e}mes lignes de $\theta$ pour former $\tilde{\theta}$.  D'o\`{u} $\tilde{\theta}$ d\'{e}pend de $y_{.,k}$ et donc de k.\\
+
+\noindent Et alors, nous en d\'{e}duisons, $\forall j \in$ \{1, 2, ..., nf\} :\\\\
+$\nabla_{x_{j}^T} J(\theta, X)=
+\begin{pmatrix}
+\displaystyle\frac{\partial \displaystyle\sum_{k=1}^{nf}\frac{1}{2}\Vert\tilde{\theta}x_{k}^{T}-\tilde{y}_{.,k}\Vert^{2}}{\partial x_{j,1}^{T}}\\
+\displaystyle\frac{\partial \displaystyle\sum_{k=1}^{nf}\frac{1}{2}\Vert\tilde{\theta}x_{k}^{T}-\tilde{y}_{.,k}\Vert^{2}}{\partial x_{j,2}^{T}}\\
+\vdots\\
+\displaystyle\frac{\partial \displaystyle\sum_{k=1}^{nf}\frac{1}{2}\Vert\tilde{\theta}x_{k}^{T}-\tilde{y}_{.,k}\Vert^{2}}{\partial x_{j,n}^{T}}
+\end{pmatrix}
+=
+\begin{pmatrix}
+\displaystyle\sum_{k=1}^{nf}
+\frac{1}{2}\frac{\partial\Vert\tilde{\theta}x_{k}^{T}-\tilde{y}_{.,k}\Vert^{2}}{\partial x_{j,1}^{T}}\\
+\displaystyle\sum_{k=1}^{nf}
+\frac{1}{2}\frac{\partial\Vert\tilde{\theta}x_{k}^{T}-\tilde{y}_{.,k}\Vert^{2}}{\partial x_{j,2}^{T}}\\
+\vdots\\
+\displaystyle\sum_{k=1}^{nf}
+\frac{1}{2}\frac{\partial\Vert\tilde{\theta}x_{k}^{T}-\tilde{y}_{.,k}\Vert^{2}}{\partial x_{j,n}^{T}}
+\end{pmatrix}$\\
+$
+=
+\begin{pmatrix}
+\displaystyle
+\frac{1}{2}\frac{\partial\Vert\tilde{\theta}x_{j}^{T}-\tilde{y}_{.,j}\Vert}{\partial x_{j,1}^{T}}\\
+\displaystyle
+\frac{1}{2}\frac{\partial\Vert\tilde{\theta}x_{j}^{T}-\tilde{y}_{.,j}\Vert}{\partial x_{j,2}^{T}}\\
+\vdots\\
+\displaystyle
+\frac{1}{2}\frac{\partial\Vert\tilde{\theta}x_{j}^{T}-\tilde{y}_{.,j}\Vert}{\partial x_{j,n}^{T}}
+\end{pmatrix}
+=
+\displaystyle
+\nabla_{x_{j}^T}\frac{1}{2}\Vert\tilde{\theta}x_{j}^{T}-\tilde{y}_{.,j}\Vert^{2}
+$\\\\
+Et nous pouvons calculer $(\nabla_{x_{j}^{T}}\Vert\tilde{\theta}x_{j}^{T}-\tilde{y}_{.,j}\Vert)$ gr\^{a}ce \`{a} une formule qui est prouvé en annexe: $\forall n \in \mathbb{N}^{*} \forall p \in \mathbb{N}^{*}$ si A est une matrice de dimension $p*n$, x une matrice colonne de dimension $n*1$ et b une matrice colonne de dimension $p*1$ alors on a $\nabla_{x}\Vert Ax-b \Vert = A^{T}(Ax-b)$.\\\\
+D'o\`{u}, $\nabla_{x_{j}^{T}}\Vert\tilde{\theta}x_{j}^{T}-\tilde{y}_{.,j}\Vert = \tilde{\theta}^{T}(\tilde{\theta}x_{j}^{T}-\tilde{y}_{.,j})=\nabla_{x_{j}^T} J(\theta, X)$.\\\\
+Et ceci est rapidement calculable gr\^{a}ce aux fonctions de la biblioth\`eque Numpy que nous utilisons pour notre programme.\\\\
+Un raisonnement similaire am\`ene \`a faire de m\^eme avec la partie de l'ancien algorithme modifiant $\theta$ ce qui nous donne ce nouvel algorithme beaucoup plus rapide :\\
+
+\noindent Une \'{e}tape :\\
+\indent Faire simultan\'{e}ment:\\
+\indent \indent Pour tout j $\in$ \{1, 2, ..., nf\}:\\
+\indent \indent \indent Affecter \`{a} $x_{j,k}$ la valeur $x_{j,k}-\alpha(\tilde{\theta}^{T}(\tilde{\theta}x_{j}^{T}-\tilde{y}_{.,j}))^{T}$\\
+\indent Faire simultan\'{e}ment:\\
+\indent \indent Pour tout i $\in$ \{1, 2, ..., nu\}:\\
+\indent \indent \indent Affecter \`{a} $\theta_{i,k}$ la valeur $\theta_{i,k}-\alpha(\tilde{X}^{T}(\tilde{X}\theta_{i}^{T}-\tilde{y}_{i}))^{T}$\\
+
 \section{Mise en place de la recommandation pour un utilisateur spécifique}
 \section{conclusion}
 \appendix
