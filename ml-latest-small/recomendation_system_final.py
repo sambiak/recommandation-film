@@ -78,6 +78,21 @@ def descente_du_gradient(Y, nb_carac, nb_etapes, alpha_X, alpha_theta):
         theta, X = etape_du_gradient(Y, alpha_X, alpha_theta, theta, X)
     return theta, X
 
+def descente_du_gradient_2(X, theta, Y, nb_carac, nb_etapes, alpha_X,  alpha_theta):
+    """
+    :param X: X fixé au départ
+    :param theta: theta fixé au départ
+    :param Y: tableau de notes avec utilisateurs en lignes et films en colonnes
+    :param nb_carac: nombre de caracteristiques de films (nb de colonnes de theta et X)
+    :param nb_etapes: nb d etapes de descente du gradient à realiser
+    :param alpha_X: taux d apprentissage pour la modification de X avec la descente du gradient
+    :param alpha_theta: taux d apprentissage pour la modification de theta avec la descente du gradient
+    :return: theta et X modifiés après nb_etapes d'étapes de descente du gradient
+    """
+    for etape in range(nb_etapes):
+        theta, X = etape_du_gradient(Y, alpha_X, alpha_theta, theta, X)
+    return theta, X
+    
 if __name__ == "__main__":
     Y=tableau_des_notes()
     descente_du_gradient(Y, 10, 100, 0.001, 0.0001)
