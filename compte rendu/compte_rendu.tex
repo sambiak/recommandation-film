@@ -1,5 +1,8 @@
 \documentclass[a4paper,10pt]{article}
 \usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[frenchkw]{algorithm2e}
+\usepackage[francais]{babel}
 \usepackage{graphicx}
 
 %opening
@@ -49,7 +52,22 @@ on insère un `` Nan ''(Not a Number) qui est un `` symbole '' facile à traiter
 \section{Implémentation algo}
 %guillaume
 \subsection{descente du gradient en general optimisation}
-\[\nabla \]
+Nous allons proposer une méthodologie pour minimiser 
+\begin{algorithm}[H]
+ \Donnees{this text}
+ \Res{how to write algorithm with \LaTeX2e }
+ initialization\;
+ \Repeter{not at end of this document}{
+  read current\;
+  \eSi{understand}{
+   go to next section\;
+   current section becomes this one\;
+   }{
+   go back to the beginning of current section\;
+  }
+ }
+ \caption{How to write algorithms}
+\end{algorithm}
 \subsubsection{ecrire algo puis dire comment on a fait au début}
 \section{Mise en application}
 \subsection{Notre approche pour familiariser au probleme}
