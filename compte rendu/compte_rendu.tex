@@ -4,6 +4,8 @@
 \usepackage[frenchkw]{algorithm2e}
 \usepackage[francais]{babel}
 \usepackage{graphicx}
+\usepackage{amsfonts}
+\usepackage{amsmath}
 
 %opening
 \title{}
@@ -17,7 +19,7 @@
 %a la fin
 \end{abstract}
 
-\section{Qu'est ce qu'un système de reccomandation?}
+\section{Qu'est ce qu'un système de recommandation?}
 \subsection{Notre approche}
 Le but de notre projet est de recommander un film à un utilisateur spécifique. 
 Pour cela, nous devons savoir à quel point un utilisateur aime tel ou tel film pour lui recommander (ou pas). 
@@ -42,10 +44,21 @@ on insère un `` Nan ''(Not a Number) qui est un `` symbole '' facile à traiter
 
 \subsubsection{Analyse des données}
 \subsection{}
-\section{Formalisation du problème d'optimisation y compris modelisation}
-%antho
+\section{Formalisation du problème d'optimisation y compris modélisation}
+
+Nous nous posons maintenant la question comment nous y prendre pour prédire des notes ?
+Notre seul ressource est la matrice Y non pleine, sur quel modèle s'appuyer pour la compléter ?
+C'est ce que nous allons étudier dans cette partie.
+
 \subsection{Factorisation}
-%Formalisation
+
+Posons $Y_f$ la matrice Y complétée qui contient toutes les prédictions, exactes, des notes qui nous manquent. C'est la matrice à laquelle nous voulons aboutir, que nous devons deviner. Voici notre méthode.
+
+Nous supposons que nous sommes capable de déterminer (et nous verrons que nous le somme) à partir de Y deux matrices X et $\Theta$ telles que $\Theta X^T = Y_f$ avec $\Theta$ une matrice de dimension $n_u * n$ et X une matrice de dimension $n_f*n$. $n\in\mathbb{N}^*$
+
+
+
+
 \subsection{Fonction cout}
 %toujours antho
 \subsubsection{Pourquoi on cherche a minimiser}
