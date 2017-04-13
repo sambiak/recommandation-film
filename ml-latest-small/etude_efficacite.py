@@ -1,9 +1,10 @@
 from random import randrange
+import os
 import numpy as np
 import math
 import matplotlib.pyplot as plt
 from movielens import tableau_des_notes
-from recomendation_system_final import descente_du_gradient, descente_du_gradient_2
+from recomendation_system_final import descente_du_gradient_2
      
 def nbre_de_film_vu_par_utilisateur(array,i): 
     """
@@ -92,13 +93,14 @@ def ecart_quadratique(L_notes_enlevees,Y_predit,tableau_des_notes_entier):
     
     return somme/9922
     
-def nb_etapes_optimal(mini, V, nb_car, nb_etapes, alpha):
+def nb_etapes_optimal(mini, V, nb_car, nb_etapes, alpha_X, alpha_theta):
     """
     :param mini: liste indiquant quand est-ce qu'on obtient l'écart minimum
     :param V: tableau de notes (moins 10%)
     :param nb_car: nb de caractéristiques associé à chaque film
     :param nb_etapes: nb d'étapes du gradient à effectuer
-    :param alpha: valeur de alpha pour la descente du gradient
+    :param alpha_X: valeur de alpha pour la descente du gradient pour X
+    :param alpha_theta: valeur de alpha pour la descente du gradient pour theta
     :print: écart quadratique pour un certain nb d'étapes
     :show: graphique écart en fonction du nb_etapes
     :return mini: nouveau minimum
@@ -109,10 +111,10 @@ def nb_etapes_optimal(mini, V, nb_car, nb_etapes, alpha):
     y = []
     n_etape = 50
     while n_etape <= nb_etapes:
-        d = descente_du_gradient_2(X, theta, V[0], nb_car, 50, alpha, alpha) 
+        d = descente_du_gradient_2(X, theta, V[0], nb_car, 50, alpha_X, alpha_theta)
         ecart = ecart_quadratique(V[1],np.dot(d[0],(d[1]).T),tableau_des_notes())
         if ecart < mini[0]:
-            mini = [ecart, n_etape, nb_car, alpha]
+            mini = [ecart, n_etape, nb_car, alpha_X, alpha_theta]
         print(ecart,"    ",n_etape)
         x += [n_etape]
         y += [ecart]
@@ -121,18 +123,28 @@ def nb_etapes_optimal(mini, V, nb_car, nb_etapes, alpha):
         n_etape += 50
     plt.plot(x,y)
     plt.ylabel('Ecart quadratique')
-    plt.xlabel("Nombre d'étapes  //  nb_car =", nb_car, "alpha =", alpha)
+    nom_x = "Nombre d'étapes  //  nb_car = " + str(nb_car) + " / alpha_X = " + str(alpha_X) + " / alpha_theta = " + str(alpha_theta)
+    plt.xlabel(nom_x)
+    nom_fichier = "nb_car-" + str(nb_car) + "_alpha_X-" + str(alpha_X) + "_alpha_theta-" + str(alpha_theta) + ".png"
+    plt.savefig(nom_fichier)
     plt.show()
-    plt.savefig("nb_car-", nb_car, "alpha-",alpha)
-    
+        
     return mini
     
 V = notes_extraites_pour_validation(tableau_des_notes())
-nb_car = 10
-alpha = 0.1
-mini = [100, 100, nb_car, alpha]
+nb_car = 5
+alpha_X = 0.001
+alpha_theta = 0.0001
+mini = [100, 100, nb_car, alpha_X, alpha_theta]
+
 while nb_car <= 150:
-    while alpha >= 0.000012206:
-        mini = nb_etapes_optimal(mini, V, nb_car, 5000, alpha)
-        alpha /= 2
+    while alpha_X >= 0.000003905:
+        while alpha_theta >= 0.0000003905:
+            mini = nb_etapes_optimal(mini, V, nb_car, 50, alpha_X, alpha_theta)
+            alpha_theta /= 2
+        alpha_theta = 0.0001
+        alpha_X /= 2
+    alpha_X = 0.001
     nb_car += 5
+    
+print(mini)
