@@ -1,10 +1,10 @@
 from random import randrange
-import os
 import numpy as np
 import math
 import matplotlib.pyplot as plt
 from movielens import tableau_des_notes
 from recomendation_system_final import descente_du_gradient_2
+import time
      
 def nbre_de_film_vu_par_utilisateur(array,i): 
     """
@@ -86,6 +86,7 @@ def ecart_quadratique(L_notes_enlevees,Y_predit,tableau_des_notes_entier):
     :param L_notes_enlevees: liste de couples caractérisant les notes enlevées du tableau (utilisateur,film)
     :param Y_predit: tableau de notes plein avec prédiction par descente du gradient à partir du tableau de validation
     :param tableau_des_notes_entier: tableau de notes avec utilisateurs en lignes et films en colonnes (tableau de départ)
+    :return: ecart quadratique
     """
     somme = 0
     for note in L_notes_enlevees:
@@ -93,7 +94,20 @@ def ecart_quadratique(L_notes_enlevees,Y_predit,tableau_des_notes_entier):
     
     return somme/9922
     
-def nb_etapes_optimal(mini, V, nb_car, nb_etapes, alpha_X, alpha_theta):
+def ecart_moyen(L_notes_enlevees,Y_predit,tableau_des_notes_entier):
+    """
+    :param L_notes_enlevees: liste de couples caractérisant les notes enlevées du tableau (utilisateur,film)
+    :param Y_predit: tableau de notes plein avec prédiction par descente du gradient à partir du tableau de validation
+    :param tableau_des_notes_entier: tableau de notes avec utilisateurs en lignes et films en colonnes (tableau de départ)
+    :return: ecart quadratique
+    """
+    somme = 0
+    for note in L_notes_enlevees:
+        somme+= abs(Y_predit[note[0]][note[1]]-tableau_des_notes_entier[note[0]][note[1]])
+    
+    return somme/9922
+    
+def nb_etapes_optimal(mini, V, X, theta, nb_car, nb_etapes, alpha_X, alpha_theta):
     """
     :param mini: liste indiquant quand est-ce qu'on obtient l'écart minimum
     :param V: tableau de notes (moins 10%)
@@ -102,17 +116,15 @@ def nb_etapes_optimal(mini, V, nb_car, nb_etapes, alpha_X, alpha_theta):
     :param alpha_X: valeur de alpha pour la descente du gradient pour X
     :param alpha_theta: valeur de alpha pour la descente du gradient pour theta
     :print: écart quadratique pour un certain nb d'étapes
-    :show: graphique écart en fonction du nb_etapes
+    :show: graphique écart en fonction du nbhttps://apps.wifirst.net/?redirected=true_etapes
     :return mini: nouveau minimum
     """
-    X = np.random.random((len(tableau_des_notes()[0]), nb_car))
-    theta = np.random.random((len(tableau_des_notes()), nb_car))
     x = []
     y = []
     n_etape = 50
     while n_etape <= nb_etapes:
         d = descente_du_gradient_2(X, theta, V[0], nb_car, 50, alpha_X, alpha_theta)
-        ecart = ecart_quadratique(V[1],np.dot(d[0],(d[1]).T),tableau_des_notes())
+        ecart = ecart_moyen(V[1],np.dot(d[0],(d[1]).T),tableau_des_notes())
         if ecart < mini[0]:
             mini = [ecart, n_etape, nb_car, alpha_X, alpha_theta]
         print(ecart,"    ",n_etape)
@@ -130,21 +142,29 @@ def nb_etapes_optimal(mini, V, nb_car, nb_etapes, alpha_X, alpha_theta):
     plt.show()
         
     return mini
-    
+
+t1 = time.time()
 V = notes_extraites_pour_validation(tableau_des_notes())
-nb_car = 5
+nb_car = 10
 alpha_X = 0.001
 alpha_theta = 0.0001
 mini = [100, 100, nb_car, alpha_X, alpha_theta]
+NB_CAR = []
+NB_ETAPES = []
+ECART = []
 
 while nb_car <= 150:
-    while alpha_X >= 0.000003905:
-        while alpha_theta >= 0.0000003905:
-            mini = nb_etapes_optimal(mini, V, nb_car, 50, alpha_X, alpha_theta)
+    X = np.random.random((len(tableau_des_notes()[0]), nb_car))
+    theta = np.random.random((len(tableau_des_notes()), nb_car))
+    while alpha_X >= 0.000125:
+        while alpha_theta >= 0.0000125:
+            mini = nb_etapes_optimal(mini, V, X, theta, nb_car, 2000, alpha_X, alpha_theta)
             alpha_theta /= 2
+        print(mini)
         alpha_theta = 0.0001
         alpha_X /= 2
     alpha_X = 0.001
-    nb_car += 5
-    
+    nb_car += 10
 print(mini)
+print(time.time()-t1)
+

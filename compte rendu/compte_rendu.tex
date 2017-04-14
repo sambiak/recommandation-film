@@ -1,11 +1,8 @@
 \documentclass[a4paper,10pt]{article}
 \usepackage[utf8]{inputenc}
-\usepackage[T1]{fontenc}
-\usepackage[frenchkw]{algorithm2e}
-\usepackage[francais]{babel}
-\usepackage{graphicx}
-\usepackage{amsfonts}
 \usepackage{amsmath}
+\usepackage[french]{babel}
+\usepackage{amsfonts}
 
 %opening
 \title{}
@@ -20,41 +17,29 @@
 \end{abstract}
 
 \section{Qu'est ce qu'un système de recommandation?}
-\subsection{Notre approche}
-Le but de notre projet est de recommander un film à un utilisateur spécifique. 
-Pour cela, nous devons savoir à quel point un utilisateur aime tel ou tel film pour lui recommander (ou pas). 
-Il nous faudrait donc une sorte d'échelle d'affinité de l'utilisateur au film, ce qui parait pertinent est donc d'estimer une note qu'un utilisateur mettrait à un film s'il avait à le noter par exemple. 
-Si cette note est au dessus d'un certain seuil, on lui recommandera (ou on recommandera le film ayant la meilleur note prédite par exemple). 
-Notre approche du problème est donc de trouver un modèle mathématique permettant de trouver la note que mettrait un utilisateur à un film qu'il n'a pas vu. 
-Cependant, sans aucunes connaissances des gouts l'utilisateur et des caractéristiques des films ceci est impossible. Il nous faut donc récuperer des données déjà existentes sur des utilisatuers et des films pour avoir une base et commencer à chercher une méthode.  
-Nous avons donc récuperer des données.
-
 \subsection{Première difficulté : les données}
-\subsubsection{Extraction des données}
-Le besoin d'avoir des données nous à guider vers une grande base de données appelé `` movielens '' qui est un site communautaire de recommandation de films où les utilisateurs du site notent des films de 0 à 5. 
-Plusieurs jeux de données étaient disponibles et différé entre eux selon leur taille, 
-Nous avons choisi de travailler avec une base de données de 670 utilisateurs (nu) et 9125 films (nf). 
-On a donc extrait 2 fichiers : l’un contenant les 9125 films avec leurs titres et un numéro attribué , 
-l’autre avec les notes des utilisateurs qui avaient chacun un identifiants, 
-le fichier était du type : identifiant de l’utilisateur, id du film qu’il a noté, note.
-Ces 2 fichiers étaient donc peu pratiques pour commencer à faire quelque chose avec, 
-nous avons donc créer une fonction tableau\_des\_notes() qui permet de ranger toutes ces notes dans un tableau numpy nu*nf avec en lignes les utilisateurs, 
-et en colonnes les films. Quand un utilisateur n’a pas vu un film donc qu’il ne l’a pas noté, 
-on insère un `` Nan ''(Not a Number) qui est un `` symbole '' facile à traiter. On appellera ce tableau Y tout au long du projet.
+%juliette bien poser y
+\subsection{Notre approche}
+%notre probleme se resume a trouvzer des notes.
 
-\subsubsection{Analyse des données}
 \subsection{}
 \section{Formalisation du problème d'optimisation y compris modélisation}
 
 Nous nous posons maintenant la question comment nous y prendre pour prédire des notes ?
-Notre seul ressource est la matrice Y non pleine, sur quel modèle s'appuyer pour la compléter ?
+Notre seule ressource est la matrice Y non pleine, sur quel modèle s'appuyer pour la compléter ?
 C'est ce que nous allons étudier dans cette partie.
 
 \subsection{Factorisation}
 
-Posons $Y_f$ la matrice Y complétée qui contient toutes les prédictions, exactes, des notes qui nous manquent. C'est la matrice à laquelle nous voulons aboutir, que nous devons deviner. Voici notre méthode.
+Posons $Y_f$ la matrice Y complétée qui contient toutes les prédictions, exactes, des notes qui nous manquent. C'est la matrice à laquelle nous voulons aboutir, que nous devons deviner. Voici notre méthode.\\
 
-Nous supposons que nous sommes capable de déterminer (et nous verrons que nous le somme) à partir de Y deux matrices X et $\Theta$ telles que $\Theta X^T = Y_f$ avec $\Theta$ une matrice de dimension $n_u * n$ et X une matrice de dimension $n_f*n$. $n\in\mathbb{N}^*$
+Nous supposons que nous sommes capable de déterminer (et nous verrons que nous le sommes) à partir de Y deux matrices X et $\Theta$ telles que $\Theta X^T = Y_f$ avec $\Theta$ une matrice de dimension $n_u * n$ et X une matrice de dimension $n_f * n$. $n \in \mathbb{N}^*$ est quelconque, nous verrons par la suite que nous pouvons le fixer comme bon nous semble.
+Autre chose, nous ne voulons pas déterminer deux matrices $\Theta$ et X quelconques qui vérifient les propriétés énoncées ci-dessus mais deux matrices particulières : $\Theta$ représentant les profils de chaque utilisateur et X les caractéristiques des films. Nous allons éclairer ce point tout de suite par des explications plus précises.\\
+
+Supposons pour ces explications que nous avons déjà déterminé $\Theta$ et X avec $n \in \mathbb{N}^*$ que nous avons choisi. Ce dernier est en fait un nombre de caractéristiques quelconques qui peuvent bien décrire nos films. Par exemple, si nous pensons que nos films peuvent être décris efficacement par 10 caractéristiques, nous choisissons $n = 10$.
+Les n sont déterminées en même temps que $\Theta$ et X mais elles nous sont inconnues, une caractéristique peut être un taux d'action, le taux de blondeur des cheveux de l'actrice principale, etc. Pour l'instant admettons seulement que ces n caractéristiques existent puis nous verrons comment elles sont déterminées dans une autre partie.
+
+La matrice X caractérise chaque film
 
 
 
@@ -65,22 +50,6 @@ Nous supposons que nous sommes capable de déterminer (et nous verrons que nous 
 \section{Implémentation algo}
 %guillaume
 \subsection{descente du gradient en general optimisation}
-Nous allons proposer une méthodologie pour minimiser 
-\begin{algorithm}[H]
- \Donnees{this text}
- \Res{how to write algorithm with \LaTeX2e }
- initialization\;
- \Repeter{not at end of this document}{
-  read current\;
-  \eSi{understand}{
-   go to next section\;
-   current section becomes this one\;
-   }{
-   go back to the beginning of current section\;
-  }
- }
- \caption{How to write algorithms}
-\end{algorithm}
 \subsubsection{ecrire algo puis dire comment on a fait au début}
 \section{Mise en application}
 \subsection{Notre approche pour familiariser au probleme}
