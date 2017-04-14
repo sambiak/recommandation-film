@@ -52,10 +52,13 @@ C'est ce que nous allons étudier dans cette partie.
 
 \subsection{Factorisation}
 
-Posons $Y_f$ la matrice Y complétée qui contient toutes les prédictions, exactes, des notes qui nous manquent. C'est la matrice à laquelle nous voulons aboutir, que nous devons deviner. Voici notre méthode.
-
-Nous supposons que nous sommes capable de déterminer (et nous verrons que nous le somme) à partir de Y deux matrices X et $\Theta$ telles que $\Theta X^T = Y_f$ avec $\Theta$ une matrice de dimension $n_u * n$ et X une matrice de dimension $n_f*n$. $n\in\mathbb{N}^*$
-
+Posons $Y_f$ la matrice Y complétée qui contient toutes les prédictions, exactes, des notes qui nous manquent. C'est la matrice à laquelle nous voulons aboutir, que nous devons deviner. Voici notre méthode.\\ 
+ 
+Nous supposons que nous sommes capable de déterminer (et nous verrons que nous le sommes) à partir de Y deux matrices X et $\Theta$ telles que $\Theta X^T = Y_f$ avec $\Theta$ une matrice de dimension $n_u * n$ et X une matrice de dimension $n_f * n$. $n \in \mathbb{N}^*$ est quelconque, nous verrons par la suite que nous pouvons le fixer comme bon nous semble. 
+Autre chose, nous ne voulons pas déterminer deux matrices $\Theta$ et X quelconques qui vérifient les propriétés énoncées ci-dessus mais deux matrices particulières : $\Theta$ représentant les profils de chaque utilisateur et X les caractéristiques des films. Nous allons éclairer ce point tout de suite par des explications plus précises.\\ 
+ 
+Supposons pour ces explications que nous avons déjà déterminé $\Theta$ et X avec $n \in \mathbb{N}^*$ que nous avons choisi. Ce dernier est en fait un nombre de caractéristiques quelconques qui peuvent bien décrire nos films. Par exemple, si nous pensons que nos films peuvent être décris efficacement par 10 caractéristiques, nous choisissons $n = 10$. 
+Les n sont déterminées en même temps que $\Theta$ et X mais elles nous sont inconnues, une caractéristique peut être un taux d'action, le taux de blondeur des cheveux de l'actrice principale, etc. Pour l'instant admettons seulement que ces n caractéristiques existent puis nous verrons comment elles sont déterminées dans une autre partie. 
 
 
 
