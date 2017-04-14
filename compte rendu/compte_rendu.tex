@@ -18,7 +18,7 @@
 
 \section{Qu'est ce qu'un système de recommandation?}
 \subsection{Première difficulté : les données}
-\subsubsection[Extraction des données]{×}
+\subsubsection{Extraction des données}
 Le besoin d'avoir des données nous à guider vers une grande base de données appelé `` movielens '' qui est un site communautaire de recommandation de films où les utilisateurs du site notent des films de 0 à 5.  
 Plusieurs jeux de données étaient disponibles et différé entre eux selon leur taille,  
 Nous avons choisi de travailler avec une base de données de 670 utilisateurs (nu) et 9125 films (nf).  
@@ -30,7 +30,26 @@ nous avons donc créer une fonction tableau\_des\_notes() qui permet de ranger t
 et en colonnes les films. Quand un utilisateur n’a pas vu un film donc qu’il ne l’a pas noté,  
 on insère un `` Nan ''(Not a Number) qui est un `` symbole '' facile à traiter. On appellera ce tableau Y tout au long du projet. 
 \subsubsection{Analyse des données}
+Dans la logique des choses, notre tableau Y étant bien trop grand pour en tirer des conclusions 
+juste à l’œil, nous avons créer des fonctions permettant de faire des sortes de statistiques sur nos données.
+Nous avons créer quelques fonctions pour étudier nos données: l’une permettant de compter combien de films
+chaque utilisateur a vu (cf nbre_de_films_vu_par_utilisateur), et l’autre comptant combien de fois avait été noté chaque film 
+(cf nbre_de_notes_par_film). De ces fonctions, nous avons pu tirer des graphiques nous montrant comment été répartis nos données.
 
+
+On a remarquer que la grande majorité des films posséder entre 0 et 40 notes(Plus de 8000 sur 9000). 
+Le nombre de notes le plus récurrents étant 2 notes par film. Mais il y a tout de même quelque film qui ont été
+beaucoup vu sachant que celui qui avait le plus de note en avait 339.
+
+(histogramme nbre de note associés au film)
+
+Dans l’autre sens, en moyenne les utilisateurs ont noté … films, et la majorité est répartis entre blabla et babla.
+
+(autre histogramme)
+
+→ conclusion sur les données ce qu’on peut en tirer …
+Notre tableau présente 98,4 \pourcent de NaN. Cela nous fait donc plus de 6 millions de notes à prédire… Dans la prochaine partie,
+nous verrons donc la méthode permettant de prédire toutes ces notes à partir de très peu de données.
 
 \subsection{Notre approche}
 Le but de notre projet est de recommander un film à un utilisateur spécifique.  
