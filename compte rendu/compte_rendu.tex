@@ -36,8 +36,8 @@ on insère un `` Nan ''(Not a Number) qui est un `` symbole '' facile à traiter
 Dans la logique des choses, notre tableau Y étant bien trop grand pour en tirer des conclusions 
 juste à l’œil, nous avons créer des fonctions permettant de faire des sortes de statistiques sur nos données.
 Nous avons créer quelques fonctions pour étudier nos données: l’une permettant de compter combien de films
-chaque utilisateur a vu (cf nbre_de_films_vu_par_utilisateur), et l’autre comptant combien de fois avait été noté chaque film 
-(cf nbre_de_notes_par_film). De ces fonctions, nous avons pu tirer des graphiques nous montrant comment été répartis nos données.
+chaque utilisateur a vu (cf nbre\_de\_films\_vu\_par\_utilisateur), et l’autre comptant combien de fois avait été noté chaque film 
+(cf nbre\_de\_notes\_par\_film). De ces fonctions, nous avons pu tirer des graphiques nous montrant comment été répartis nos données.
 
 
 On a remarquer que la grande majorité des films posséder entre 0 et 40 notes(Plus de 8000 sur 9000). 
@@ -51,7 +51,7 @@ Dans l’autre sens, en moyenne les utilisateurs ont noté … films, et la majo
 (autre histogramme)
 
 → conclusion sur les données ce qu’on peut en tirer …
-Notre tableau présente 98,4 \pourcent de NaN. Cela nous fait donc plus de 6 millions de notes à prédire… Dans la prochaine partie,
+Notre tableau présente 98,4 \% de NaN. Cela nous fait donc plus de 6 millions de notes à prédire… Dans la prochaine partie,
 nous verrons donc la méthode permettant de prédire toutes ces notes à partir de très peu de données.
 
 \subsection{Notre approche}
@@ -87,13 +87,13 @@ Les n sont déterminées en même temps que $\Theta$ et X mais elles nous sont i
 \section{Implémentation algo}
 %guillaume
 \subsection{descente du gradient en general optimisation}
-Nous utilisons un algorithme appelé descente du gradient pour minimiser J. Pour illustrer cette algorithme nous alons l'appliquer 
-a une fonction E qui depend de deux variables.%J'aimerai bien mettre la n otation pour une fonction ici
- On a $dE = \frac{\partial E}{\partial x_{1}}d x_{1} + \frac{\partial E}{\partial x_{2}}dx_{2}$. En faisant l'approximation
- $\Delta E = \frac{\partial E}{\partial x_{1}}\Delta  x_{1} + \frac{\partial E}{\partial x_{2}}\Delta x_{2}$ on se rend compte
- que en posant $\Delta x_{1} = -\alpha \frac{\partial E}{\partial x_{1}}$
- et $\Delta x_{2} = -\alpha \frac{\partial E}{\partial x_{2}}$ avec $\alpha \in \Re^{+}$
- on obtient $\Delta E = -\alpha \frac{\partial E}{\partial x_{1}}^{2} - \alpha \frac{\partial E}{\partial x_{2}}^{2} < 0$. Ainsi dans
+Nous utilisons un algorithme appelé descente du gradient pour minimiser J. Pour illustrer cet algorithme nous allons l'appliquer 
+a une fonction $f$ qui depend de deux variables.%J'aimerai bien mettre la n otation pour une fonction ici
+ On a $df = \frac{\partial f}{\partial x_{1}}d x_{1} + \frac{\partial f}{\partial x_{2}}dx_{2}$. En faisant l'approximation
+ $\Delta f = \frac{\partial f}{\partial x_{1}}\Delta  x_{1} + \frac{\partial f}{\partial x_{2}}\Delta x_{2}$ on se rend compte
+ que en posant $\Delta x_{1} = -\alpha \frac{\partial f}{\partial x_{1}}$
+ et $\Delta x_{2} = -\alpha \frac{\partial f}{\partial x_{2}}$ avec $\alpha \in \Re^{+}$
+ on obtient $\Delta f = -\alpha \frac{\partial f}{\partial x_{1}}^{2} - \alpha \frac{\partial f}{\partial x_{2}}^{2} < 0$. Ainsi dans
  les limites de l'approximation faite au dessus on a un moyen de minimiser E.
 L'idée dérriere la descente du gradient 
 est de descendre la pente de al fonction donc le gradient que nous nommons $\nabla_{x}$ pour le gradiant de la fonction par rapport 
