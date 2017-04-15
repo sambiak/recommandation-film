@@ -63,21 +63,6 @@ Notre approche du problème est donc de trouver un modèle mathématique permett
 Cependant, sans aucunes connaissances des gouts l'utilisateur et des caractéristiques des films ceci est impossible. Il nous faut donc récuperer des données déjà existentes sur des utilisatuers et des films pour avoir une base et commencer à chercher une méthode.  
 Nous avons donc récuperer des données.
 
-\subsection{Première difficulté : les données}
-\subsubsection{Extraction des données}
-Le besoin d'avoir des données nous à guider vers une grande base de données appelé `` movielens '' qui est un site communautaire de recommandation de films où les utilisateurs du site notent des films de 0 à 5. 
-Plusieurs jeux de données étaient disponibles et différé entre eux selon leur taille, 
-Nous avons choisi de travailler avec une base de données de 670 utilisateurs (nu) et 9125 films (nf). 
-On a donc extrait 2 fichiers : l’un contenant les 9125 films avec leurs titres et un numéro attribué , 
-l’autre avec les notes des utilisateurs qui avaient chacun un identifiants, 
-le fichier était du type : identifiant de l’utilisateur, id du film qu’il a noté, note.
-Ces 2 fichiers étaient donc peu pratiques pour commencer à faire quelque chose avec, 
-nous avons donc créer une fonction tableau\_des\_notes() qui permet de ranger toutes ces notes dans un tableau numpy nu*nf avec en lignes les utilisateurs, 
-et en colonnes les films. Quand un utilisateur n’a pas vu un film donc qu’il ne l’a pas noté, 
-on insère un `` Nan ''(Not a Number) qui est un `` symbole '' facile à traiter. On appellera ce tableau Y tout au long du projet.
-
-\subsubsection{Analyse des données}
-\subsection{}
 \section{Formalisation du problème d'optimisation y compris modélisation}
 
 Nous nous posons maintenant la question comment nous y prendre pour prédire des notes ?
