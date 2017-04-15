@@ -1,6 +1,6 @@
 \documentclass[a4paper,10pt]{article}
-\usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
 \usepackage[frenchkw]{algorithm2e}
 \usepackage[francais]{babel}
 \usepackage{graphicx}
@@ -68,22 +68,33 @@ Les n sont déterminées en même temps que $\Theta$ et X mais elles nous sont i
 \section{Implémentation algo}
 %guillaume
 \subsection{descente du gradient en general optimisation}
-Nous allons proposer une méthodologie pour minimiser 
+Nous utilisons un algorithme appelé descente du gradient pour minimiser J. Pour illustrer cette algorithme nous alons l'appliquer 
+a une fonction E qui depend de deux variables.%J'aimerai bien mettre la n otation pour une fonction ici
+ On a $dE = \frac{\partial E}{\partial x_{1}}d x_{1} + \frac{\partial E}{\partial x_{2}}dx_{2}$. En faisant l'approximation
+ $\Delta E = \frac{\partial E}{\partial x_{1}}\Delta  x_{1} + \frac{\partial E}{\partial x_{2}}\Delta x_{2}$ on se rend compte
+ que en posant $\Delta x_{1} = -\alpha \frac{\partial E}{\partial x_{1}}$
+ et $\Delta x_{2} = -\alpha \frac{\partial E}{\partial x_{2}}$ avec $\alpha \in \Re^{+}$
+ on obtient $\Delta E = -\alpha \frac{\partial E}{\partial x_{1}}^{2} - \alpha \frac{\partial E}{\partial x_{2}}^{2} < 0$. Ainsi dans
+ les limites de l'approximation faite au dessus on a un moyen de minimiser E.
+L'idée dérriere la descente du gradient 
+est de descendre la pente de al fonction donc le gradient que nous nommons $\nabla_{x}$ pour le gradiant de la fonction par rapport 
+a $x$. Une explication plus détaillé de la notation est donné en annexe.  
+ 
 \begin{algorithm}[H]
- \Donnees{this text}
- \Res{how to write algorithm with \LaTeX2e }
+ \Donnees{a mettre} 
+ \Res{un nouveau x} 
  initialization\;
- \Repeter{not at end of this document}{
-  read current\;
-  \eSi{understand}{
-   go to next section\;
-   current section becomes this one\;
-   }{
-   go back to the beginning of current section\;
-  }
+ \PourTous{j $\in$ \{1, 2, ..., nf\}}{
+  Affecter à $x_{j}$ la valeur $x_{j}-\alpha \nabla_{x_{j}}J(x, \Theta)$\;
  }
- \caption{How to write algorithms}
+ \caption{Descente du gradient}
 \end{algorithm}
+%je sais que c'est trop court et pas assez bien posé mais il faut commencer quelque part
+On prouve en \ref{P1} que $ \nabla_{x_{j}}J(x, \Theta) = \nabla_{x_{j}^T}\frac{1}{2}\Vert\tilde{\theta}x_{j}^{T}-\tilde{y}_{.,j}\Vert^{2}$
+puis en \ref{P2} on prouve que $[\nabla_{x} \frac{1}{2}||Ax - b||^{2}_{2}]_{j} = [A^{T}(Ax - b)]_{j}$ ce qui nous permet de dire
+que $ \nabla_{x_{j}}J(x, \Theta) =  \tilde{\theta}^{T}(\tilde{\theta}x_{j}^{T}-\tilde{y}_{.,j})$. Ces divers calculs nous permettent
+de representer une étape du gradient comme une série de produits de matrices. Au début nous devions calculer le résultat terme a terme. Cette
+facon de faire était trés lente et passer a une représentation matricielle nous a permis de grandement accelerer les etapes de la descente d gradient.
 \subsubsection{ecrire algo puis dire comment on a fait au début}
 \section{Mise en application}
 \subsection{Notre approche pour familiariser au probleme}
@@ -95,9 +106,62 @@ Nous allons proposer une méthodologie pour minimiser
 %yassine
 \subsubsection{Est-ce qu'on arrive a reccomander un film a un utilisateur}
 %guillaume
+Au final une question intéressante est est-ce que le modèle arrivera d'une maniére efficace a predire les notes a un nouvel utilisateur. Pour faire cela nous avons
+choisi de ne pas recalculer $X$ et $\Theta$ pour chaque nouvel utilisateur a la place nous supposons que l'ajout d'un utlilisateur ne va pas modifier
+les caractéristiques d'un film. Il nous suffit donc de calculer $\theta$ pour l'utlisateur seulement. Ceci peut se faire trés rapidement comme notre $\Theta$ ne
+consiste que du vecteur de préferences de l'utilisateur. A partir de ces nouvels donnés il nous suffit de calculer Y pour trouver la note la plus élevée et la reccomander
+a l'utilisateur. Toutefois l'erreur sur la prediction des notes nous laisse penser que ce film ne serzit pas probablement le meilleur film
+pour cette utilisateur car le hasard aurait bien pu faire que le meilleur film ait une note plus basse de 1 point ce qui suffi a lui faire perdre la premiére place.
 \section{conclusion}
 %1 page
 
 \subsection{perspectives}
 %guillame
+\appendix
+\section{Preuves}
+\subsection{}
+\label{P1}
+$\nabla_{x_{j}^T} J(\theta, X)=
+\begin{pmatrix}
+\displaystyle\frac{\partial \displaystyle\sum_{k=1}^{nf}\frac{1}{2}\Vert\tilde{\theta}x_{k}^{T}-\tilde{y}_{.,k}\Vert^{2}}{\partial x_{j,1}^{T}}\\
+\displaystyle\frac{\partial \displaystyle\sum_{k=1}^{nf}\frac{1}{2}\Vert\tilde{\theta}x_{k}^{T}-\tilde{y}_{.,k}\Vert^{2}}{\partial x_{j,2}^{T}}\\
+\vdots\\
+\displaystyle\frac{\partial \displaystyle\sum_{k=1}^{nf}\frac{1}{2}\Vert\tilde{\theta}x_{k}^{T}-\tilde{y}_{.,k}\Vert^{2}}{\partial x_{j,n}^{T}}
+\end{pmatrix}
+=
+\begin{pmatrix}
+\displaystyle\sum_{k=1}^{nf}
+\frac{1}{2}\frac{\partial\Vert\tilde{\theta}x_{k}^{T}-\tilde{y}_{.,k}\Vert^{2}}{\partial x_{j,1}^{T}}\\
+\displaystyle\sum_{k=1}^{nf}
+\frac{1}{2}\frac{\partial\Vert\tilde{\theta}x_{k}^{T}-\tilde{y}_{.,k}\Vert^{2}}{\partial x_{j,2}^{T}}\\
+\vdots\\
+\displaystyle\sum_{k=1}^{nf}
+\frac{1}{2}\frac{\partial\Vert\tilde{\theta}x_{k}^{T}-\tilde{y}_{.,k}\Vert^{2}}{\partial x_{j,n}^{T}}
+\end{pmatrix}$\\
+$
+=
+\begin{pmatrix}
+\displaystyle
+\frac{1}{2}\frac{\partial\Vert\tilde{\theta}x_{j}^{T}-\tilde{y}_{.,j}\Vert^{2}}{\partial x_{j,1}^{T}}\\
+\displaystyle
+\frac{1}{2}\frac{\partial\Vert\tilde{\theta}x_{j}^{T}-\tilde{y}_{.,j}\Vert^{2}}{\partial x_{j,2}^{T}}\\
+\vdots\\
+\displaystyle
+\frac{1}{2}\frac{\partial\Vert\tilde{\theta}x_{j}^{T}-\tilde{y}_{.,j}\Vert^{2}}{\partial x_{j,n}^{T}}
+\end{pmatrix}
+=
+\displaystyle
+\nabla_{x_{j}^T}\frac{1}{2}\Vert\tilde{\theta}x_{j}^{T}-\tilde{y}_{.,j}\Vert^{2}
+$
+\subsection{}
+\label{P2}
+\begin{align*}
+[\nabla_{x} \frac{1}{2}||Ax - b||^{2}_{2}]_{j} &= [\nabla_{x} \frac{1}{2}(\sum^{n}_{i = 1} (\sum^{p}_{k = 1} A_{i, k}x_{k})^{2} - 2b_{i}(\sum^{p}_{k = 1} A_{i, k}x_{k}) + b_{i}^{2})]_{j}\\
+[\nabla_{x} \frac{1}{2}||Ax - b||^{2}_{2}]_{j} &= \frac{\partial\frac{1}{2}(\sum^{n}_{i = 1} (\sum^{p}_{k = 1} A_{i, k}x_{k})^{2} - 2b_{i}(\sum^{p}_{k = 1} A_{i, k}x_{k}) + b_{i}^{2})}{\partial x_{j}}\\
+[\nabla_{x} \frac{1}{2}||Ax - b||^{2}_{2}]_{j} &= \frac{1}{2}(\sum^{n}_{i = 1} 2(\sum^{p}_{k = 1} A_{i, k}x_{k})A_{i, j} - 2b_{i} A_{i, j})\\
+[\nabla_{x} \frac{1}{2}||Ax - b||^{2}_{2}]_{j} &= (\sum^{n}_{i = 1} (\sum^{p}_{k = 1} A_{i, k}x_{k})A_{i, j} - b_{i} A_{i, j})\\
+[\nabla_{x} \frac{1}{2}||Ax - b||^{2}_{2}]_{j} &= (\sum^{n}_{i = 1} A_{i, j}(\sum^{p}_{k = 1} A_{i, k}x_{k}) - b_{i} )\\
+[\nabla_{x} \frac{1}{2}||Ax - b||^{2}_{2}]_{j} &= \sum^{n}_{i = 1} A^{T}_{j, i}[Ax - b]_{i}\\
+[\nabla_{x} \frac{1}{2}||Ax - b||^{2}_{2}]_{j} &= [A^{T}(Ax - b)]_{j}
+\end{align*}
 \end{document}
