@@ -20,6 +20,40 @@
 \end{abstract}
 
 \section{Qu'est ce qu'un système de recommandation?}
+\subsection{Première difficulté : les données}
+\subsubsection{Extraction des données}
+Le besoin d'avoir des données nous à guider vers une grande base de données appelé `` movielens '' qui est un site communautaire de recommandation de films où les utilisateurs du site notent des films de 0 à 5.  
+Plusieurs jeux de données étaient disponibles et différé entre eux selon leur taille,  
+Nous avons choisi de travailler avec une base de données de 670 utilisateurs (nu) et 9125 films (nf).  
+On a donc extrait 2 fichiers : l’un contenant les 9125 films avec leurs titres et un numéro attribué ,  
+l’autre avec les notes des utilisateurs qui avaient chacun un identifiants,  
+le fichier était du type : identifiant de l’utilisateur, id du film qu’il a noté, note. 
+Ces 2 fichiers étaient donc peu pratiques pour commencer à faire quelque chose avec,  
+nous avons donc créer une fonction tableau\_des\_notes() qui permet de ranger toutes ces notes dans un tableau numpy nu*nf avec en lignes les utilisateurs,  
+et en colonnes les films. Quand un utilisateur n’a pas vu un film donc qu’il ne l’a pas noté,  
+on insère un `` Nan ''(Not a Number) qui est un `` symbole '' facile à traiter. On appellera ce tableau Y tout au long du projet. 
+\subsubsection{Analyse des données}
+Dans la logique des choses, notre tableau Y étant bien trop grand pour en tirer des conclusions 
+juste à l’œil, nous avons créer des fonctions permettant de faire des sortes de statistiques sur nos données.
+Nous avons créer quelques fonctions pour étudier nos données: l’une permettant de compter combien de films
+chaque utilisateur a vu (cf nbre_de_films_vu_par_utilisateur), et l’autre comptant combien de fois avait été noté chaque film 
+(cf nbre_de_notes_par_film). De ces fonctions, nous avons pu tirer des graphiques nous montrant comment été répartis nos données.
+
+
+On a remarquer que la grande majorité des films posséder entre 0 et 40 notes(Plus de 8000 sur 9000). 
+Le nombre de notes le plus récurrents étant 2 notes par film. Mais il y a tout de même quelque film qui ont été
+beaucoup vu sachant que celui qui avait le plus de note en avait 339.
+
+(histogramme nbre de note associés au film)
+
+Dans l’autre sens, en moyenne les utilisateurs ont noté … films, et la majorité est répartis entre blabla et babla.
+
+(autre histogramme)
+
+→ conclusion sur les données ce qu’on peut en tirer …
+Notre tableau présente 98,4 \pourcent de NaN. Cela nous fait donc plus de 6 millions de notes à prédire… Dans la prochaine partie,
+nous verrons donc la méthode permettant de prédire toutes ces notes à partir de très peu de données.
+
 \subsection{Notre approche}
 Le but de notre projet est de recommander un film à un utilisateur spécifique. 
 Pour cela, nous devons savoir à quel point un utilisateur aime tel ou tel film pour lui recommander (ou pas). 
@@ -29,21 +63,6 @@ Notre approche du problème est donc de trouver un modèle mathématique permett
 Cependant, sans aucunes connaissances des gouts l'utilisateur et des caractéristiques des films ceci est impossible. Il nous faut donc récuperer des données déjà existentes sur des utilisatuers et des films pour avoir une base et commencer à chercher une méthode.  
 Nous avons donc récuperer des données.
 
-\subsection{Première difficulté : les données}
-\subsubsection{Extraction des données}
-Le besoin d'avoir des données nous à guider vers une grande base de données appelé `` movielens '' qui est un site communautaire de recommandation de films où les utilisateurs du site notent des films de 0 à 5. 
-Plusieurs jeux de données étaient disponibles et différé entre eux selon leur taille, 
-Nous avons choisi de travailler avec une base de données de 670 utilisateurs (nu) et 9125 films (nf). 
-On a donc extrait 2 fichiers : l’un contenant les 9125 films avec leurs titres et un numéro attribué , 
-l’autre avec les notes des utilisateurs qui avaient chacun un identifiants, 
-le fichier était du type : identifiant de l’utilisateur, id du film qu’il a noté, note.
-Ces 2 fichiers étaient donc peu pratiques pour commencer à faire quelque chose avec, 
-nous avons donc créer une fonction tableau\_des\_notes() qui permet de ranger toutes ces notes dans un tableau numpy nu*nf avec en lignes les utilisateurs, 
-et en colonnes les films. Quand un utilisateur n’a pas vu un film donc qu’il ne l’a pas noté, 
-on insère un `` Nan ''(Not a Number) qui est un `` symbole '' facile à traiter. On appellera ce tableau Y tout au long du projet.
-
-\subsubsection{Analyse des données}
-\subsection{}
 \section{Formalisation du problème d'optimisation y compris modélisation}
 
 Nous nous posons maintenant la question comment nous y prendre pour prédire des notes ?
@@ -98,7 +117,10 @@ facon de faire était trés lente et passer a une représentation matricielle no
 \subsubsection{ecrire algo puis dire comment on a fait au début}
 \section{Mise en application}
 \subsection{Notre approche pour familiariser au probleme}
-%juliette
+Dans la première partie de notre projet, nous avons décidé de simplifier notre problème en extrayant un tableau de données 
+plein c'est à dire un tableau comprenant des utilisateurs et des films où tous les films ont été notés par tous les utilisateurs. 
+A partir de ce tableau nous pouvons donc enlever une note et essayer de la prédire. 
+Notre première difficulté a été d'extraire ce tableau plein.
 \subsection{yassine}
 \subsubsection{taux d'erreur}
 \subsubsection{influence des parametres}
