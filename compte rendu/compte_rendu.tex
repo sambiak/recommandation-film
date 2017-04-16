@@ -20,6 +20,17 @@
 \end{abstract}
 
 \section{Qu'est ce qu'un système de recommandation?}
+
+\subsection{Notre approche}
+Le but de notre projet est de recommander un film à un utilisateur spécifique. 
+Pour cela, nous devons savoir à quel point un utilisateur aime tel ou tel film pour lui recommander (ou pas). 
+Il nous faudrait donc une sorte d'échelle d'affinité de l'utilisateur au film, ce qui parait pertinent est donc d'estimer une note qu'un utilisateur mettrait à un film s'il avait à le noter par exemple. 
+Si cette note est au dessus d'un certain seuil, on lui recommandera (ou on recommandera le film ayant la meilleur note prédite par exemple). 
+Notre approche du problème est donc de trouver un modèle mathématique permettant de trouver la note que mettrait un utilisateur à un film qu'il n'a pas vu. 
+Cependant, sans aucunes connaissances des gouts l'utilisateur et des caractéristiques des films ceci est impossible. 
+Il nous faut donc récuperer des données déjà existentes sur des utilisatuers et des films pour avoir une base et commencer à chercher une méthode.  
+Nous avons donc récuperer des données.
+
 \subsection{Première difficulté : les données}
 \subsubsection{Extraction des données}
 Le besoin d'avoir des données nous à guider vers une grande base de données appelé `` movielens '' qui est un site communautaire de recommandation de films où les utilisateurs du site notent des films de 0 à 5.  
@@ -35,33 +46,25 @@ on insère un `` Nan ''(Not a Number) qui est un `` symbole '' facile à traiter
 \subsubsection{Analyse des données}
 Dans la logique des choses, notre tableau Y étant bien trop grand pour en tirer des conclusions 
 juste à l’œil, nous avons créer des fonctions permettant de faire des sortes de statistiques sur nos données.
-Nous avons créer quelques fonctions pour étudier nos données: l’une permettant de compter combien de films
+Nous avons crées quelques fonctions pour étudier nos données: l’une permettant de compter combien de films
 chaque utilisateur a vu (cf nbre\_de\_films\_vu\_par\_utilisateur), et l’autre comptant combien de fois avait été noté chaque film 
 (cf nbre\_de\_notes\_par\_film). De ces fonctions, nous avons pu tirer des graphiques nous montrant comment été répartis nos données.
 
 
-On a remarquer que la grande majorité des films posséder entre 0 et 40 notes(Plus de 8000 sur 9000). 
-Le nombre de notes le plus récurrents étant 2 notes par film. Mais il y a tout de même quelque film qui ont été
-beaucoup vu sachant que celui qui avait le plus de note en avait 339.
+Nous avons remarqué que la grande majorité des films possédaient entre 0 et 40 notes(Plus de 8000 sur 9000). 
+Le nombre de notes le plus récurrents étant de 2 notes par film. Mais il y a tout de même quelques films qui ont été
+beaucoup vu sachant que celui qui a le plus de note en a 339.
 
 (histogramme nbre de note associés au film)
 
-Dans l’autre sens, en moyenne les utilisateurs ont noté … films, et la majorité est répartis entre blabla et babla.
+Dans l’autre sens,on remarque que en moyenne les utilisateurs ont noté … films, et la majorité est répartis entre blabla et babla.
 
 (autre histogramme)
 
 → conclusion sur les données ce qu’on peut en tirer …
 Notre tableau présente 98,4 \% de NaN. Cela nous fait donc plus de 6 millions de notes à prédire… Dans la prochaine partie,
-nous verrons donc la méthode permettant de prédire toutes ces notes à partir de très peu de données.
+nous verrons donc la méthode permettant de prédire toutes ces notes à partir de très peu de données(notre tableau Y).
 
-\subsection{Notre approche}
-Le but de notre projet est de recommander un film à un utilisateur spécifique. 
-Pour cela, nous devons savoir à quel point un utilisateur aime tel ou tel film pour lui recommander (ou pas). 
-Il nous faudrait donc une sorte d'échelle d'affinité de l'utilisateur au film, ce qui parait pertinent est donc d'estimer une note qu'un utilisateur mettrait à un film s'il avait à le noter par exemple. 
-Si cette note est au dessus d'un certain seuil, on lui recommandera (ou on recommandera le film ayant la meilleur note prédite par exemple). 
-Notre approche du problème est donc de trouver un modèle mathématique permettant de trouver la note que mettrait un utilisateur à un film qu'il n'a pas vu. 
-Cependant, sans aucunes connaissances des gouts l'utilisateur et des caractéristiques des films ceci est impossible. Il nous faut donc récuperer des données déjà existentes sur des utilisatuers et des films pour avoir une base et commencer à chercher une méthode.  
-Nous avons donc récuperer des données.
 
 \section{Formalisation du problème d'optimisation y compris modélisation}
 
@@ -115,12 +118,15 @@ que $ \nabla_{x_{j}}J(x, \Theta) =  \tilde{\theta}^{T}(\tilde{\theta}x_{j}^{T}-\
 de representer une étape du gradient comme une série de produits de matrices. Au début nous devions calculer le résultat terme a terme. Cette
 facon de faire était trés lente et passer a une représentation matricielle nous a permis de grandement accelerer les etapes de la descente d gradient.
 \subsubsection{ecrire algo puis dire comment on a fait au début}
-\section{Mise en application}
-\subsection{Notre approche pour familiariser au probleme}
+\section{Mise en application de l'algorithme}
+\subsection{Familiarisation avec problème plus simple}
 Dans la première partie de notre projet, nous avons décidé de simplifier notre problème en extrayant un tableau de données 
-plein c'est à dire un tableau comprenant des utilisateurs et des films où tous les films ont été notés par tous les utilisateurs. 
-A partir de ce tableau nous pouvons donc enlever une note et essayer de la prédire. 
-Notre première difficulté a été d'extraire ce tableau plein.
+plein c'est à dire un tableau où tous les films ont été notés par tous les utilisateurs. 
+A partir de ce tableau, nous pouvons donc enlever une note et essayer de la prédire. Ainsi, nous pouvons voir nos erreurs facilement.
+Notre première difficulté a été d'extraire ce tableau plein. Pour cela, l'étude des données faite en amont nous a beaucoup aidé: pour extraire ce tableau ``plein''
+nous avons crées une fonction (cf annexe) sélectionnant les films les plus vus puis les utilisateurs qui ont vues tous ces films. On a donc obtenus un
+tableau plein 10*10 (10films pour 10 utilisateurs) ce qui nous a permis d'appliquer la descente du gradient rapidement sur notre petit tableau de données. Ainsi,
+nous avons pu appliquer notre première descente du gradient.
 \subsection{yassine}
 \subsubsection{taux d'erreur}
 \subsubsection{influence des parametres}
