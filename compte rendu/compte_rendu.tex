@@ -21,26 +21,25 @@
 \section{Qu'est ce qu'un système de recommandation?}
 
 \subsection{Notre approche}
-Le but de notre projet est de recommander un film à un utilisateur spécifique. 
-Pour cela, nous devons savoir à quel point un utilisateur aime tel ou tel film pour lui recommander (ou pas). 
-Il nous faudrait donc une sorte d'échelle d'affinité de l'utilisateur au film, ce qui parait pertinent est donc d'estimer une note qu'un utilisateur mettrait à un film s'il avait à le noter par exemple. 
-Si cette note est au dessus d'un certain seuil, on lui recommandera (ou on recommandera le film ayant la meilleur note prédite par exemple). 
-Notre approche du problème est donc de trouver un modèle mathématique permettant de trouver la note que mettrait un utilisateur à un film qu'il n'a pas vu. 
-Cependant, sans aucunes connaissances des gouts l'utilisateur et des caractéristiques des films ceci est impossible. 
-Il nous faut donc récuperer des données déjà existentes sur des utilisatuers et des films pour avoir une base et commencer à chercher une méthode.  
-Nous avons donc récuperer des données.
+Le but de notre projet est de pouvoir recommander un film ou plusieurs films à n'importe quel utilisateur. 
+Pour cela, nous devons savoir à quel point un utilisateur va aimer tel ou tel film pour lui recommander (ou pas). 
+Il nous faut donc une sorte d'échelle d'affinité de l'utilisateur au film : ce qui parait pertinent est alors d'estimer une note qu'un utilisateur mettrait à un film s'il le voyait.
+Si cette note est au dessus d'un certain seuil, nous lui recommanderons ou bien nous recommanderons le film ayant la meilleur note prédite par exemple.
+Nous voulons ainsi trouver un modèle mathématique permettant de déterminer la note que mettrait un utilisateur à un film qu'il n'a pas vu. 
+Cependant il nous faut nous appuyer sur quelque chose, pour commencer à travailler il faut déjà connaître certaines informations sur des films et des utilisateurs, d'où la nécessité d'obtenir des données.
 
 \subsection{Première difficulté : les données}
 \subsubsection{Extraction des données}
-Le besoin d'avoir des données nous à guider vers une grande base de données appelé `` movielens '' qui est un site communautaire de recommandation de films où les utilisateurs du site notent des films de 0 à 5.  
-Plusieurs jeux de données étaient disponibles et différé entre eux selon leur taille,  
-Nous avons choisi de travailler avec une base de données de 670 utilisateurs et 9125 films.
-Par la suite nous réferons au nombres utilisateurs par $nu$ et au nombre de filmess pas $nf$
-On a donc extrait 2 fichiers : l’un contenant les $nf$ films avec leurs titres et un numéro attribué ,  
-l’autre avec les notes des utilisateurs qui avaient chacun un identifiants,  
-le fichier était du type : identifiant de l’utilisateur, id du film qu’il a noté, note. 
-Ces 2 fichiers étaient donc peu pratiques pour commencer à faire quelque chose avec,  
-nous avons donc créer une fonction tableau\_des\_notes() qui permet de ranger toutes ces notes dans un tableau numpy nu*nf avec en lignes les utilisateurs,  
+
+Le besoin d'avoir des données nous guide vers une grande base de données appelée `` movielens '' qui est un site communautaire de recommandation de films où les utilisateurs du site notent des films de 0 à 5.
+Plusieurs jeux de données y sont disponibles et diffèrent entre eux selon leur taille. 
+Nous choisissons de travailler avec des notes données par 670 utilisateurs à 9125 films.
+Par la suite nous nous référerons au nombres utilisateurs par $n_u$ et au nombre de films par $n_f$
+Nous extrayons alors 2 fichiers : l’un contenant les $n_f$ films avec leurs titres et un numéro d'identification attribué,  
+l’autre avec les notes des utilisateurs eux aussi numérotés par des identifiants.
+Ce dernier fichier est un tableau avec $n_u$ lignes du type : identifiant de l’utilisateur, id du film qu’il a noté, note. 
+Ces 2 fichiers étaient peu pratiques pour commencer à faire quelque chose avec,  
+nous avons donc créer une fonction tableau\_des\_notes() qui permet de ranger toutes ces notes dans un tableau numpy (c koi un tableau numpy ??) nu*nf avec en lignes les utilisateurs,  
 et en colonnes les films. Quand un utilisateur n’a pas vu un film donc qu’il ne l’a pas noté,  
 on insère un `` Nan ''(Not a Number) qui est un `` symbole '' facile à traiter. On appellera ce tableau Y tout au long du projet. 
 
