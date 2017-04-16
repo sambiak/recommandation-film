@@ -19,34 +19,59 @@
 \end{abstract}
 
 \section{Qu'est ce qu'un système de recommandation?}
+
 \subsection{Notre approche}
 Le but de notre projet est de recommander un film à un utilisateur spécifique. 
-Pour cela, nous devons savoir à quel point un utilisateur aimera tel ou tel film pour lui recommander (ou pas). 
+Pour cela, nous devons savoir à quel point un utilisateur aime tel ou tel film pour lui recommander (ou pas). 
 Il nous faudrait donc une sorte d'échelle d'affinité de l'utilisateur au film, ce qui parait pertinent est donc d'estimer une note qu'un utilisateur mettrait à un film s'il avait à le noter par exemple. 
 Si cette note est au dessus d'un certain seuil, on lui recommandera (ou on recommandera le film ayant la meilleur note prédite par exemple). 
 Notre approche du problème est donc de trouver un modèle mathématique permettant de trouver la note que mettrait un utilisateur à un film qu'il n'a pas vu. 
-Cependant, sans aucunes connaissances des goûts l'utilisateur et des caractéristiques des films ceci est impossible. Il nous faut donc récupérer des données déjà existantes sur des utilisateurs et des films pour avoir une base et commencer à chercher une méthode.  
-Nous avons donc récupérer des données.
+Cependant, sans aucunes connaissances des gouts l'utilisateur et des caractéristiques des films ceci est impossible. 
+Il nous faut donc récuperer des données déjà existentes sur des utilisatuers et des films pour avoir une base et commencer à chercher une méthode.  
+Nous avons donc récuperer des données.
 
 \subsection{Première difficulté : les données}
 \subsubsection{Extraction des données}
-Le besoin d'avoir des données nous à guider vers une grande base de données appelé `` movielens '' qui est un site communautaire de recommandation de films où les utilisateurs du site notent des films de 0 à 5. 
-Plusieurs jeux de données étaient disponibles et différé entre eux selon leur taille, 
-Nous avons choisi de travailler avec une base de données de 670 utilisateurs (nu) et 9125 films (nf). 
-On a donc extrait 2 fichiers : l’un contenant les 9125 films avec leurs titres et un numéro attribué , 
-l’autre avec les notes des utilisateurs qui avaient chacun un identifiants, 
-le fichier était du type : identifiant de l’utilisateur, id du film qu’il a noté, note.
-Ces 2 fichiers étaient donc peu pratiques pour commencer à faire quelque chose avec, 
-nous avons donc créé une fonction tableau\_des\_notes() qui permet de ranger toutes ces notes dans un tableau numpy nu*nf avec en lignes les utilisateurs, 
-et en colonnes les films. Quand un utilisateur n’a pas vu un film et ne l'a donc pas noté, 
-on insère un `` Nan ''(Not a Number) qui est un `` symbole '' (un peu vague) facile à traiter. On appellera ce tableau Y tout au long du projet.
+Le besoin d'avoir des données nous à guider vers une grande base de données appelé `` movielens '' qui est un site communautaire de recommandation de films où les utilisateurs du site notent des films de 0 à 5.  
+Plusieurs jeux de données étaient disponibles et différé entre eux selon leur taille,  
+Nous avons choisi de travailler avec une base de données de 670 utilisateurs et 9125 films.
+Par la suite nous réferons au nombres utilisateurs par $nu$ et au nombre de filmess pas $nf$
+On a donc extrait 2 fichiers : l’un contenant les $nf$ films avec leurs titres et un numéro attribué ,  
+l’autre avec les notes des utilisateurs qui avaient chacun un identifiants,  
+le fichier était du type : identifiant de l’utilisateur, id du film qu’il a noté, note. 
+Ces 2 fichiers étaient donc peu pratiques pour commencer à faire quelque chose avec,  
+nous avons donc créer une fonction tableau\_des\_notes() qui permet de ranger toutes ces notes dans un tableau numpy nu*nf avec en lignes les utilisateurs,  
+et en colonnes les films. Quand un utilisateur n’a pas vu un film donc qu’il ne l’a pas noté,  
+on insère un `` Nan ''(Not a Number) qui est un `` symbole '' facile à traiter. On appellera ce tableau Y tout au long du projet. 
+
+\includegraphics[scale=0.5]{matriceY.png}
 
 \subsubsection{Analyse des données}
-\subsection{}
+Dans la logique des choses, notre tableau Y étant bien trop grand pour en tirer des conclusions 
+juste à l’œil, nous avons créer deux fonctions permettant de faire des sortes de statistiques sur nos données : l’une permettant de compter combien de films
+chaque utilisateur a vu (cf nbre\_de\_films\_vu\_par\_utilisateur), et l’autre comptant combien de fois avait été noté chaque film 
+(cf nbre\_de\_notes\_par\_film). De ces fonctions, nous avons pu tirer des graphiques nous montrant comment été répartis nos données.
+
+
+Nous avons remarqué que la grande majorité des films(plus de 8000 sur 9125) possédaient entre 0 et 40 notes. 
+Le nombre de notes le plus récurrents étant de 2 notes par film. Mais il y a tout de même quelques films qui ont été
+beaucoup vu sachant que celui qui a le plus de note en a 339.
+
+\includegraphics[scale=0.5]{hist2.png}
+
+Dans l’autre sens,on remarque que en moyenne les utilisateurs ont noté 148 films, et la majorité (environ 550 utilisatuers sur 670) ont noté entre 0 et 250 films vus.
+
+\includegraphics[scale=0.5]{hist1.png}
+
+
+De plus,notre tableau présente 98,4 \% de NaN. Cela nous fait donc plus de 6 millions de notes à prédire. Dans la prochaine partie,
+nous verrons donc la méthode permettant de prédire toutes ces notes à partir de très peu de données c'est à dire notre tableau Y.
+
+
 \section{Formalisation du problème d'optimisation y compris modélisation}
 
-Nous nous posons maintenant la question comment nous y prendre pour prédire des notes ?
-Notre seul ressource est la matrice Y non pleine, sur quel modèle s'appuyer pour la compléter ?
+Nous nous posons maintenant la question de comment nous y prendre pour prédire des notes ?
+Notre seule ressource est la matrice Y non pleine, sur quel modèle s'appuyer pour la compléter ?
 C'est ce que nous allons étudier dans cette partie.
 
 \subsection{Quelques notations}
@@ -88,7 +113,17 @@ Nous appelons J fonction de coût, c'est la fonction à minimiser pour trouver $
 \section{Implémentation algo}
 %guillaume
 \subsection{descente du gradient en general optimisation}
-Nous allons proposer une méthodologie pour minimiser 
+Nous utilisons un algorithme appelé descente du gradient pour minimiser J. Pour illustrer cet algorithme nous allons l'appliquer 
+à une fonction $f$ qui dépend de deux variables.%J'aimerai bien mettre la n otation pour une fonction ici
+ On a $df = \frac{\partial f}{\partial x_{1}}d x_{1} + \frac{\partial f}{\partial x_{2}}dx_{2}$. En faisant l'approximation
+ $\Delta f = \frac{\partial f}{\partial x_{1}}\Delta  x_{1} + \frac{\partial f}{\partial x_{2}}\Delta x_{2}$ on se rend compte
+ que en posant $\Delta x_{1} = -\alpha \frac{\partial f}{\partial x_{1}}$
+ et $\Delta x_{2} = -\alpha \frac{\partial f}{\partial x_{2}}$ avec $\alpha \in \Re^{+}$
+ on obtient $\Delta f = -\alpha \frac{\partial f}{\partial x_{1}}^{2} - \alpha \frac{\partial f}{\partial x_{2}}^{2} < 0$. Ainsi dans
+ les limites de l'approximation faite au dessus a chaque fois qu'on modifie les $x_{i}$ de $- \alpha \frac{\partial f}{\partial x_{i}}$
+ on a une réduction de $f$.
+On applique le même raisonnement sur $J$ avec une subtilité. Comme on arrive pas a 
+
 \begin{algorithm}[H]
  \Donnees{this text}
  \Res{how to write algorithm with \LaTeX2e }
@@ -104,10 +139,25 @@ Nous allons proposer une méthodologie pour minimiser
  }
  \caption{How to write algorithms}
 \end{algorithm}
+%je sais que c'est trop court et pas assez bien posé mais il faut commencer quelque part
+On prouve en \ref{P1} que $ \nabla_{x_{j}}J(x, \Theta) = \nabla_{x_{j}^T}\frac{1}{2}\Vert\tilde{\theta}x_{j}^{T}-\tilde{y}_{.,j}\Vert^{2}$
+puis en \ref{P2} on prouve que $[\nabla_{x} \frac{1}{2}||Ax - b||^{2}_{2}]_{j} = [A^{T}(Ax - b)]_{j}$ ce qui nous permet de dire
+que $ \nabla_{x_{j}}J(x, \Theta) =  \tilde{\theta}^{T}(\tilde{\theta}x_{j}^{T}-\tilde{y}_{.,j})$. Ces divers calculs nous permettent
+de représenter une étape du gradient comme une série de produits de matrices. Au début, nous devions calculer le résultat terme a terme. Cette
+facon de faire était trés lente et passer à une représentation matricielle nous a permis de grandement accélerer les étapes de la descente du gradient.
 \subsubsection{ecrire algo puis dire comment on a fait au début}
-\section{Mise en application}
-\subsection{Notre approche pour familiariser au probleme}
-%juliette
+\section{Mise en application de l'algorithme}
+\subsection{Familiarisation avec problème plus simple}
+Dans la première partie de notre projet, nous avons décidé de simplifier notre problème en extrayant un tableau de données 
+plein c'est à dire un tableau où tous les films ont été notés par tous les utilisateurs. 
+A partir de ce tableau, nous pouvons donc enlever une note et essayer de la prédire. Ainsi, nous pouvons voir nos erreurs facilement sans avoir à gérer les Nan.
+Notre première difficulté a été d'extraire ce tableau plein. Pour cela, l'étude des données faite en amont nous a beaucoup aidé: pour extraire ce tableau ``plein''
+nous avons crées une fonction (cf annexe) sélectionnant les films les plus vus puis les utilisateurs qui ont vues tous ces films. On a donc obtenus un
+tableau plein 10*11 (10 films pour 11 utilisateurs).
+Dans ce cas-ci, nous supposons qu'il existe une relation linéaire commune pour tous les films, c'est à dire que la matrice X serait une matrice colonne.
+On fixe donc tout d'abord cette matrice X aléatoirement. Puis on applique la descente du gradient pour trouver les coefficients de cette matrice les plus adaptés.
+Ainsi , on peut prédire au mieux une note pour un utilisateur ayant vus tous les films d'avant.
+%les trois dernière phrase sont très mal expliquer il faut les reprendre
 \subsection{yassine}
 \subsubsection{taux d'erreur}
 \subsubsection{influence des parametres}
@@ -115,7 +165,13 @@ Nous allons proposer une méthodologie pour minimiser
 %yassine
 \subsubsection{Est-ce qu'on arrive a reccomander un film a un utilisateur}
 %guillaume
-\section{conclusion}
+Au final une question intéressante est est-ce que le modèle arrivera d'une manière efficace a prédire les notes à un nouvel utilisateur. Pour faire cela nous avons
+choisi de ne pas recalculer $X$ et $\Theta$ pour chaque nouvel utilisateur.A la place, nous supposons que l'ajout d'un utlilisateur ne va pas modifier
+les caractéristiques d'un film. Il nous suffit donc de calculer $\theta$ pour l'utlisateur seulement. Ceci peut se faire trés rapidement comme notre $\Theta$ ne
+consiste que du vecteur de préferences de l'utilisateur. A partir de ces nouvelles données, il nous suffit de calculer Y pour trouver la note la plus élevée et la reccomander
+à l'utilisateur. Toutefois l'erreur sur la prédiction des notes nous laisse penser que ce film ne serait probablement pas le meilleur film
+pour cette utilisateur ,car le hasard aurait bien pu faire que le meilleur film ait une note plus basse de 1 point ce qui suffirait à lui faire perdre la première place.
+\section{Conclusion}
 %1 page
 
 \subsection{perspectives}
