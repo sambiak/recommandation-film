@@ -43,33 +43,35 @@ Ces 2 fichiers étaient donc peu pratiques pour commencer à faire quelque chose
 nous avons donc créer une fonction tableau\_des\_notes() qui permet de ranger toutes ces notes dans un tableau numpy nu*nf avec en lignes les utilisateurs,  
 et en colonnes les films. Quand un utilisateur n’a pas vu un film donc qu’il ne l’a pas noté,  
 on insère un `` Nan ''(Not a Number) qui est un `` symbole '' facile à traiter. On appellera ce tableau Y tout au long du projet. 
+
+\includegraphics[scale=0,5]{matriceY.png}
+
 \subsubsection{Analyse des données}
 Dans la logique des choses, notre tableau Y étant bien trop grand pour en tirer des conclusions 
-juste à l’œil, nous avons créer des fonctions permettant de faire des sortes de statistiques sur nos données.
-Nous avons crées quelques fonctions pour étudier nos données: l’une permettant de compter combien de films
+juste à l’œil, nous avons créer deux fonctions permettant de faire des sortes de statistiques sur nos données : l’une permettant de compter combien de films
 chaque utilisateur a vu (cf nbre\_de\_films\_vu\_par\_utilisateur), et l’autre comptant combien de fois avait été noté chaque film 
 (cf nbre\_de\_notes\_par\_film). De ces fonctions, nous avons pu tirer des graphiques nous montrant comment été répartis nos données.
 
 
-Nous avons remarqué que la grande majorité des films possédaient entre 0 et 40 notes(Plus de 8000 sur 9000). 
+Nous avons remarqué que la grande majorité des films(plus de 8000 sur 9125) possédaient entre 0 et 40 notes. 
 Le nombre de notes le plus récurrents étant de 2 notes par film. Mais il y a tout de même quelques films qui ont été
 beaucoup vu sachant que celui qui a le plus de note en a 339.
 
-\includegraphics{hist2.png}
+\includegraphics[scale=0,5]{hist2.png}
 
-Dans l’autre sens,on remarque que en moyenne les utilisateurs ont noté 148 films, et la majorité est répartis entre blabla et babla films vus.
+Dans l’autre sens,on remarque que en moyenne les utilisateurs ont noté 148 films, et la majorité (environ 550 utilisatuers sur 670) ont noté entre 0 et 250 films vus.
 
-\includegraphics{hist1.png}
+\includegraphics[scale=0,5]{hist1.png}
 
-→ conclusion sur les données ce qu’on peut en tirer …
-Notre tableau présente 98,4 \% de NaN. Cela nous fait donc plus de 6 millions de notes à prédire… Dans la prochaine partie,
+
+De plus,notre tableau présente 98,4 \% de NaN. Cela nous fait donc plus de 6 millions de notes à prédire. Dans la prochaine partie,
 nous verrons donc la méthode permettant de prédire toutes ces notes à partir de très peu de données c'est à dire notre tableau Y.
 
 
 \section{Formalisation du problème d'optimisation y compris modélisation}
 
-Nous nous posons maintenant la question comment nous y prendre pour prédire des notes ?
-Notre seul ressource est la matrice Y non pleine, sur quel modèle s'appuyer pour la compléter ?
+Nous nous posons maintenant la question de comment nous y prendre pour prédire des notes ?
+Notre seule ressource est la matrice Y non pleine, sur quel modèle s'appuyer pour la compléter ?
 C'est ce que nous allons étudier dans cette partie.
 
 \subsection{Factorisation}
@@ -91,16 +93,16 @@ Les n sont déterminées en même temps que $\Theta$ et X mais elles nous sont i
 %guillaume
 \subsection{descente du gradient en general optimisation}
 Nous utilisons un algorithme appelé descente du gradient pour minimiser J. Pour illustrer cet algorithme nous allons l'appliquer 
-a une fonction $f$ qui depend de deux variables.%J'aimerai bien mettre la n otation pour une fonction ici
+à une fonction $f$ qui dépend de deux variables.%J'aimerai bien mettre la n otation pour une fonction ici
  On a $df = \frac{\partial f}{\partial x_{1}}d x_{1} + \frac{\partial f}{\partial x_{2}}dx_{2}$. En faisant l'approximation
  $\Delta f = \frac{\partial f}{\partial x_{1}}\Delta  x_{1} + \frac{\partial f}{\partial x_{2}}\Delta x_{2}$ on se rend compte
  que en posant $\Delta x_{1} = -\alpha \frac{\partial f}{\partial x_{1}}$
  et $\Delta x_{2} = -\alpha \frac{\partial f}{\partial x_{2}}$ avec $\alpha \in \Re^{+}$
  on obtient $\Delta f = -\alpha \frac{\partial f}{\partial x_{1}}^{2} - \alpha \frac{\partial f}{\partial x_{2}}^{2} < 0$. Ainsi dans
  les limites de l'approximation faite au dessus on a un moyen de minimiser E.
-L'idée dérriere la descente du gradient 
-est de descendre la pente de al fonction donc le gradient que nous nommons $\nabla_{x}$ pour le gradiant de la fonction par rapport 
-a $x$. Une explication plus détaillé de la notation est donné en annexe.  
+L'idée derrière la descente du gradient 
+est de descendre la pente de la fonction donc le gradient que nous nommons $\nabla_{x}$ pour le gradiant de la fonction par rapport 
+a $x$. Une explication plus détaillée de la notation est donnée en annexe.  
  
 \begin{algorithm}[H]
  \Donnees{a mettre} 
@@ -115,18 +117,21 @@ a $x$. Une explication plus détaillé de la notation est donné en annexe.
 On prouve en \ref{P1} que $ \nabla_{x_{j}}J(x, \Theta) = \nabla_{x_{j}^T}\frac{1}{2}\Vert\tilde{\theta}x_{j}^{T}-\tilde{y}_{.,j}\Vert^{2}$
 puis en \ref{P2} on prouve que $[\nabla_{x} \frac{1}{2}||Ax - b||^{2}_{2}]_{j} = [A^{T}(Ax - b)]_{j}$ ce qui nous permet de dire
 que $ \nabla_{x_{j}}J(x, \Theta) =  \tilde{\theta}^{T}(\tilde{\theta}x_{j}^{T}-\tilde{y}_{.,j})$. Ces divers calculs nous permettent
-de representer une étape du gradient comme une série de produits de matrices. Au début nous devions calculer le résultat terme a terme. Cette
-facon de faire était trés lente et passer a une représentation matricielle nous a permis de grandement accelerer les etapes de la descente d gradient.
+de représenter une étape du gradient comme une série de produits de matrices. Au début, nous devions calculer le résultat terme a terme. Cette
+facon de faire était trés lente et passer à une représentation matricielle nous a permis de grandement accélerer les étapes de la descente du gradient.
 \subsubsection{ecrire algo puis dire comment on a fait au début}
 \section{Mise en application de l'algorithme}
 \subsection{Familiarisation avec problème plus simple}
 Dans la première partie de notre projet, nous avons décidé de simplifier notre problème en extrayant un tableau de données 
 plein c'est à dire un tableau où tous les films ont été notés par tous les utilisateurs. 
-A partir de ce tableau, nous pouvons donc enlever une note et essayer de la prédire. Ainsi, nous pouvons voir nos erreurs facilement.
+A partir de ce tableau, nous pouvons donc enlever une note et essayer de la prédire. Ainsi, nous pouvons voir nos erreurs facilement sans avoir à gérer les Nan.
 Notre première difficulté a été d'extraire ce tableau plein. Pour cela, l'étude des données faite en amont nous a beaucoup aidé: pour extraire ce tableau ``plein''
 nous avons crées une fonction (cf annexe) sélectionnant les films les plus vus puis les utilisateurs qui ont vues tous ces films. On a donc obtenus un
-tableau plein 10*10 (10films pour 10 utilisateurs) ce qui nous a permis d'appliquer la descente du gradient rapidement sur notre petit tableau de données. Ainsi,
-nous avons pu appliquer notre première descente du gradient.
+tableau plein 10*11 (10 films pour 11 utilisateurs).
+Dans ce cas-ci, nous supposons qu'il existe une relation linéaire commune pour tous les films, c'est à dire que la matrice X serait une matrice colonne.
+On fixe donc tout d'abord cette matrice X aléatoirement. Puis on applique la descente du gradient pour trouver les coefficients de cette matrice les plus adaptés.
+Ainsi , on peut prédire au mieux une note pour un utilisateur ayant vus tous les films d'avant.
+%les trois dernière phrase sont très mal expliquer il faut les reprendre
 \subsection{yassine}
 \subsubsection{taux d'erreur}
 \subsubsection{influence des parametres}
@@ -134,13 +139,13 @@ nous avons pu appliquer notre première descente du gradient.
 %yassine
 \subsubsection{Est-ce qu'on arrive a reccomander un film a un utilisateur}
 %guillaume
-Au final une question intéressante est est-ce que le modèle arrivera d'une maniére efficace a predire les notes a un nouvel utilisateur. Pour faire cela nous avons
-choisi de ne pas recalculer $X$ et $\Theta$ pour chaque nouvel utilisateur a la place nous supposons que l'ajout d'un utlilisateur ne va pas modifier
+Au final une question intéressante est est-ce que le modèle arrivera d'une manière efficace a prédire les notes à un nouvel utilisateur. Pour faire cela nous avons
+choisi de ne pas recalculer $X$ et $\Theta$ pour chaque nouvel utilisateur.A la place, nous supposons que l'ajout d'un utlilisateur ne va pas modifier
 les caractéristiques d'un film. Il nous suffit donc de calculer $\theta$ pour l'utlisateur seulement. Ceci peut se faire trés rapidement comme notre $\Theta$ ne
-consiste que du vecteur de préferences de l'utilisateur. A partir de ces nouvels donnés il nous suffit de calculer Y pour trouver la note la plus élevée et la reccomander
-a l'utilisateur. Toutefois l'erreur sur la prediction des notes nous laisse penser que ce film ne serzit pas probablement le meilleur film
-pour cette utilisateur car le hasard aurait bien pu faire que le meilleur film ait une note plus basse de 1 point ce qui suffi a lui faire perdre la premiére place.
-\section{conclusion}
+consiste que du vecteur de préferences de l'utilisateur. A partir de ces nouvelles données, il nous suffit de calculer Y pour trouver la note la plus élevée et la reccomander
+à l'utilisateur. Toutefois l'erreur sur la prédiction des notes nous laisse penser que ce film ne serait probablement pas le meilleur film
+pour cette utilisateur ,car le hasard aurait bien pu faire que le meilleur film ait une note plus basse de 1 point ce qui suffirait à lui faire perdre la première place.
+\section{Conclusion}
 %1 page
 
 \subsection{perspectives}
