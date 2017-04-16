@@ -35,8 +35,9 @@ Nous avons donc récuperer des données.
 \subsubsection{Extraction des données}
 Le besoin d'avoir des données nous à guider vers une grande base de données appelé `` movielens '' qui est un site communautaire de recommandation de films où les utilisateurs du site notent des films de 0 à 5.  
 Plusieurs jeux de données étaient disponibles et différé entre eux selon leur taille,  
-Nous avons choisi de travailler avec une base de données de 670 utilisateurs (nu) et 9125 films (nf).  
-On a donc extrait 2 fichiers : l’un contenant les 9125 films avec leurs titres et un numéro attribué ,  
+Nous avons choisi de travailler avec une base de données de 670 utilisateurs et 9125 films.
+Par la suite nous réferons au nombres utilisateurs par $nu$ et au nombre de filmess pas $nf$
+On a donc extrait 2 fichiers : l’un contenant les $nf$ films avec leurs titres et un numéro attribué ,  
 l’autre avec les notes des utilisateurs qui avaient chacun un identifiants,  
 le fichier était du type : identifiant de l’utilisateur, id du film qu’il a noté, note. 
 Ces 2 fichiers étaient donc peu pratiques pour commencer à faire quelque chose avec,  
@@ -44,7 +45,7 @@ nous avons donc créer une fonction tableau\_des\_notes() qui permet de ranger t
 et en colonnes les films. Quand un utilisateur n’a pas vu un film donc qu’il ne l’a pas noté,  
 on insère un `` Nan ''(Not a Number) qui est un `` symbole '' facile à traiter. On appellera ce tableau Y tout au long du projet. 
 
-\includegraphics[scale=0,5]{matriceY.png}
+\includegraphics[scale=0.5]{matriceY.png}
 
 \subsubsection{Analyse des données}
 Dans la logique des choses, notre tableau Y étant bien trop grand pour en tirer des conclusions 
@@ -57,11 +58,11 @@ Nous avons remarqué que la grande majorité des films(plus de 8000 sur 9125) po
 Le nombre de notes le plus récurrents étant de 2 notes par film. Mais il y a tout de même quelques films qui ont été
 beaucoup vu sachant que celui qui a le plus de note en a 339.
 
-\includegraphics[scale=0,5]{hist2.png}
+\includegraphics[scale=0.5]{hist2.png}
 
 Dans l’autre sens,on remarque que en moyenne les utilisateurs ont noté 148 films, et la majorité (environ 550 utilisatuers sur 670) ont noté entre 0 et 250 films vus.
 
-\includegraphics[scale=0,5]{hist1.png}
+\includegraphics[scale=0.5]{hist1.png}
 
 
 De plus,notre tableau présente 98,4 \% de NaN. Cela nous fait donc plus de 6 millions de notes à prédire. Dans la prochaine partie,
@@ -99,11 +100,10 @@ Nous utilisons un algorithme appelé descente du gradient pour minimiser J. Pour
  que en posant $\Delta x_{1} = -\alpha \frac{\partial f}{\partial x_{1}}$
  et $\Delta x_{2} = -\alpha \frac{\partial f}{\partial x_{2}}$ avec $\alpha \in \Re^{+}$
  on obtient $\Delta f = -\alpha \frac{\partial f}{\partial x_{1}}^{2} - \alpha \frac{\partial f}{\partial x_{2}}^{2} < 0$. Ainsi dans
- les limites de l'approximation faite au dessus on a un moyen de minimiser E.
-L'idée derrière la descente du gradient 
-est de descendre la pente de la fonction donc le gradient que nous nommons $\nabla_{x}$ pour le gradiant de la fonction par rapport 
-a $x$. Une explication plus détaillée de la notation est donnée en annexe.  
- 
+ les limites de l'approximation faite au dessus a chaque fois qu'on modifie les $x_{i}$ de $- \alpha \frac{\partial f}{\partial x_{i}}$
+ on a une réduction de $f$.
+On applique le même raisonnement sur $J$ avec une subtilité. Comme on arrive pas a 
+
 \begin{algorithm}[H]
  \Donnees{a mettre} 
  \Res{un nouveau x} 
