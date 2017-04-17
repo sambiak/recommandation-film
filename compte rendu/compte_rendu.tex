@@ -18,6 +18,21 @@
 %a la fin
 \end{abstract}
 
+\section*{Introduction}
+A l’ère du numérique, la collecte de données d’une multitude d’utilisateurs peut devenir très intéressante pour leur faire des suggestions 
+personnalisées de tout type. C’est une chose que l’on rencontre souvent : recommandations d’amis sur Facebook, suggestions d’achats sur Internet, etc.
+Nous avons choisi de nous intéresser à la recommandation automatique de films.
+Mais comment recommander à un utilisateur un film qu’il aimera ? Tant de critères rentre en compte : 
+le genre du film, les préférences de l’utilisateur, la date du film, ou tout simplement la bonne qualité du film… Tout cela est très subjectif \!
+
+
+On en arrive à la problématique suivante : Comment concevoir un programme informatique 
+qui prenne en compte tous ces critères pour produire une recommandation personnalisée pertinente ?
+Les méthodes proposées lors de ce projet consistent à estimer les notes que mettrait l’utilisateur,
+afin de trouver les films les plus accordés à ses goûts. Cela se fait en regardant les prédictions des notes les plus hautes. 
+Dans un premier temps, nous introduirons le sujet en expliquant notre approche du problème .
+Puis, nous verrons sur quel modèle mathématique nous nous sommes appuyés pour écrire notre algorithme, et nous finirons par expliquer comment marche notre algorithme et comment l’optimiser. 
+
 \section{Qu'est ce qu'un système de recommandation?}
 
 \subsection{Notre approche}
@@ -42,7 +57,15 @@ Ces 2 fichiers étant peu pratiques pour manipuler leurs données,
 nous créons une fonction tableau\_des\_notes() qui retourne un tableau, une matrice de dimension $n_u * n_f$ qui contient les notes données par les utilisateurs, en ligne, aux films, en colonne. Seulement, aucun utilisateur n'a noté tous les films : il y a des cases vides dans notre tableau. Nous insérons alors dans ces cases des `` NaN ''(Not a Number), type de donnée facile à traiter dans notre programme.
 Le tableau des notes est appelé Y.
 
-\includegraphics[scale=0.5]{matriceY.png}
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[scale=0.4]{Ynew.png}
+  \caption{Tableau des notes Y}
+ 
+\end{figure}
+
+
 
 \subsubsection{Analyse des données}
 
