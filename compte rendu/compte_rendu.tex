@@ -21,6 +21,7 @@
 \section{Qu'est ce qu'un système de recommandation?}
 
 \subsection{Notre approche}
+
 Le but de notre projet est de pouvoir recommander un film ou plusieurs à n'importe quel utilisateur. 
 Pour cela, nous devons savoir à quel point un utilisateur va aimer tel ou tel film pour le lui recommander ou pas. 
 Il nous faut donc une sorte d'échelle d'affinité de l'utilisateur à chaque film (ça se dit ça?) : ce qui parait pertinent est alors d'estimer pour chaque film une note que leur donnerait l'utilisateur s'il les voyait.
@@ -46,9 +47,7 @@ Le tableau des notes est appelé Y.
 
 \subsubsection{Analyse des données}
 
-Nous créons ensuite deux fonctions permettant de faire des statistiques sur nos données : l’une permettant de compter combien de films
-chaque utilisateur a vu (cf nbre\_de\_films\_vu\_par\_utilisateur) (c koi ça ? c le nom d une fonction? ou le titre d une image?), et l’autre comptant le nombre de note attribué pour chaque film 
-(cf nbre\_de\_notes\_par\_film) (pareil). De ces fonctions, nous tirons des graphiques nous permettant d'avoir une idée plus précise de nos données.\\
+Nous créons ensuite deux fonctions permettant de faire des statistiques sur nos données : l’une permettant de compter combien de films chaque utilisateur a vu, et l’autre comptant le nombre de notes attribuées pour chaque film. De ces fonctions, nous tirons des graphiques nous permettant d'avoir une idée plus précise de nos données.\\
 
 Nous remarquons alors que plus de 8000 films possèdent seulement entre 1 et 40 notes, que le plus souvent un film a été noté deux fois et que le film auquel a été attribué le plus de notes en a 339.
 
@@ -154,17 +153,14 @@ Ainsi , on peut prédire au mieux une note pour un utilisateur ayant vus tous le
 %les trois dernière phrase sont très mal expliquer il faut les reprendre
 \subsection{yassine}
 \subsubsection{taux d'erreur}
-\subsubsection{influence des parametres}
+\subsubsection{influence des paramètres}
 \subsection{limites de notre approche}
 %yassine
-\subsubsection{Est-ce qu'on arrive a reccomander un film a un utilisateur}
+\subsubsection{Est-ce qu'on arrive a recommander un film a un utilisateur}
 %guillaume
 Au final une question intéressante est est-ce que le modèle arrivera d'une manière efficace a prédire les notes à un nouvel utilisateur. Pour faire cela nous avons
-choisi de ne pas recalculer $X$ et $\Theta$ pour chaque nouvel utilisateur.A la place, nous supposons que l'ajout d'un utilisateur ne va pas modifier
-les caractéristiques d'un film. Il nous suffit donc de calculer $\theta$ pour l'utilisateur seulement. Ceci peut se faire très rapidement comme notre $\Theta$ ne
-consiste que du vecteur de préférences de l'utilisateur. A partir de ces nouvelles données, il nous suffit de calculer Y pour trouver la note la plus élevée et la recommander
-à l'utilisateur. Toutefois l'erreur sur la prédiction des notes nous laisse penser que ce film ne serait probablement pas le meilleur film
-pour cette utilisateur ,car le hasard aurait bien pu faire que le meilleur film ait une note plus basse de 1 point ce qui suffirait à lui faire perdre la première place.
+choisi de ne pas recalculer $X$ et $\Theta$ pour chaque nouvel utilisateur. À la place, nous supposons que l'ajout d'un utilisateur ne va pas modifier
+les caractéristiques d'un film. Il nous suffit donc de calculer et d'ajouter une nouvelle ligne seulement à $\Theta$ caractérisant le profil du nouvel utilisateur. Ceci peut alors se faire très rapidement. À partir de ces nouvelles données, il nous suffit de compléter Y pour trouver la note la plus élevée et recommander à l'utilisateur le film associé. Toutefois l'erreur sur la prédiction des notes nous laisse penser que ce film ne serait probablement pas le meilleur film pour cet utilisateur, car le hasard aurait bien pu faire que le meilleur film ait une note plus basse de 1 point ce qui suffirait à lui faire perdre la première place.
 \section{Conclusion}
 %1 page
 
