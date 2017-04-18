@@ -24,7 +24,7 @@ A l’ère du numérique, la collecte de données d’une multitude d’utilisat
 personnalisées de tout type. C’est une chose que l’on rencontre souvent : recommandations d’amis sur Facebook, suggestions d’achats sur Internet, etc.
 Nous avons choisi de nous intéresser à la recommandation automatique de films.
 Mais comment recommander à un utilisateur un film qu’il aimera ? Tant de critères rentre en compte : 
-le genre du film, les préférences de l’utilisateur, la date du film, ou tout simplement la bonne qualité du film… Tout cela est très subjectif \!
+le genre du film, les préférences de l’utilisateur, la date du film, ou tout simplement la bonne qualité du film… Tout cela est très subjectif \! \\
 
 
 On en arrive à la problématique suivante : Comment concevoir un programme informatique 
@@ -32,7 +32,7 @@ qui prenne en compte tous ces critères pour produire une recommandation personn
 Les méthodes proposées lors de ce projet consistent à estimer les notes que mettrait l’utilisateur à plusieurs films,
 afin de trouver les film le plus accordé à ses goûts. Cela se fait en regardant les prédictions des notes les plus hautes. 
 Dans un premier temps, nous introduirons le sujet en expliquant notre approche du problème.
-Puis, nous verrons sur quel modèle mathématique nous nous sommes appuyés pour écrire notre algorithme, et nous finirons par expliquer comment marche notre algorithme et comment l’optimiser. 
+Puis, nous verrons sur quel modèle mathématique nous nous sommes appuyés pour écrire notre algorithme, et nous finirons par expliquer comment marche notre algorithme et comment l’optimiser. \\
 
 \section{Qu'est ce qu'un système de recommandation?}
 
@@ -166,10 +166,32 @@ plein c'est à dire un tableau où tous les films ont été notés par tous les 
 A partir de ce tableau, nous pouvons donc enlever une note et essayer de la prédire. Ainsi, nous pouvons voir nos erreurs facilement sans avoir à gérer les Nan.
 Notre première difficulté a été d'extraire ce tableau plein. Pour cela, l'étude des données faite en amont nous a beaucoup aidé: pour extraire ce tableau ``plein''
 nous avons crées une fonction (cf annexe) sélectionnant les films les plus vus puis les utilisateurs qui ont vues tous ces films. On a donc obtenus un
-tableau plein 10*11 (10 films pour 11 utilisateurs).
+tableau plein 10*11 (10 films pour 11 utilisateurs).\\
+
+
 Dans ce cas-ci, nous supposons qu'il existe une relation linéaire commune pour tous les films,et que la matrice X serait une matrice colonne (c'est à dire comme s'il n'y avait qu'une caractéristique).
 On fixe donc tout d'abord cette matrice X aléatoirement. Puis on applique la descente du gradient pour trouver les coefficients de cette matrice les plus adaptés.
-Ainsi , on trouve tous les coefficients de la matrice X ce qui nous permet ensuite grace à un simple produit matriciel de déterminer n'importe quel note dans notre tableau extrait à partir de toute les autres.
+Ainsi , on trouve tous les coefficients de la matrice X ce qui nous permet ensuite grace à un simple produit matriciel de déterminer n'importe quel note dans notre tableau extrait à partir de toute les autres.\\ \\ \\ \\ \\
+
+\begin{figure}[h!]         
+  \centering
+  \includegraphics[scale=0.5]{tableau_extrait.png}
+  \caption{Un exemple}
+\end{figure}
+
+
+Dans cette exemple, la descente du gradient permet de trouver les meilleurs coefficients a,b et c de la matrice X tel que :
+$\left
+\{
+\begin{array}{c}
+  3a+4,5b+3c=2 \\
+  2,5a+5b+4c=1
+\end{array}
+\right.$
+Ici, le ``='' n'est pas un égal mais un environ égal.
+Une fois qu'on à trouver grace à la descente du gradient les coefficients les plus adaptés, on trouve la note manquante qui est égal à 3a+5b+3,5c.
+Cependant, cette situation n'est pas du tout applicable dans la réalité: tous les utilisateurs n'auront jamais vu tous les films.
+
 
 %les trois dernière phrase sont très mal expliquer il faut les reprendre
 \subsection{yassine}
