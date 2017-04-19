@@ -1,5 +1,4 @@
 \documentclass[a4paper,10pt]{article}
-\usepackage[T1]{fontenc}  
 \usepackage[utf8]{inputenc}
 \usepackage[frenchkw]{algorithm2e}
 \usepackage[francais]{babel}
@@ -110,22 +109,25 @@ Nous appelons J fonction de coût, c'est la fonction à minimiser pour trouver $
 
 \section{Implémentation algo}
 %guillaume
-\subsection{descente du gradient en general optimisation}
-Nous utilisons un algorithme appelé descente du gradient pour minimiser J. Pour illustrer cet algorithme nous allons l'appliquer 
-à une fonction $f$ qui dépend de deux variables.%J'aimerai bien mettre la n otation pour une fonction ici
- Nous avons $df = \frac{\partial f}{\partial x_{1}}d x_{1} + \frac{\partial f}{\partial x_{2}}dx_{2}$. En faisant l'approximation
- $\Delta f = \frac{\partial f}{\partial x_{1}}\Delta  x_{1} + \frac{\partial f}{\partial x_{2}}\Delta x_{2}$ on se rend compte
+\subsection{descente du gradient en général optimisation}
+Nous utilisons un algorithme appelé descente du gradient pour minimiser J. Pour illustrer cet algorithme nous allons l'appliquer à une fonction qui dépend de deux variables : Soit
+\begin{align*}
+f\colon \mathbb{R}^2&\longrightarrow f(\mathbb{R}^2)\\
+(x_1, x_2)&\longmapsto f(x_1, x_2)
+\end{align*}
+Nous avons $df = \frac{\partial f}{\partial x_{1}}d x_{1} + \frac{\partial f}{\partial x_{2}}dx_{2}$. En faisant l'approximation
+ $\Delta f = \frac{\partial f}{\partial x_{1}}\Delta  x_{1} + \frac{\partial f}{\partial x_{2}}\Delta x_{2}$ nous nous rendons compte
  que en posant $\Delta x_{1} = -\alpha \frac{\partial f}{\partial x_{1}}$
- et $\Delta x_{2} = -\alpha \frac{\partial f}{\partial x_{2}}$ avec $\alpha \in \Re^{+}$
- Nous obtenons $\Delta f = -\alpha \frac{\partial f}{\partial x_{1}}^{2} - \alpha \frac{\partial f}{\partial x_{2}}^{2} < 0$. Ainsi dans
+ et $\Delta x_{2} = -\alpha \frac{\partial f}{\partial x_{2}}$ avec $\alpha \in \mathbb{R}^+$
+ nous obtenons $\Delta f = -\alpha (\frac{\partial f}{\partial x_{1}})^{2} - \alpha (\frac{\partial f}{\partial x_{2}})^{2} < 0$. Ainsi dans
  les limites de l'approximation faite au dessus a chaque fois que nous modifions les $x_{i}$ de $- \alpha \frac{\partial f}{\partial x_{i}}$
- nous avons une réduction de $f$.
+ nous avons une diminution de la valeur de $f(x_1, x_2)$.
 Nous appliquons le même raisonnement sur $J$ avec une subtilité. Comme nous n'arrivons pas à \textbf{(a koi?)}
 
 \begin{algorithm}[H]
  \Donnees{a mettre}  
  \Res{un nouveau x et un nouveau $\Theta$}  
- initialization\;
+ initialisation\;
   \PourTous{j $\in$ \{1, 2, ..., nf\}}{  
   Affecter à $x_{j}$ la valeur $x_{j}-\alpha \nabla_{x_{j}}J(x, \Theta)$\;}
  \PourTous{i $\in$ \{1, 2, ..., nu\}}{ 
@@ -143,6 +145,7 @@ façon de faire était très lente et passer à une représentation matricielle 
 \subsubsection{ecrire algo puis dire comment on a fait au début}
 \section{Mise en application de l'algorithme}
 \subsection{Familiarisation avec problème plus simple}
+%anthony
 %mettre au présent
 Dans la première partie de notre projet, nous avons décidé de simplifier notre problème en extrayant un tableau de données 
 plein c'est à dire un tableau où tous les films sont notés par tous les utilisateurs. 
@@ -158,26 +161,24 @@ Ainsi, nous pouvons prédire au mieux une note pour un utilisateur ayant vus tou
 %les trois dernière phrase sont très mal expliquer il faut les reprendre
 \subsection{yassine}
 \subsubsection{taux d'erreur}
-Maintenant que l'on arrive à obtenir un tableau de notes rempli, c'est-à-dire dans lequel on a prédit les notes manquantes, il reste à savoir si nos prédictions sont bonnes ! 
-Pour cela, il faut partir des choses que l'on connait : que connaissons-nous pour sûr lorsque l'on essaie de prédire des notes ? 
-Eh bien les notes mises par des utilisateurs qui ont noté certains films. 
-Si notre prédiction est "efficace", on s'attend alors à ce que, si il avait fallu prédire ces notes connues, 
-l'écart entre les notes prédites et les notes qui nous sont données aurait été faible. De but en blanc ainsi exposé, cela peut paraître flou. 
-Mais étayons notre propos en poursuivant avec notre façon de connaître la fiabilité de notre prédiction. 
-On l'a dit, il faudrait mesurer l'écart entre les notes prédites et les notes déjà connues. 
-Mais comment faire en sorte que l'algorithme cherche à prédire des notes que l'on connaît déjà ? 
-Tout simplement en lui faisant croire que nous ne les connaissons pas ! 
-Cependant, si on efface toutes les notes connues de notre tableau de notes de départ, il est évident que l'algorithme n'aura aucune base de prédiction. 
-C'est pourquoi nous n'effaçons qu'une partie des notes connues (10 pourcents exactement). 
-Ainsi, on choisit 10 pourcents des notes connues de notre tableau de notes de départ (et on stocke leur emplacement dans cette grande matrice), 
-on les transforme en NaN, puis on fournit ce nouveau tableau à l'algorithme qui nous retourne à la fin un tableau de notes plein. 
-Ensuite, il suffit d'aller aux emplacements (que l'on a stocké au préalable) dans cette nouvelle matrice, et pour chaque note prédite à chaque emplacement, 
-la comparer à la note connue au même emplacement (donc dans le tableau de départ). 
-En mesurant l'écart entre chaque note, on obtient un écart moyen (le taux d'erreur) qui nous indique la fiabilité de notre prédiction : 
-un écart peu élevé signifie que les notes prédites ont de grandes chances d'être pertinentes. 
+Maintenant que nous arrivons à obtenir un tableau de notes rempli, c'est-à-dire dans lequel nous avons prédit les notes manquantes, il reste à savoir si nos prédictions sont bonnes !
+Pour cela, il faut partir des choses que nous connaissons : les notes de Y. 
+Comment connaître la fiabilité de notre prédiction à partir de ces seules données ?  
+Il faudrait mesurer l'écart entre les notes prédites et les notes déjà connues.
+Mais comment faire en sorte que l'algorithme cherche à prédire des notes que l'on connaît déjà ?
+Tout simplement en lui faisant croire que nous ne les connaissons pas !
+Cependant, si nous effaçons toutes les notes connues de notre tableau de départ, il est évident que l'algorithme ne pourra pas fonctionner.
+C'est pourquoi nous n'effaçons qu'une partie des notes connues (10 \% exactement). 
+Ainsi, nous choisissons 10 \% des notes de Y en faisant en sorte de retenir où elles étaient et leurs valeurs. 
+Puis, nous les transformons en NaN et nous fournissons ce nouveau tableau à l'algorithme qui le complète. 
+Ensuite, il suffit de comparer les notes enlevées à celles qui ont été prédites à leur place. 
+Nous obtenons ainsi un écart moyen, le taux d'erreur, qui nous indique la fiabilité de notre prédiction : 
+un écart peu élevé signifie que les notes prédites ont de grandes chances d'être pertinentes.
 
-\subsubsection{influence des parametres}
-Il est intéressant d'étudier les facteurs qui rendent notre prédiction plus ou moins fiable. Bien entendu, on exclue l'impact de la méthode de prédiction utilisée, celle-ci étant le choix à la base de notre projet. Nous nous demandons donc comment améliorer la fiabilité de notre prédiction sans changer complètement de méthode. Tout d'abord, le fait que l'on modélise une matrice de notes comme le produit de 2 matrices (caractérisation des films et profils des utilisateurs) implique que cette modélisation dépend du nombre de caractéristiques que l'on attribue à un film. En effet, les deux matrices étant respectivement de format (nf , nb de caractéristiques) et (nb de caractéristiques, nu), le produit de deux matrices (combinaison linéaire) implique que les coefficients du produit (les notes prédites) seront bien différentes si le nb de caractéristiques est différent. Ensuite, la descente du gradient dépend directement des "alpha" que l'on choisit. En effet, on adapte à chaque étape la matrice THETA et la matrice X en fonction d'un taux d'apprentissage alpha. En réalité, nous utilisons même 2 taux différents pour les 2 matrices. L'enjeu est de taille quant au choix de ces alphas : un trop grand alpha implique qu'en voulant se rapprocher de la note réelle, on "overshot"era, et par conséquent notre note prédite se baladera autour de la note réelle sans jamais vraiment s'en rapprocher. A l'inverse, un alpha trop petit aura pour cause des étapes du gradient qui se rapprocheraient plus du pas de fourmi qu'autre chose ... Il convient donc de trouver les alphas optimaux et le nombre de caractéristiques optimal pour obtenir de notre méthode le meilleur. A ce stade-là, vous devez sûrement vous dire que ce sont les seuls paramètres qui influent sur la précision de la méthode, mais il en est un qui est aussi essentiel. C'est le nombre d'étapes du gradient que l'on dit à l'algorithme d'effectuer. Au premier abord, notre intuition traîtreuse nous conduit à penser que plus le nombres d'étapes que l'on effectue est grand, plus grande est la précision de la prédiction. C'est en fait erroné. Certes, on se doute bien qu'une étape ou 2 ne vont pas suffir pour obtenir une note prédite pertinente, mais au bout d'un moment, il ne servira à rien de continuer à effectuer des étapes du gradient, cela desservira même notre prédiction. Nous avons observé cet effet en traçant la courbe du taux d'erreur en foncion du nombre d'étapes. Et on observe clairement un minimum du taux d'erreur pour un certain nombre d'étapes, au delà le taux d'erreur augmente. Cet effet est couramment observé en apprentissage automatique et il est surnommé "surapprentissage". Pour le contrer, nous avons donc décidé de trouver le nombre d'étapes optimal pour les alphas optimaux et le nombre de caractéristiques. optimal. 
+\subsubsection{influence des paramètres}
+
+Il est intéressant d'étudier les facteurs qui peuvent rendre notre prédiction plus ou moins fiable. Bien entendu, nous excluons l'impact de la méthode de prédiction utilisée, celle-ci étant fixée à la base de notre projet. Nous nous demandons donc comment améliorer la fiabilité de notre prédiction sans changer complètement de méthode. Tout d'abord, le fait de modéliser une matrice de notes comme le produit de 2 matrices dont les dimensions dépendent du nombre de caractéristiques implique que les prédictions vont différer suivant le choix de ce nombre. Ensuite, la descente du gradient dépend directement des taux d'apprentissage que nous choisissons. En effet, nous adaptons à chaque étape la matrice $\Theta$ et la matrice X en fonction de ces taux d'apprentissage. L'enjeu est de taille quant au choix de ceux-ci : les choisir trop grand impliquera qu'en voulant se rapprocher de la note réelle, nous "overshoterons", et par conséquent nous ne minimiserons pas du tout J, nous augmenterons à chaque étape sa valeur. A l'inverse choisir des taux d'apprentissage trop petits aura pour conséquence un algorithme très inefficace : chaque étape ne changerai pratiquement pas X et $\Theta$. Il convient donc de trouver les taux d'apprentissages et le nombre de caractéristique optimaux pour obtenir la meilleure prédiction possible. A ce stade-là, vous devez sûrement vous dire que ce sont les seuls paramètres qui influent sur la précision de la méthode, mais il en est un qui est aussi essentiel. C'est le nombre d'étapes du gradient que nous choisissons de faire effectuer à l'algorithme. Au premier abord, notre intuition nous conduit à penser que plus le nombres d'étapes que nous effectuons est grand, plus grande sera la précision de la prédiction. Mais c'est en fait erroné. Certes, nous nous doutons bien qu'une étape ou 2 ne vont pas suffire pour obtenir des prédictions pertinentes, mais trop faire d'étape pourrait desservir notre prédiction. Nous avons observé cet effet en traçant la courbe du taux d'erreur en fonction du nombre d'étapes. Et nous observons clairement un minimum du taux d'erreur pour un certain nombre d'étapes, au delà le taux d'erreur augmente. Cet effet est couramment observé en apprentissage automatique et il est surnommé "sur-apprentissage". Pour le contrer, nous avons donc décidé de trouver le nombre d'étapes optimal pour les taux d'apprentissage et le nombre de caractéristiques optimaux.
+%inclure graphiques
 \subsection{limites de notre approche} 
 %yassine
 \subsubsection{Est-ce qu'on arrive a recommander un film a un utilisateur}
