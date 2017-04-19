@@ -1,5 +1,4 @@
 \documentclass[a4paper,10pt]{article}
-\usepackage[T1]{fontenc} 
 \usepackage[utf8]{inputenc}
 \usepackage[frenchkw]{algorithm2e}
 \usepackage[francais]{babel}
@@ -81,13 +80,13 @@ Enfin, le film numéro j est le film dont les notes se trouvent à la j-ème col
 
 Posons $Y_f$ la matrice Y complétée qui contient toutes les prédictions, exactes, des notes qui nous manquent. C'est la matrice à laquelle nous voulons aboutir, celle que nous devons deviner. Voici notre méthode.\\ 
  
-Nous supposons que nous sommes capable de déterminer à partir de Y deux matrices X et $\Theta$ telles que $\Theta X^T = Y_f$ avec $\Theta$ une matrice de dimension $n_u * n$ et X une matrice de dimension $n_f * n$. $n \in \mathbb{N}^*$ est quelconque, nous verrons par la suite que nous pouvons le fixer comme bon nous semble.\\ 
+Nous supposons que nous sommes capable de déterminer à partir de Y deux matrices X et $\Theta$ telles que $\Theta X^T = Y_f$ avec $\Theta$ une matrice de dimensions $n_u * n$ et X une matrice de dimensions $n_f * n$. $n \in \mathbb{N}^*$ est quelconque, nous verrons par la suite que nous pouvons le fixer comme bon nous semble.\\ 
 Notre hypothèse sur l'interprétation de $\Theta$ et X ? Ce qui nous fait supposer leur existence ? Nous allons éclairer ce point tout de suite par des explications plus précises.\\
 
-Le paragraphe qui suit est la description de nos suppositions sur l'interprétation que nous pouvons faire à propos de n, $\Theta$ et X. Après chaque verbe au conditionnel il serait possible d'ajouter "d'après notre hypothèse".\\
-Parlons un peu du nombre n. Ce dernier serait en fait un nombre de caractéristiques quelconques, qui nous sont inconnues et qui peuvent bien décrire nos films : si nous pensons qu'ils peuvent être décris efficacement par 10 caractéristiques, nous choisissons de trouver $\Theta$ et X avec $n = 10$. 
+Le paragraphe qui suit est la description de nos suppositions sur l'interprétation que nous pouvons faire à propos de n, $\Theta$ et X. Après chaque verbe au conditionnel il est sous-entendu "d'après notre hypothèse".\\
+Parlons un peu du nombre n. Ce dernier serait en fait un nombre de caractéristiques quelconques, qui nous sont inconnues et qui peuvent bien décrire nos films : si nous pensons qu'ils peuvent être décrits efficacement par 10 caractéristiques, nous choisissons de trouver $\Theta$ et X avec $n = 10$. 
 Une caractéristique peut être n'importe quoi, du taux d'action au taux de blondeur des cheveux de l'actrice principale. Pour l'instant admettons seulement que ces n caractéristiques peuvent exister. Nous les numérotons de 1 à n, puis nous verrons comment elles sont déterminées dans une autre partie.\\
-Décrivons X. Nous avons déjà dit que cette matrice possède $n_f$ lignes. Chaque ligne caractériserait un film. Ainsi $\forall j \in \{1, 2, ..., n_f\}$ le film j serait décrit par $x_j$ de dimension $1 * n$. Comment ? En fait $\forall k \in \{1, 2, ..., n\}$ $x_{j,k}$ correspondrait à un taux de correspondance entre le film j et la k-ième caractéristique. Si la k-ième caractéristique est l'action et si le film j est un film d'action tandis que le film j' ($j' \in \{1, 2, ..., n_f\}$) est un film romantique sans action alors $x_{j,k}$ sera un réel supérieur à $x_{j',k}$.\\
+Décrivons X. Nous avons déjà dit que cette matrice possède $n_f$ lignes. Chaque ligne caractériserait un film. Ainsi $\forall j \in \{1, 2, ..., n_f\}$ le film j serait décrit par $x_j$ de dimensions $1 * n$. Comment ? En fait $\forall k \in \{1, 2, ..., n\}$ $x_{j,k}$ correspondrait à un taux de correspondance entre le film j et la k-ième caractéristique. Si la k-ième caractéristique est l'action et si le film j est un film d'action tandis que le film j' ($j' \in \{1, 2, ..., n_f\}$) est un film romantique sans action alors $x_{j,k}$ sera un réel supérieur à $x_{j',k}$.\\
 Décrivons maintenant $\Theta$. $\forall i \in \{1, 2, ..., n_u\}$ $\theta_{i}$ représenterait les goûts de l'utilisateur i. $\forall k \in \{1, 2, ..., n\}$ $\theta_{i,k}$ serait un taux d'appréciation de la caractéristique k pour l'utilisateur i.\\
 Ainsi seraient les deux matrices auxquelles nous voulons aboutir.\\
 
@@ -109,23 +108,27 @@ Nous appelons J fonction de coût, c'est la fonction à minimiser pour trouver $
 \subsection{descente du gradient en general optimisation}
 Nous utilisons un algorithme appelé descente du gradient pour minimiser J. Pour illustrer cet algorithme nous allons l'appliquer 
 à une fonction $f$ qui dépend de deux variables.%J'aimerai bien mettre la n otation pour une fonction ici
- On a $df = \frac{\partial f}{\partial x_{1}}d x_{1} + \frac{\partial f}{\partial x_{2}}dx_{2}$. En faisant l'approximation
+ Nous avons $df = \frac{\partial f}{\partial x_{1}}d x_{1} + \frac{\partial f}{\partial x_{2}}dx_{2}$. En faisant l'approximation
  $\Delta f = \frac{\partial f}{\partial x_{1}}\Delta  x_{1} + \frac{\partial f}{\partial x_{2}}\Delta x_{2}$ on se rend compte
  que en posant $\Delta x_{1} = -\alpha \frac{\partial f}{\partial x_{1}}$
  et $\Delta x_{2} = -\alpha \frac{\partial f}{\partial x_{2}}$ avec $\alpha \in \Re^{+}$
- on obtient $\Delta f = -\alpha \frac{\partial f}{\partial x_{1}}^{2} - \alpha \frac{\partial f}{\partial x_{2}}^{2} < 0$. Ainsi dans
- les limites de l'approximation faite au dessus a chaque fois qu'on modifie les $x_{i}$ de $- \alpha \frac{\partial f}{\partial x_{i}}$
- on a une réduction de $f$.
-On applique le même raisonnement sur $J$ avec une subtilité. NOus ne savons pas gerer $\Theta$ et $X$ simultanement. On considere donc une
-seul variable l'autre étant supposé constante. Une étape de la descente du gradient a donc deux parties :  on fait varier chaque vecteur caractéristique de chaque film
-puis chaque vecteur de préferences de chaque utilisateur. (La je sais pas comment expliquer il faudra voir ensemble)
+ Nous obtenons $\Delta f = -\alpha \frac{\partial f}{\partial x_{1}}^{2} - \alpha \frac{\partial f}{\partial x_{2}}^{2} < 0$. Ainsi dans
+ les limites de l'approximation faite au dessus a chaque fois que nous modifions les $x_{i}$ de $- \alpha \frac{\partial f}{\partial x_{i}}$
+ nous avons une réduction de $f$.
+Nous appliquons le même raisonnement sur $J$ avec une subtilité. Comme nous n'arrivons pas à \textbf{(a koi?)}
 
 \begin{algorithm}[H]
  \Donnees{a mettre}  
  \Res{un nouveau x et un nouveau $\Theta$}  
  initialization\;
-  \PourTous{j $\in$ \{1, 2, ..., nf\}}{ 
-  Affecter à $x_{j}$ la valeur $x_{j}-\alpha \nabla_{x_{j}}J(x, \Theta)$\; 
+ \Repeter{not at end of this document}{
+  read current\;
+  \eSi{understand}{
+   go to next section\;
+   current section becomes this one\;
+   }{
+   go back to the beginning of current section\;
+  }
  }
  \PourTous{i $\in$ \{1, 2, ..., nu\}}{ 
   Affecter à $\Theta_{i}$ la valeur $\Theta_{i}-\alpha \nabla_{\Theta_{i}}J(x, \Theta)$\; 
@@ -134,23 +137,26 @@ puis chaque vecteur de préferences de chaque utilisateur. (La je sais pas comme
  \caption{Etape de la descente du gradient}
 \end{algorithm}
 %je sais que c'est trop court et pas assez bien posé mais il faut commencer quelque part
-On prouve en \ref{P1} que $ \nabla_{x_{j}}J(x, \Theta) = \nabla_{x_{j}^T}\frac{1}{2}\Vert\tilde{\theta}x_{j}^{T}-\tilde{y}_{.,j}\Vert^{2}$
-puis en \ref{P2} on prouve que $\nabla_{x} \frac{1}{2}||Ax - b||^{2}_{2} = A^{T}(Ax - b)$ (Prciser les dimensions et a quoi s'applique ce calcul). ce qui nous permet de dire
+Nous prouvons en \ref{P1} que $ \nabla_{x_{j}}J(x, \Theta) = \nabla_{x_{j}^T}\frac{1}{2}\Vert\tilde{\theta}x_{j}^{T}-\tilde{y}_{.,j}\Vert^{2}$
+puis en \ref{P2} nous prouvons que $[\nabla_{x} \frac{1}{2}||Ax - b||^{2}_{2}]_{j} = [A^{T}(Ax - b)]_{j}$ ce qui nous permet de dire
 que $ \nabla_{x_{j}}J(x, \Theta) =  \tilde{\theta}^{T}(\tilde{\theta}x_{j}^{T}-\tilde{y}_{.,j})$. Ces divers calculs nous permettent
 de représenter une étape du gradient comme une série de produits de matrices. Au début, nous devions calculer le résultat terme a terme. Cette
 façon de faire était très lente et passer à une représentation matricielle nous a permis de grandement accélérer les étapes de la descente du gradient.
 \subsubsection{ecrire algo puis dire comment on a fait au début}
 \section{Mise en application de l'algorithme}
 \subsection{Familiarisation avec problème plus simple}
+%mettre au présent
 Dans la première partie de notre projet, nous avons décidé de simplifier notre problème en extrayant un tableau de données 
-plein c'est à dire un tableau où tous les films ont été notés par tous les utilisateurs. 
-A partir de ce tableau, nous pouvons donc enlever une note et essayer de la prédire. Ainsi, nous pouvons voir nos erreurs facilement sans avoir à gérer les Nan.
-Notre première difficulté a été d'extraire ce tableau plein. Pour cela, l'étude des données faite en amont nous a beaucoup aidé: pour extraire ce tableau ``plein''
-nous avons crées une fonction (cf annexe) sélectionnant les films les plus vus puis les utilisateurs qui ont vues tous ces films. On a donc obtenus un
-tableau plein 10*11 (10 films pour 11 utilisateurs).
-Dans ce cas-ci, nous supposons qu'il existe une relation linéaire commune pour tous les films, c'est à dire que la matrice X serait une matrice colonne.
-On fixe donc tout d'abord cette matrice X aléatoirement. Puis on applique la descente du gradient pour trouver les coefficients de cette matrice les plus adaptés.
-Ainsi , on peut prédire au mieux une note pour un utilisateur ayant vus tous les films d'avant.
+plein c'est à dire un tableau où tous les films sont notés par tous les utilisateurs. 
+A partir de ce tableau, nous pouvons donc enlever une note et essayer de la prédire. Ainsi, nous pouvons voir nos erreurs facilement sans avoir à gérer les NaN.
+Notre première difficulté a été d'extraire ce tableau plein. Pour cela, l'étude des données faite en amont nous a beaucoup aidé. Pour extraire ce tableau ``plein'', nous avons créé une fonction (cf annexe) sélectionnant les films les plus vus puis les utilisateurs qui ont vus tous ces films. Nous avons donc obtenus un
+tableau de dimensions $10 * 11$ (10 films pour 11 utilisateurs) entièrement rempli.
+Dans ce cas-ci, nous avons supposé qu'il existait une relation linéaire commune pour tous les films
+%changer les explications qui suivent y a pas de rapport avec X normalement
+, c'est à dire que la matrice X était une matrice colonne.
+Nous fixons donc tout d'abord cette matrice X aléatoirement. Puis nous appliquons la descente du gradient pour trouver les coefficients de cette matrice les plus adaptés.
+Ainsi, nous pouvons prédire au mieux une note pour un utilisateur ayant vus tous les films d'avant.
+
 %les trois dernière phrase sont très mal expliquer il faut les reprendre
 \subsection{yassine}
 \subsubsection{taux d'erreur}
@@ -178,59 +184,15 @@ Il est intéressant d'étudier les facteurs qui rendent notre prédiction plus o
 %yassine
 \subsubsection{Est-ce qu'on arrive a recommander un film a un utilisateur}
 %guillaume
-Au final une question intéressante est est-ce que le modèle arrivera d'une manière efficace a prédire les notes à un nouvel utilisateur. Pour faire cela nous avons
+Au final une question intéressante est est-ce que le modèle arrivera d'une manière efficace à prédire les notes d'un nouvel utilisateur ? Pour faire cela nous avons
 choisi de ne pas recalculer $X$ et $\Theta$ pour chaque nouvel utilisateur. À la place, nous supposons que l'ajout d'un utilisateur ne va pas modifier
-les caractéristiques d'un film. Il nous suffit donc de calculer et d'ajouter une nouvelle ligne seulement à $\Theta$ caractérisant le profil du nouvel utilisateur. Ceci peut alors se faire très rapidement. À partir de ces nouvelles données, il nous suffit de compléter Y pour trouver la note la plus élevée et recommander à l'utilisateur le film associé. Toutefois l'erreur sur la prédiction des notes nous laisse penser que ce film ne serait probablement pas le meilleur film pour cet utilisateur, car le hasard aurait bien pu faire que le meilleur film ait une note plus basse de 1 point ce qui suffirait à lui faire perdre la première place.
+les caractéristiques d'un film. Il nous suffit donc de calculer et d'ajouter seulement une nouvelle ligne à $\Theta$, caractérisant le profil du nouvel utilisateur. Ceci peut alors se faire très rapidement. À partir de ces nouvelles données, il nous suffit de compléter Y pour trouver la note la plus élevée et recommander à l'utilisateur le film associé. 
+%C pas clair du tout, phrase trop longue et pas très bien expliquée
+Toutefois l'erreur sur la prédiction des notes nous laisse penser que ce film ne serait probablement pas le meilleur film pour cet utilisateur, car le hasard aurait bien pu faire que le meilleur film ait une note plus basse de 1 point ce qui suffirait à lui faire perdre la première place.
+
 \section{Conclusion}
 %1 page
 
 \subsection{perspectives}
 %guillame
-\appendix 
-\section{Preuves} 
-\subsection{} 
-\label{P1} 
-$\nabla_{x_{j}^T} J(\theta, X)= 
-\begin{pmatrix} 
-\displaystyle\frac{\partial \displaystyle\sum_{k=1}^{nf}\frac{1}{2}\Vert\tilde{\theta}x_{k}^{T}-\tilde{y}_{.,k}\Vert^{2}}{\partial x_{j,1}^{T}}\\ 
-\displaystyle\frac{\partial \displaystyle\sum_{k=1}^{nf}\frac{1}{2}\Vert\tilde{\theta}x_{k}^{T}-\tilde{y}_{.,k}\Vert^{2}}{\partial x_{j,2}^{T}}\\ 
-\vdots\\ 
-\displaystyle\frac{\partial \displaystyle\sum_{k=1}^{nf}\frac{1}{2}\Vert\tilde{\theta}x_{k}^{T}-\tilde{y}_{.,k}\Vert^{2}}{\partial x_{j,n}^{T}} 
-\end{pmatrix} 
-= 
-\begin{pmatrix} 
-\displaystyle\sum_{k=1}^{nf} 
-\frac{1}{2}\frac{\partial\Vert\tilde{\theta}x_{k}^{T}-\tilde{y}_{.,k}\Vert^{2}}{\partial x_{j,1}^{T}}\\ 
-\displaystyle\sum_{k=1}^{nf} 
-\frac{1}{2}\frac{\partial\Vert\tilde{\theta}x_{k}^{T}-\tilde{y}_{.,k}\Vert^{2}}{\partial x_{j,2}^{T}}\\ 
-\vdots\\ 
-\displaystyle\sum_{k=1}^{nf} 
-\frac{1}{2}\frac{\partial\Vert\tilde{\theta}x_{k}^{T}-\tilde{y}_{.,k}\Vert^{2}}{\partial x_{j,n}^{T}} 
-\end{pmatrix}$\\ 
-$ 
-= 
-\begin{pmatrix} 
-\displaystyle 
-\frac{1}{2}\frac{\partial\Vert\tilde{\theta}x_{j}^{T}-\tilde{y}_{.,j}\Vert^{2}}{\partial x_{j,1}^{T}}\\ 
-\displaystyle 
-\frac{1}{2}\frac{\partial\Vert\tilde{\theta}x_{j}^{T}-\tilde{y}_{.,j}\Vert^{2}}{\partial x_{j,2}^{T}}\\ 
-\vdots\\ 
-\displaystyle 
-\frac{1}{2}\frac{\partial\Vert\tilde{\theta}x_{j}^{T}-\tilde{y}_{.,j}\Vert^{2}}{\partial x_{j,n}^{T}} 
-\end{pmatrix} 
-= 
-\displaystyle 
-\nabla_{x_{j}^T}\frac{1}{2}\Vert\tilde{\theta}x_{j}^{T}-\tilde{y}_{.,j}\Vert^{2} 
-$ 
-\subsection{} 
-\label{P2} 
-\begin{align*} 
-[\nabla_{x} \frac{1}{2}||Ax - b||^{2}_{2}]_{j} &= [\nabla_{x} \frac{1}{2}(\sum^{n}_{i = 1} (\sum^{p}_{k = 1} A_{i, k}x_{k})^{2} - 2b_{i}(\sum^{p}_{k = 1} A_{i, k}x_{k}) + b_{i}^{2})]_{j}\\ 
-[\nabla_{x} \frac{1}{2}||Ax - b||^{2}_{2}]_{j} &= \frac{\partial\frac{1}{2}(\sum^{n}_{i = 1} (\sum^{p}_{k = 1} A_{i, k}x_{k})^{2} - 2b_{i}(\sum^{p}_{k = 1} A_{i, k}x_{k}) + b_{i}^{2})}{\partial x_{j}}\\ 
-[\nabla_{x} \frac{1}{2}||Ax - b||^{2}_{2}]_{j} &= \frac{1}{2}(\sum^{n}_{i = 1} 2(\sum^{p}_{k = 1} A_{i, k}x_{k})A_{i, j} - 2b_{i} A_{i, j})\\ 
-[\nabla_{x} \frac{1}{2}||Ax - b||^{2}_{2}]_{j} &= (\sum^{n}_{i = 1} (\sum^{p}_{k = 1} A_{i, k}x_{k})A_{i, j} - b_{i} A_{i, j})\\ 
-[\nabla_{x} \frac{1}{2}||Ax - b||^{2}_{2}]_{j} &= (\sum^{n}_{i = 1} A_{i, j}(\sum^{p}_{k = 1} A_{i, k}x_{k}) - b_{i} )\\ 
-[\nabla_{x} \frac{1}{2}||Ax - b||^{2}_{2}]_{j} &= \sum^{n}_{i = 1} A^{T}_{j, i}[Ax - b]_{i}\\ 
-[\nabla_{x} \frac{1}{2}||Ax - b||^{2}_{2}]_{j} &= [A^{T}(Ax - b)]_{j} 
-\end{align*} 
 \end{document}
