@@ -1,4 +1,5 @@
 \documentclass[a4paper,10pt]{article}
+\usepackage[T1]{fontenc}  
 \usepackage[utf8]{inputenc}
 \usepackage[frenchkw]{algorithm2e}
 \usepackage[francais]{babel}
@@ -121,15 +122,8 @@ Nous appliquons le même raisonnement sur $J$ avec une subtilité. Comme nous n'
  \Donnees{a mettre}  
  \Res{un nouveau x et un nouveau $\Theta$}  
  initialization\;
- \Repeter{not at end of this document}{
-  read current\;
-  \eSi{understand}{
-   go to next section\;
-   current section becomes this one\;
-   }{
-   go back to the beginning of current section\;
-  }
- }
+  \PourTous{j $\in$ \{1, 2, ..., nf\}}{  
+  Affecter à $x_{j}$ la valeur $x_{j}-\alpha \nabla_{x_{j}}J(x, \Theta)$\;
  \PourTous{i $\in$ \{1, 2, ..., nu\}}{ 
   Affecter à $\Theta_{i}$ la valeur $\Theta_{i}-\alpha \nabla_{\Theta_{i}}J(x, \Theta)$\; 
  }
