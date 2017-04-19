@@ -118,16 +118,20 @@ Nous utilisons un algorithme appelé descente du gradient pour minimiser J. Pour
  on a une réduction de $f$.
 On applique le même raisonnement sur $J$ avec une subtilité. NOus ne savons pas gerer $\Theta$ et $X$ simultanement. On considere donc une
 seul variable l'autre étant supposé constante. Une étape de la descente du gradient a donc deux parties :  on fait varier chaque vecteur caractéristique de chaque film
-puis chaque vecteur de préferences de chaque utilisateur.
+puis chaque vecteur de préferences de chaque utilisateur. (La je sais pas comment expliquer il faudra voir ensemble)
 
 \begin{algorithm}[H]
  \Donnees{a mettre}  
- \Res{un nouveau x}  
+ \Res{un nouveau x et un nouveau $\Theta$}  
  initialization\;
   \PourTous{j $\in$ \{1, 2, ..., nf\}}{ 
   Affecter à $x_{j}$ la valeur $x_{j}-\alpha \nabla_{x_{j}}J(x, \Theta)$\; 
  }
- \caption{Descente du gradient}
+ \PourTous{i $\in$ \{1, 2, ..., nu\}}{ 
+  Affecter à $\Theta_{i}$ la valeur $\Theta_{i}-\alpha \nabla_{\Theta_{i}}J(x, \Theta)$\; 
+ }
+ 
+ \caption{Etape de la descente du gradient}
 \end{algorithm}
 %je sais que c'est trop court et pas assez bien posé mais il faut commencer quelque part
 On prouve en \ref{P1} que $ \nabla_{x_{j}}J(x, \Theta) = \nabla_{x_{j}^T}\frac{1}{2}\Vert\tilde{\theta}x_{j}^{T}-\tilde{y}_{.,j}\Vert^{2}$
@@ -150,8 +154,27 @@ Ainsi , on peut prédire au mieux une note pour un utilisateur ayant vus tous le
 %les trois dernière phrase sont très mal expliquer il faut les reprendre
 \subsection{yassine}
 \subsubsection{taux d'erreur}
+Maintenant que l'on arrive à obtenir un tableau de notes rempli, c'est-à-dire dans lequel on a prédit les notes manquantes, il reste à savoir si nos prédictions sont bonnes ! 
+Pour cela, il faut partir des choses que l'on connait : que connaissons-nous pour sûr lorsque l'on essaie de prédire des notes ? 
+Eh bien les notes mises par des utilisateurs qui ont noté certains films. 
+Si notre prédiction est "efficace", on s'attend alors à ce que, si il avait fallu prédire ces notes connues, 
+l'écart entre les notes prédites et les notes qui nous sont données aurait été faible. De but en blanc ainsi exposé, cela peut paraître flou. 
+Mais étayons notre propos en poursuivant avec notre façon de connaître la fiabilité de notre prédiction. 
+On l'a dit, il faudrait mesurer l'écart entre les notes prédites et les notes déjà connues. 
+Mais comment faire en sorte que l'algorithme cherche à prédire des notes que l'on connaît déjà ? 
+Tout simplement en lui faisant croire que nous ne les connaissons pas ! 
+Cependant, si on efface toutes les notes connues de notre tableau de notes de départ, il est évident que l'algorithme n'aura aucune base de prédiction. 
+C'est pourquoi nous n'effaçons qu'une partie des notes connues (10 pourcents exactement). 
+Ainsi, on choisit 10 pourcents des notes connues de notre tableau de notes de départ (et on stocke leur emplacement dans cette grande matrice), 
+on les transforme en NaN, puis on fournit ce nouveau tableau à l'algorithme qui nous retourne à la fin un tableau de notes plein. 
+Ensuite, il suffit d'aller aux emplacements (que l'on a stocké au préalable) dans cette nouvelle matrice, et pour chaque note prédite à chaque emplacement, 
+la comparer à la note connue au même emplacement (donc dans le tableau de départ). 
+En mesurant l'écart entre chaque note, on obtient un écart moyen (le taux d'erreur) qui nous indique la fiabilité de notre prédiction : 
+un écart peu élevé signifie que les notes prédites ont de grandes chances d'être pertinentes. 
+
 \subsubsection{influence des parametres}
-\subsection{limites de notre approche}
+Il est intéressant d'étudier les facteurs qui rendent notre prédiction plus ou moins fiable. Bien entendu, on exclue l'impact de la méthode de prédiction utilisée, celle-ci étant le choix à la base de notre projet. Nous nous demandons donc comment améliorer la fiabilité de notre prédiction sans changer complètement de méthode. Tout d'abord, le fait que l'on modélise une matrice de notes comme le produit de 2 matrices (caractérisation des films et profils des utilisateurs) implique que cette modélisation dépend du nombre de caractéristiques que l'on attribue à un film. En effet, les deux matrices étant respectivement de format (nf , nb de caractéristiques) et (nb de caractéristiques, nu), le produit de deux matrices (combinaison linéaire) implique que les coefficients du produit (les notes prédites) seront bien différentes si le nb de caractéristiques est différent. Ensuite, la descente du gradient dépend directement des "alpha" que l'on choisit. En effet, on adapte à chaque étape la matrice THETA et la matrice X en fonction d'un taux d'apprentissage alpha. En réalité, nous utilisons même 2 taux différents pour les 2 matrices. L'enjeu est de taille quant au choix de ces alphas : un trop grand alpha implique qu'en voulant se rapprocher de la note réelle, on "overshot"era, et par conséquent notre note prédite se baladera autour de la note réelle sans jamais vraiment s'en rapprocher. A l'inverse, un alpha trop petit aura pour cause des étapes du gradient qui se rapprocheraient plus du pas de fourmi qu'autre chose ... Il convient donc de trouver les alphas optimaux et le nombre de caractéristiques optimal pour obtenir de notre méthode le meilleur. A ce stade-là, vous devez sûrement vous dire que ce sont les seuls paramètres qui influent sur la précision de la méthode, mais il en est un qui est aussi essentiel. C'est le nombre d'étapes du gradient que l'on dit à l'algorithme d'effectuer. Au premier abord, notre intuition traîtreuse nous conduit à penser que plus le nombres d'étapes que l'on effectue est grand, plus grande est la précision de la prédiction. C'est en fait erroné. Certes, on se doute bien qu'une étape ou 2 ne vont pas suffir pour obtenir une note prédite pertinente, mais au bout d'un moment, il ne servira à rien de continuer à effectuer des étapes du gradient, cela desservira même notre prédiction. Nous avons observé cet effet en traçant la courbe du taux d'erreur en foncion du nombre d'étapes. Et on observe clairement un minimum du taux d'erreur pour un certain nombre d'étapes, au delà le taux d'erreur augmente. Cet effet est couramment observé en apprentissage automatique et il est surnommé "surapprentissage". Pour le contrer, nous avons donc décidé de trouver le nombre d'étapes optimal pour les alphas optimaux et le nombre de caractéristiques. optimal. 
+\subsection{limites de notre approche} 
 %yassine
 \subsubsection{Est-ce qu'on arrive a recommander un film a un utilisateur}
 %guillaume
