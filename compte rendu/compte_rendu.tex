@@ -195,4 +195,52 @@ Toutefois l'erreur sur la prédiction des notes nous laisse penser que ce film n
 
 \subsection{perspectives}
 %guillame
+\appendix  
+\section{Preuves}  
+\subsection{}  
+\label{P1}  
+$\nabla_{x_{j}^T} J(\theta, X)=  
+\begin{pmatrix}  
+\displaystyle\frac{\partial \displaystyle\sum_{k=1}^{nf}\frac{1}{2}\Vert\tilde{\theta}x_{k}^{T}-\tilde{y}_{.,k}\Vert^{2}}{\partial x_{j,1}^{T}}\\  
+\displaystyle\frac{\partial \displaystyle\sum_{k=1}^{nf}\frac{1}{2}\Vert\tilde{\theta}x_{k}^{T}-\tilde{y}_{.,k}\Vert^{2}}{\partial x_{j,2}^{T}}\\  
+\vdots\\  
+\displaystyle\frac{\partial \displaystyle\sum_{k=1}^{nf}\frac{1}{2}\Vert\tilde{\theta}x_{k}^{T}-\tilde{y}_{.,k}\Vert^{2}}{\partial x_{j,n}^{T}}  
+\end{pmatrix}  
+=  
+\begin{pmatrix}  
+\displaystyle\sum_{k=1}^{nf}  
+\frac{1}{2}\frac{\partial\Vert\tilde{\theta}x_{k}^{T}-\tilde{y}_{.,k}\Vert^{2}}{\partial x_{j,1}^{T}}\\  
+\displaystyle\sum_{k=1}^{nf}  
+\frac{1}{2}\frac{\partial\Vert\tilde{\theta}x_{k}^{T}-\tilde{y}_{.,k}\Vert^{2}}{\partial x_{j,2}^{T}}\\  
+\vdots\\  
+\displaystyle\sum_{k=1}^{nf}  
+\frac{1}{2}\frac{\partial\Vert\tilde{\theta}x_{k}^{T}-\tilde{y}_{.,k}\Vert^{2}}{\partial x_{j,n}^{T}}  
+\end{pmatrix}$\\  
+$  
+=  
+\begin{pmatrix}  
+\displaystyle  
+\frac{1}{2}\frac{\partial\Vert\tilde{\theta}x_{j}^{T}-\tilde{y}_{.,j}\Vert^{2}}{\partial x_{j,1}^{T}}\\  
+\displaystyle  
+\frac{1}{2}\frac{\partial\Vert\tilde{\theta}x_{j}^{T}-\tilde{y}_{.,j}\Vert^{2}}{\partial x_{j,2}^{T}}\\  
+\vdots\\  
+\displaystyle  
+\frac{1}{2}\frac{\partial\Vert\tilde{\theta}x_{j}^{T}-\tilde{y}_{.,j}\Vert^{2}}{\partial x_{j,n}^{T}}  
+\end{pmatrix}  
+=  
+\displaystyle  
+\nabla_{x_{j}^T}\frac{1}{2}\Vert\tilde{\theta}x_{j}^{T}-\tilde{y}_{.,j}\Vert^{2}  
+$  
+\subsection{}  
+\label{P2}  
+\begin{align*}  
+[\nabla_{x} \frac{1}{2}||Ax - b||^{2}_{2}]_{j} &= [\nabla_{x} \frac{1}{2}(\sum^{n}_{i = 1} (\sum^{p}_{k = 1} A_{i, k}x_{k})^{2} - 2b_{i}(\sum^{p}_{k = 1} A_{i, k}x_{k}) + b_{i}^{2})]_{j}\\  
+[\nabla_{x} \frac{1}{2}||Ax - b||^{2}_{2}]_{j} &= \frac{\partial\frac{1}{2}(\sum^{n}_{i = 1} (\sum^{p}_{k = 1} A_{i, k}x_{k})^{2} - 2b_{i}(\sum^{p}_{k = 1} A_{i, k}x_{k}) + b_{i}^{2})}{\partial x_{j}}\\  
+[\nabla_{x} \frac{1}{2}||Ax - b||^{2}_{2}]_{j} &= \frac{1}{2}(\sum^{n}_{i = 1} 2(\sum^{p}_{k = 1} A_{i, k}x_{k})A_{i, j} - 2b_{i} A_{i, j})\\  
+[\nabla_{x} \frac{1}{2}||Ax - b||^{2}_{2}]_{j} &= (\sum^{n}_{i = 1} (\sum^{p}_{k = 1} A_{i, k}x_{k})A_{i, j} - b_{i} A_{i, j})\\  
+[\nabla_{x} \frac{1}{2}||Ax - b||^{2}_{2}]_{j} &= (\sum^{n}_{i = 1} A_{i, j}(\sum^{p}_{k = 1} A_{i, k}x_{k}) - b_{i} )\\  
+[\nabla_{x} \frac{1}{2}||Ax - b||^{2}_{2}]_{j} &= \sum^{n}_{i = 1} A^{T}_{j, i}[Ax - b]_{i}\\  
+[\nabla_{x} \frac{1}{2}||Ax - b||^{2}_{2}]_{j} &= [A^{T}(Ax - b)]_{j}  
+\end{align*}
+
 \end{document}
