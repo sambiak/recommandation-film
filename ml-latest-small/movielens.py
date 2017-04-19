@@ -61,7 +61,8 @@ def id_film(index):
 
 
 class Conversions:
-    """Classe ayant pour but d'englober les fonctions qui renvoient les donnés avec une
+    """
+    Classe ayant pour but d'englober les fonctions qui renvoient les donnés avec une
     organisation facilement exploitable.
     """
     def __init__(self):
@@ -78,7 +79,7 @@ class Conversions:
         file.close()
 
     def renvoyer_index(self, id):
-        """Fait correspondre a chaque id de film un index de 0 à nombre filmes"""
+        """Fait correspondre a chaque id de film un index de 0 à nombre_de_film"""
         return self.dic[id]
 
     def renvoyer_id(self, index):
@@ -187,3 +188,4 @@ def tableau_bricolé_de_l_lignes_et_c_colonnes(tableau_des_notes,l,c):
     return tableau_bricolé.take(num_colonne,axis=1), num_colonne, num_ligne
 
 
+print(len(sous_ensemble()), len(sous_ensemble()[0]))
