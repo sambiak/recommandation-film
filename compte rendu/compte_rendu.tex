@@ -232,7 +232,9 @@ Il est intéressant d'étudier les facteurs qui peuvent rendre notre prédiction
 %guillaume
 Au final une question intéressante est est-ce que le modèle arrivera d'une manière efficace à prédire les notes d'un nouvel utilisateur ? Pour faire cela nous avons
 choisi de ne pas recalculer $X$ et $\Theta$ pour chaque nouvel utilisateur. À la place, nous supposons que l'ajout d'un utilisateur ne va pas modifier
-les caractéristiques d'un film. Il nous suffit donc de calculer et d'ajouter seulement une nouvelle ligne à $\Theta$, caractérisant le profil du nouvel utilisateur. Ceci peut alors se faire très rapidement. À partir de ces nouvelles données, il nous suffit de compléter Y pour trouver la note la plus élevée et recommander à l'utilisateur le film associé. 
+les caractéristiques d'un film. Il nous suffit donc de calculer et d'ajouter seulement une nouvelle ligne à $\Theta$, caractérisant le profil du nouvel utilisateur. 
+Ceci peut alors se faire très rapidement. À partir de ces nouvelles données, 
+il nous suffit de compléter Y pour trouver la note la plus élevée et recommander à l'utilisateur le film associé. 
 %C pas clair du tout, phrase trop longue et pas très bien expliquée
 Toutefois l'erreur sur la prédiction des notes nous laisse penser que ce film ne serait probablement pas le meilleur film pour cet utilisateur, car le hasard aurait bien pu faire que le meilleur film ait une note plus basse de 1 point ce qui suffirait à lui faire perdre la première place.
 
@@ -241,7 +243,21 @@ Toutefois l'erreur sur la prédiction des notes nous laisse penser que ce film n
 
 \subsection{perspectives}
 %guillame
-\appendix  
+\appendix
+\section{Notations utilisés}
+Soit $A$ une matrice de dimension $n*m$ on note $A_{i, j}$ l'element de la matrice situé a la iéme ligne et jiéme collone.
+$||A||_{2} = \sqrt{\sum_{i = 1}^{n}\sum_{j = 1}^{m} A_{i, j}^{2}}$
+
+
+Si $X$ est un vecteur de dimension $w$ et $f$ une fonction qui depend de $X$ %j'attive pas a bien expliquer que f peut dependre
+%de plein de variables mais que X est juste l'un d'eux 
+on $\nabla_{X} f =
+\begin{pmatrix}
+\frac{\partial f}{\partial X_{1}}\\
+\frac{\partial f}{\partial X_{2}}\\
+\vdots\\
+\frac{\partial f}{\partial X_{w}}
+\end{pmatrix}$ 
 \section{Preuves}  
 \subsection{}  
 \label{P1}  
