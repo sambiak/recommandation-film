@@ -26,11 +26,11 @@ Nous avons choisi de nous intéresser à la recommandation automatique de films.
 A l’ère du numérique, la collecte de données d’une multitude d’utilisateurs peut devenir très intéressante pour leur faire des suggestions 
 personnalisées de tout type. C’est une chose que l’on rencontre souvent : recommandations d’amis sur Facebook, suggestions d’achats sur Internet, etc.
 Nous avons choisi de nous intéresser à la recommandation automatique de films.
-Mais comment recommander à un utilisateur un film qu’il aimera ? Tant de critères rentre en compte : 
-le genre du film, les préférences de l’utilisateur, la date du film, ou tout simplement la bonne qualité du film… Tout cela est très subjectif \! \\
+Mais comment recommander à un utilisateur un film qu’il aimera ? Tant de critères rentre en compte : 
+le genre du film, les préférences de l’utilisateur, la date du film, ou tout simplement la bonne qualité du film… Tout cela est très subjectif \! \\
 
 
-On en arrive à la problématique suivante : Comment concevoir un programme informatique 
+Nous en arrivons à la problématique suivante : Comment concevoir un programme informatique 
 qui prenne en compte tous ces critères pour produire une recommandation personnalisée pertinente ?
 Les méthodes proposées lors de ce projet consistent à estimer les notes que mettrait l’utilisateur à plusieurs films,
 afin de trouver les film le plus accordé à ses goûts. Cela se fait en regardant les prédictions des notes les plus hautes. 
@@ -229,37 +229,37 @@ Toutefois l'erreur sur la prédiction des notes nous laisse penser que ce film n
 \section{Preuves}  
 \subsection{}  
 \label{P1}  
-$\nabla_{x_{j}^T} J(\theta, X)=  
+$\nabla_{(x_{j})^T} J(\theta, X)=  
 \begin{pmatrix}  
-\displaystyle\frac{\partial \displaystyle\sum_{k=1}^{nf}\frac{1}{2}\Vert\tilde{\theta}x_{k}^{T}-\tilde{y}_{.,k}\Vert^{2}}{\partial x_{j,1}^{T}}\\  
-\displaystyle\frac{\partial \displaystyle\sum_{k=1}^{nf}\frac{1}{2}\Vert\tilde{\theta}x_{k}^{T}-\tilde{y}_{.,k}\Vert^{2}}{\partial x_{j,2}^{T}}\\  
+\displaystyle\frac{\partial \displaystyle\sum_{k=1}^{nf}\frac{1}{2}\Vert\tilde{\theta}(x_{k})^{T}-\tilde{y}_{.,k}\Vert^{2}}{\partial x_{j,1}}\\  
+\displaystyle\frac{\partial \displaystyle\sum_{k=1}^{nf}\frac{1}{2}\Vert\tilde{\theta}(x_{k})^{T}-\tilde{y}_{.,k}\Vert^{2}}{\partial x_{j,2}}\\  
 \vdots\\  
-\displaystyle\frac{\partial \displaystyle\sum_{k=1}^{nf}\frac{1}{2}\Vert\tilde{\theta}x_{k}^{T}-\tilde{y}_{.,k}\Vert^{2}}{\partial x_{j,n}^{T}}  
+\displaystyle\frac{\partial \displaystyle\sum_{k=1}^{nf}\frac{1}{2}\Vert\tilde{\theta}(x_{k})^{T}-\tilde{y}_{.,k}\Vert^{2}}{\partial x_{j,n}}  
 \end{pmatrix}  
 =  
 \begin{pmatrix}  
 \displaystyle\sum_{k=1}^{nf}  
-\frac{1}{2}\frac{\partial\Vert\tilde{\theta}x_{k}^{T}-\tilde{y}_{.,k}\Vert^{2}}{\partial x_{j,1}^{T}}\\  
+\frac{1}{2}\frac{\partial\Vert\tilde{\theta}(x_{k})^{T}-\tilde{y}_{.,k}\Vert^{2}}{\partial x_{j,1}}\\  
 \displaystyle\sum_{k=1}^{nf}  
-\frac{1}{2}\frac{\partial\Vert\tilde{\theta}x_{k}^{T}-\tilde{y}_{.,k}\Vert^{2}}{\partial x_{j,2}^{T}}\\  
+\frac{1}{2}\frac{\partial\Vert\tilde{\theta}(x_{k})^{T}-\tilde{y}_{.,k}\Vert^{2}}{\partial x_{j,2}}\\  
 \vdots\\  
 \displaystyle\sum_{k=1}^{nf}  
-\frac{1}{2}\frac{\partial\Vert\tilde{\theta}x_{k}^{T}-\tilde{y}_{.,k}\Vert^{2}}{\partial x_{j,n}^{T}}  
+\frac{1}{2}\frac{\partial\Vert\tilde{\theta}(x_{k})^{T}-\tilde{y}_{.,k}\Vert^{2}}{\partial x_{j,n}}  
 \end{pmatrix}$\\  
 $  
 =  
 \begin{pmatrix}  
 \displaystyle  
-\frac{1}{2}\frac{\partial\Vert\tilde{\theta}x_{j}^{T}-\tilde{y}_{.,j}\Vert^{2}}{\partial x_{j,1}^{T}}\\  
+\frac{1}{2}\frac{\partial\Vert\tilde{\theta}(x_{j})^{T}-\tilde{y}_{.,j}\Vert^{2}}{\partial x_{j,1}}\\  
 \displaystyle  
-\frac{1}{2}\frac{\partial\Vert\tilde{\theta}x_{j}^{T}-\tilde{y}_{.,j}\Vert^{2}}{\partial x_{j,2}^{T}}\\  
+\frac{1}{2}\frac{\partial\Vert\tilde{\theta}(x_{j})^{T}-\tilde{y}_{.,j}\Vert^{2}}{\partial x_{j,2}}\\  
 \vdots\\  
 \displaystyle  
-\frac{1}{2}\frac{\partial\Vert\tilde{\theta}x_{j}^{T}-\tilde{y}_{.,j}\Vert^{2}}{\partial x_{j,n}^{T}}  
+\frac{1}{2}\frac{\partial\Vert\tilde{\theta}(x_{j})^{T}-\tilde{y}_{.,j}\Vert^{2}}{\partial x_{j,n}}  
 \end{pmatrix}  
 =  
 \displaystyle  
-\nabla_{x_{j}^T}\frac{1}{2}\Vert\tilde{\theta}x_{j}^{T}-\tilde{y}_{.,j}\Vert^{2}  
+\nabla_{x_{j}^T}\frac{1}{2}\Vert\tilde{\theta}(x_{j})^{T}-\tilde{y}_{.,j}\Vert^{2}  
 $  
 \subsection{}  
 \label{P2}  
