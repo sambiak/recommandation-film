@@ -248,9 +248,24 @@ Pour mettre en place cela nous avons choisi de ne pas recalculer $X$ et $\Theta$
 \section{Conclusion}
 %1 page avec perspectives et limites de l'approche
 
-\appendix  
-\section{Preuves}
-%c pas rigoureux du tout
+\subsection{perspectives}
+%guillame
+\appendix
+\section{Notations utilisés}
+Soit $A$ une matrice de dimension $n*m$ on note $A_{i, j}$ l'element de la matrice situé a la iéme ligne et jiéme collone.
+$||A||_{2} = \sqrt{\sum_{i = 1}^{n}\sum_{j = 1}^{m} A_{i, j}^{2}}$
+
+
+Si $X$ est un vecteur de dimension $w$ et $f$ une fonction qui depend de $X$ %j'attive pas a bien expliquer que f peut dependre
+%de plein de variables mais que X est juste l'un d'eux 
+on $\nabla_{X} f =
+\begin{pmatrix}
+\frac{\partial f}{\partial X_{1}}\\
+\frac{\partial f}{\partial X_{2}}\\
+\vdots\\
+\frac{\partial f}{\partial X_{w}}
+\end{pmatrix}$ 
+\section{Preuves}  
 \subsection{}  
 \label{P1}  
 $\nabla_{(x_{j})^T} J(\theta, X)=  
