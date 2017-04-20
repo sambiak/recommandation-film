@@ -15,13 +15,19 @@
 
 \maketitle
 
-\begin{abstract}
-%a la fin
-A l’ère du numérique, la collecte de données d’une multitude d’utilisateurs peut devenir très intéressante pour leur faire des suggestions personnalisées de tout type. C’est une chose que l'on rencontre souvent : recommandations d’amis sur Facebook, suggestions d’achats sur Internet, etc.
-
-Nous avons choisi de nous intéresser à la recommandation automatique de films. En effet, la recommandation automatique d’un film obéit à plusieurs critères Ajout. Comment concevoir un programme informatique qui prenne en compte tous ces critères pour produire une recommandation personnalisée pertinente ?
-
-\end{abstract}
+%Il reste à faire:
+%changer les titres
+%completer l algo de guillaume
+%mettre 2 alphas differents dans les algo et dans les explications de la descente du gradient en general
+%Les preuves en annexe sont pas du tout rigoureuses : poser A, x, b, etc.
+%ajouter petites phrases d'intro au debut de chaque annexe
+%Un sommaire
+%une conclusion
+%mettre le code en annexe
+%inclure graphiques et commenter ce qu'on obtient et donner des valeurs du taux d'erreur du nb d etape et du nb de carac dans la partie de Yassine
+%mettre des NaN dans la figure du tableau des notes Y
+%faire une belle page de présentation (Rania répond pas)
+%Ajouter des figures dans la partie d'anthony
 
 \section*{Introduction}
 A l’ère du numérique, la collecte de données d’une multitude d’utilisateurs peut devenir très intéressante pour leur faire des suggestions 
@@ -128,60 +134,60 @@ Nous avons supposé que $\Theta$ et X existent, cependant il est très peu proba
 J\colon{\cal M}_{n_u, n} \times {\cal M}_{n_f, n} &\longrightarrow \mathbb{R}^+\\
 (\Theta, X)&\longmapsto \frac{1}{2}\sum_{\substack{i,j \\ y_{i,j} \ne NaN}}(\theta_{i}(x_{j})^{T}-y_{i,j})^{2}
 \end{align*}
-Nous appelons J fonction de coût, c'est la fonction à minimiser pour trouver $\Theta$ et X optimaux qui représentent nos données le mieux possible.
+Nous appelons J fonction de coût, c'est la fonction à minimiser : il faut trouver $\Theta$ et X tels que J(X, $\Theta$) soit le plus bas possible. Ce X et ce $\Theta$ seront ceux qui représenteront nos données le mieux possible.
 
 \section{Implémentation de l'algorithme}
-%guillaume
-\subsection{descente du gradient en général optimisation}
-%parler des minimum locaux
+%compléter l'algo et mettre deux taux d'apprentissage différents
+\subsection{Minimiser une fonction ? La descente du gradient}
 Nous utilisons un algorithme appelé descente du gradient pour minimiser J. Pour illustrer cet algorithme nous allons l'appliquer à une fonction qui dépend de deux variables : soit
 \begin{align*}
 f\colon \mathbb{R}^2&\longrightarrow f(\mathbb{R}^2)\\
 (x_1, x_2)&\longmapsto f(x_1, x_2)
 \end{align*}
-Soit $(x_1, x_2) \in \mathbb(R)^2$. Soit $(\Delta x_1, \Delta x_2) \in \mathbb{R}^2$. Soit $\Delta f = f(x_1 + \Delta x_1, x_2 + \Delta x_2) - f(x_1, x_2)$.
-$\Delta f$ est la variation de f lorsque $x_1$ varie de $\Delta x_1$ et $x_2$ varie de $\Delta x_2$. Nous avons la variation infinitésimale de f, $df = \frac{\partial f}{\partial x_{1}}d x_{1} + \frac{\partial f}{\partial x_{2}}dx_{2}$ avec $dx_1 et dx_2$ respectivement la variation infinitésimale de $x_1$ et celle de $x_2$. En faisant l'approximation
- $\Delta f = \frac{\partial f}{\partial x_{1}}\Delta  x_{1} + \frac{\partial f}{\partial x_{2}}\Delta x_{2}$ nous nous rendons compte
- qu'en posant $\Delta x_{1} = -\alpha \frac{\partial f}{\partial x_{1}}$
- et $\Delta x_{2} = -\alpha \frac{\partial f}{\partial x_{2}}$ avec $\alpha \in \mathbb{R}^+$
- nous obtenons $\Delta f = -\alpha (\frac{\partial f}{\partial x_{1}}(x_1, x_2)^{2} - \alpha (\frac{\partial f}{\partial x_{2}}(x_1, x_2)^{2} < 0$. Ainsi, dans
+Soit $(x_1, x_2) \in \mathbb{R}^2$. Nous avons une variation infinitésimale de f, $df = \frac{\partial f}{\partial x_{1}}d x_{1} + \frac{\partial f}{\partial x_{2}}dx_{2}$ avec $dx_1$ et $dx_2$ respectivement une variation infinitésimale de $x_1$ et une de $x_2$. 
+Soit $\alpha \in \mathbb{R}^{+*}$. 
+ Posons $\Delta x_{1} = -\alpha \frac{\partial f}{\partial x_{1}}$
+ et $\Delta x_{2} = -\alpha \frac{\partial f}{\partial x_{2}}$. Soit $\Delta f = f(x_1 + \Delta x_1, x_2 + \Delta x_2) - f(x_1, x_2)$. $\Delta f$ est la variation de f lorsque $x_1$ varie de $\Delta x_1$ et $x_2$ varie de $\Delta x_2$. 
+En faisant l'approximation $\Delta f = \frac{\partial f}{\partial x_{1}}\Delta  x_{1} + \frac{\partial f}{\partial x_{2}}\Delta x_{2}$ nous obtenons $\Delta f = -\alpha (\frac{\partial f}{\partial x_{1}}(x_1, x_2))^{2} - \alpha (\frac{\partial f}{\partial x_{2}}(x_1, x_2))^{2} < 0$. Ainsi, dans
  les limites de l'approximation faite au dessus, à chaque fois que nous modifions les $x_{i}$ de $- \alpha \frac{\partial f}{\partial x_{i}}(x_1, x_2)$
- nous avons une diminution de la valeur de $f(x_1, x_2)$. C'est le principe de la descente du gradient et nous obtenons l'algorithme suivant pour minimiser f :\\\\
-\begin{algorithm}[H]
-\Res{$x_1$ et $x_2$ tels que $f(x_1, x_2)$ soit minimal}
-Affecter à $\alpha$ une valeur choisie;\\
-Affecter à $x_1$ une valeur aléatoire;\\
-Affecter à $x_2$ une valeur aléatoire;\\
-\Repeat{convergence de la valeur $f(x_1, x_2)$}{Affecter à $(x_1, x_2)$ la valeur ($x_1 - \alpha \frac{\partial f}{\partial x_{1}}(x_1, x_2), x_2 - \alpha \frac{\partial f}{\partial x_{2}}(x_1, x_2))$;}
+ nous avons une diminution de la valeur de $f(x_1, x_2)$.\\
+
+C'est le principe de la descente du gradient et nous obtenons l'algorithme suivant pour minimiser f :
+\begin{algorithm}
 \caption{Descente du gradient sur f}
+Affecter à $\alpha$ une valeur choisie\;
+Affecter à $x_1$ une valeur aléatoire\;
+Affecter à $x_2$ une valeur aléatoire\;
+\Repeter{convergence de la valeur $f(x_1, x_2)$}{Affecter à $(x_1, x_2)$ la valeur ($x_1 - \alpha \frac{\partial f}{\partial x_{1}}(x_1, x_2), x_2 - \alpha \frac{\partial f}{\partial x_{2}}(x_1, x_2))$\;}
+\Res{$x_1$ et $x_2$ tels que $f(x_1, x_2)$ soit un minimum\;}
 \end{algorithm}
 
+\noindent Une partie de cet algorithme est répété un certain nombre de fois : nous l'appelons "étape du gradient" ou parfois simplement "étape".\\
 Remarquons que $x_1$ et $x_2$ sont fixés aléatoirement : leur valeur de départ peut être quelconque, l'algorithme minimisera quand même f.\\
-%introduire la notion d etape du gradient
-Chose importante, ces approximations ne fonctionnent qu'avec des valeurs assez petite de $\Delta x_1$ et $\Delta x_2$. Il faut donc choisir un taux d'apprentissage lui aussi petit pour que la descente du gradient puisse fonctionner. Mais choisir un taux d'apprentissage trop petit modifierait trop peu les $x_i$ à chaque étape : il faudrait alors un très grand nombre d'étape pour arriver à un minimum de $f$.
-Nous voulons appliquer le même raisonnement sur $J$ pour modifier X et $\Theta$ un certain nombre de fois jusqu'à arriver à une valeur de $J(X, \Theta)$ assez faible. Voyons voir comment s'y prendre.
+Chose importante, les approximations utilisées ne fonctionnent qu'avec des valeurs assez petite de $\Delta x_1$ et $\Delta x_2$. Il faut donc choisir un taux d'apprentissage lui aussi petit pour que la descente du gradient puisse fonctionner. Mais choisir un taux d'apprentissage trop petit modifierait trop peu les $x_i$ à chaque étape : il faudrait alors un très grand nombre d'étape pour arriver à un minimum de $f$.\\
 
-Mais il y a une subtilité. Comme nous n'arrivons pas à \textbf{(à quoi?)}
+Depuis le début nous parlons d'un minimum et pas du minimum. En fait la descente du gradient permet d'arriver à un minimum local d'une fonction. Pour minimiser J, nous avons décidé de nous contenter d'un minimum local.
 
-\begin{algorithm}[H]
- \Donnees{a mettre}  
- \Res{un nouveau x et un nouveau $\Theta$}  
- initialisation\;
-  \PourTous{j $\in$ \{1, 2, ..., nf\}}{  
-  Affecter à $x_{j}$ la valeur $x_{j}-\alpha \nabla_{x_{j}}J(x, \Theta)$\;}
- \PourTous{i $\in$ \{1, 2, ..., nu\}}{ 
-  Affecter à $\Theta_{i}$ la valeur $\Theta_{i}-\alpha \nabla_{\Theta_{i}}J(x, \Theta)$\; 
- }
- 
- \caption{Etape de la descente du gradient}
+\subsection{Minimiser J}
+
+Nous voulons maintenant appliquer le même raisonnement sur $J$ pour modifier X et $\Theta$, initialement pris aléatoirement, un certain nombre de fois jusqu'à arriver à une valeur de $J(X, \Theta)$ assez faible. Voyons voir comment s'y prendre.\\
+
+La différence avec la partie précédente, c'est que nous parlons de matrice. Mais chacun des coefficients de ces matrice peut être considéré comme une variable. Nous pouvons alors utiliser la descente du gradient pour J en considérant qu'il s'agit d'une fonction à $n_u * n + n_f * n$ variables. Or utiliser la descente du gradient comme ceci est beaucoup trop long : 30 secondes par étape sachant qu'il nous faut plus de 500 étapes pour arriver à un résultat correct.\\
+
+Or, nous remarquons que faire ce qui est décrit au dessus revient à faire :
+
+\begin{algorithm}
+\Donnees{a mettre}  
+\Res{X et $\Theta$ tels que J(X, $\Theta$) soit un minimum de J}
+\PourTous{j $\in$ \{1, 2, ..., $n_f$\}}{Affecter à $x_{j}$ la valeur $x_{j}-\alpha \nabla_{x_{j}}J(X, \Theta)$\;}
+\PourTous{i $\in$ \{1, 2, ..., $n_u$\}}{Affecter à $\Theta_{i}$ la valeur $\Theta_{i} - \alpha \nabla_{\theta_{i}} J(X, \Theta)$\;}
+\caption{Étape de la descente du gradient}
 \end{algorithm}
-%je sais que c'est trop court et pas assez bien posé mais il faut commencer quelque part
+
+Il faudrait donc être capable de calculer rapidement $\nabla_{x_{j}}J(X, \Theta) \forall j \in \{1, 2, ..., n_f\}$ et $\nabla_{\theta_{i}} J(X, \Theta) \forall i \in \{1, 2, ..., n_u\}$.
 Nous prouvons en \ref{P1} que $ \nabla_{x_{j}}J(x, \Theta) = \nabla_{x_{j}^T}\frac{1}{2}\Vert\tilde{\theta}x_{j}^{T}-\tilde{y}_{.,j}\Vert^{2}$
-puis en \ref{P2} nous prouvons que $\nabla_{x} \frac{1}{2}||Ax - b||^{2}_{2} = A^{T}(Ax - b)$ ce qui nous permet de dire
-que $ \nabla_{x_{j}}J(x, \Theta) =  \tilde{\theta}^{T}(\tilde{\theta}x_{j}^{T}-\tilde{y}_{.,j})$. Ces divers calculs nous permettent
-de représenter une étape du gradient comme une série de produits de matrices. Au début, nous devions calculer le résultat terme a terme. Cette
-façon de faire était très lente et passer à une représentation matricielle nous a permis de grandement accélérer les étapes de la descente du gradient.
-\subsubsection{écrire algo puis dire comment on a fait au début}
+puis en \ref{P2} nous prouvons que $ \nabla_{x_{j}}J(x, \Theta) =  \tilde{\theta}^{T}(\tilde{\theta}x_{j}^{T}-\tilde{y}_{.,j})$. Ce qui nous permet de représenter une étape du gradient comme une série de produits de matrices rapidement calculables. Cela nous fait passer à une vitesse de 5 étapes par seconde.
+
 \section{Mise en application de l'algorithme}
 \subsection{Familiarisation avec problème plus simple}
 
@@ -207,7 +213,9 @@ Maintenant nous pouvons nous demander à quel point cette méthode est précise.
 Reprenons notre vrai problème : arriver à compléter Y.
 
 \subsubsection{taux d'erreur}
-Maintenant que nous arrivons à obtenir un tableau de notes rempli, c'est-à-dire dans lequel nous avons prédit les notes manquantes, il reste à savoir si nos prédictions sont bonnes !
+
+Maintenant que nous avons un algorithme permettant de prédire les notes manquantes de Y, il reste à savoir si nos prédictions sont bonnes !\\
+
 Pour cela, il faut partir des choses que nous connaissons : les notes de Y. 
 Comment connaître la fiabilité de notre prédiction à partir de ces seules données ?  
 Il faudrait mesurer l'écart entre les notes prédites et les notes déjà connues.
@@ -215,34 +223,34 @@ Mais comment faire en sorte que l'algorithme cherche à prédire des notes que l
 Tout simplement en lui faisant croire que nous ne les connaissons pas !
 Cependant, si nous effaçons toutes les notes connues de notre tableau de départ, il est évident que l'algorithme ne pourra pas fonctionner.
 C'est pourquoi nous n'effaçons qu'une partie des notes connues (10 \% exactement). 
-Ainsi, nous choisissons 10 \% des notes de Y en faisant en sorte de retenir où elles étaient et leurs valeurs. 
-Puis, nous les transformons en NaN et nous fournissons ce nouveau tableau à l'algorithme qui le complète. 
+Ainsi, nous choisissons 10 \% des notes de Y en faisant en sorte de retenir où elles étaient placées et leurs valeurs. 
+Puis, nous les transformons en NaN et nous fournissons ce nouveau tableau à l'algorithme qui le complète.
 Ensuite, il suffit de comparer les notes enlevées à celles qui ont été prédites à leur place. 
 Nous obtenons ainsi un écart moyen, le taux d'erreur, qui nous indique la fiabilité de notre prédiction : 
 un écart peu élevé signifie que les notes prédites ont de grandes chances d'être pertinentes.
 
 \subsubsection{influence des paramètres}
 
-Il est intéressant d'étudier les facteurs qui peuvent rendre notre prédiction plus ou moins fiable. Bien entendu, nous excluons l'impact de la méthode de prédiction utilisée, celle-ci étant fixée à la base de notre projet. Nous nous demandons donc comment améliorer la fiabilité de notre prédiction sans changer complètement de méthode. Tout d'abord, le fait de modéliser une matrice de notes comme le produit de 2 matrices dont les dimensions dépendent du nombre de caractéristiques implique que les prédictions vont différer suivant le choix de ce nombre. Ensuite, la descente du gradient dépend directement des taux d'apprentissage que nous choisissons. En effet, nous adaptons à chaque étape la matrice $\Theta$ et la matrice X en fonction de ces taux d'apprentissage. L'enjeu est de taille quant au choix de ceux-ci : les choisir trop grand impliquera qu'en voulant se rapprocher de la note réelle, nous "overshoterons", et par conséquent nous ne minimiserons pas du tout J, nous augmenterons à chaque étape sa valeur. A l'inverse choisir des taux d'apprentissage trop petits aura pour conséquence un algorithme très inefficace : chaque étape ne changerai pratiquement pas X et $\Theta$. Il convient donc de trouver les taux d'apprentissages et le nombre de caractéristique optimaux pour obtenir la meilleure prédiction possible. A ce stade-là, vous devez sûrement vous dire que ce sont les seuls paramètres qui influent sur la précision de la méthode, mais il en est un qui est aussi essentiel. C'est le nombre d'étapes du gradient que nous choisissons de faire effectuer à l'algorithme. Au premier abord, notre intuition nous conduit à penser que plus le nombres d'étapes que nous effectuons est grand, plus grande sera la précision de la prédiction. Mais c'est en fait erroné. Certes, nous nous doutons bien qu'une étape ou 2 ne vont pas suffire pour obtenir des prédictions pertinentes, mais trop faire d'étape pourrait desservir notre prédiction. Nous avons observé cet effet en traçant la courbe du taux d'erreur en fonction du nombre d'étapes. Et nous observons clairement un minimum du taux d'erreur pour un certain nombre d'étapes, au delà le taux d'erreur augmente. Cet effet est couramment observé en apprentissage automatique et il est surnommé "sur-apprentissage". Pour le contrer, nous avons donc décidé de trouver le nombre d'étapes optimal pour les taux d'apprentissage et le nombre de caractéristiques optimaux.
+Il est intéressant d'étudier les facteurs qui peuvent rendre notre prédiction plus ou moins fiable. Bien entendu, nous excluons l'impact de la méthode de prédiction utilisée, celle-ci étant fixée à la base de notre projet. Nous nous demandons donc comment améliorer la fiabilité de notre prédiction sans changer complètement de méthode.\\
 
-%inclure graphiques
-\subsection{limites de notre approche} 
-%yassine
+Tout d'abord les prédictions vont différer suivant le choix de $n$, le nombre de caractéristique.\\
+Ensuite, la descente du gradient dépend directement des taux d'apprentissage que nous choisissons. En effet, nous adaptons à chaque étape la matrice $\Theta$ et la matrice X en fonction de ces taux d'apprentissage. L'enjeu est de taille quant au choix de ceux-ci : nous avons déjà vu qu'il fallait qu'ils ne soient ni trop grands ni trop petits. Il convient donc de trouver les taux d'apprentissages et le nombre de caractéristique optimaux pour obtenir la meilleure prédiction possible.\\
+À ce stade-là, vous devez sûrement vous dire que ce sont les seuls paramètres qui influent sur la précision de la méthode, mais il en est un qui est aussi essentiel. C'est le nombre d'étapes du gradient que nous choisissons de faire effectuer à l'algorithme. Au premier abord, notre intuition nous conduit à penser que plus le nombres d'étapes que nous effectuons est grand, plus grande sera la précision de la prédiction. Mais c'est en fait erroné. Certes, nous nous doutons bien qu'une étape ou 2 ne vont pas suffire pour obtenir des prédictions pertinentes, mais trop faire d'étape pourrait desservir notre prédiction. Nous avons observé cet effet en traçant la courbe du taux d'erreur en fonction du nombre d'étapes. Et nous observons clairement un minimum du taux d'erreur pour un certain nombre d'étapes, au delà le taux d'erreur augmente. Cet effet est couramment observé en apprentissage automatique et il est surnommé "sur-apprentissage". Pour le contrer, nous avons donc décidé de trouver le nombre d'étapes optimal pour les taux d'apprentissage et le nombre de caractéristiques optimaux.
+
+%inclure graphiques et commenter ce qu'on obtient et donner des valeurs du taux d'erreur du nb d etape et du nb de carac
+
 \subsubsection{Recommandation d'un film à un utilisateur en pratique}
 %guillaume
-Au final une question intéressante est est-ce que le modèle arrivera d'une manière efficace à prédire les notes d'un nouvel utilisateur ? Pour faire cela nous avons
-choisi de ne pas recalculer $X$ et $\Theta$ pour chaque nouvel utilisateur. À la place, nous supposons que l'ajout d'un utilisateur ne va pas modifier
-les caractéristiques d'un film. Il nous suffit donc de calculer et d'ajouter seulement une nouvelle ligne à $\Theta$, caractérisant le profil du nouvel utilisateur. Ceci peut alors se faire très rapidement. À partir de ces nouvelles données, il nous suffit de compléter Y pour trouver la note la plus élevée et recommander à l'utilisateur le film associé. 
-%C pas clair du tout, phrase trop longue et pas très bien expliquée
-Toutefois l'erreur sur la prédiction des notes nous laisse penser que ce film ne serait probablement pas le meilleur film pour cet utilisateur, car le hasard aurait bien pu faire que le meilleur film ait une note plus basse de 1 point ce qui suffirait à lui faire perdre la première place.
+Au final une question intéressante est est-ce que le modèle arrivera d'une manière efficace à prédire les notes d'un nouvel utilisateur ?\\
+
+Pour mettre en place cela nous avons choisi de ne pas recalculer $X$ et $\Theta$ pour chaque nouvel utilisateur. À la place, nous supposons que l'ajout des notes d'un nouvel utilisateur ne va pratiquement pas modifier le calcul de $X$ et des profils des anciens utilisateurs. Il nous suffit donc de calculer et d'ajouter seulement une nouvelle ligne à $\Theta$, caractérisant le profil du nouvel utilisateur. Ceci peut alors se faire très rapidement. À partir de ces nouvelles données, il nous suffit de compléter la ligne de Y correspondant aux notes du nouvel utilisateur pour trouver la plus élevée et recommander à l'utilisateur le film associé.
 
 \section{Conclusion}
-%1 page avec perspectives
+%1 page avec perspectives et limites de l'approche
 
-\subsection{perspectives}
-%guillame
 \appendix  
-\section{Preuves}  
+\section{Preuves}
+%c pas rigoureux du tout
 \subsection{}  
 \label{P1}  
 $\nabla_{(x_{j})^T} J(\theta, X)=  
