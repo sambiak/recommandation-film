@@ -26,16 +26,16 @@ Nous avons choisi de nous intéresser à la recommandation automatique de films.
 A l’ère du numérique, la collecte de données d’une multitude d’utilisateurs peut devenir très intéressante pour leur faire des suggestions 
 personnalisées de tout type. C’est une chose que l’on rencontre souvent : recommandations d’amis sur Facebook, suggestions d’achats sur Internet, etc.
 Nous avons choisi de nous intéresser à la recommandation automatique de films.
-Mais comment recommander à un utilisateur un film qu’il aimera ? Tant de critères rentre en compte : 
-le genre du film, les préférences de l’utilisateur, la date du film, ou tout simplement la bonne qualité du film… Tout cela est très subjectif \! \\
+Mais comment recommander à un utilisateur un film qu’il aimera ? Beaucoup de critères peuvent entrer en compte : 
+le genre du film, le jeu des acteurs, la date du film, ou tout simplement sa bonne qualité … Tout cela est très subjectif \! \\
 
 
 Nous en arrivons à la problématique suivante : Comment concevoir un programme informatique 
 qui prenne en compte tous ces critères pour produire une recommandation personnalisée pertinente ?
-Les méthodes proposées lors de ce projet consistent à estimer les notes que mettrait l’utilisateur à plusieurs films,
-afin de trouver les film le plus accordé à ses goûts. Cela se fait en regardant les prédictions des notes les plus hautes. 
-Dans un premier temps, nous introduirons le sujet en expliquant notre approche du problème.
-Puis, nous verrons sur quel modèle mathématique nous nous sommes appuyés pour écrire notre algorithme, et nous finirons par expliquer comment marche notre algorithme et comment l’optimiser. \\
+En se limitant à un certain nombre de films, la méthode proposée lors de ce projet consiste à estimer les notes que mettrait l’utilisateur aux films qu'il n'a pas vu.
+Nous pouvons ainsi trouver les films les plus en accord avec ses goûts en regardant les plus hautes prédictions de note.\\
+Pour ce rapport, dans un premier temps nous introduirons le sujet en expliquant notre approche du problème.
+Puis, nous verrons sur quel modèle mathématique nous nous sommes appuyés pour écrire notre algorithme, et nous finirons par expliquer comment marche notre algorithme et comment l’optimiser.
 
 \section{Qu'est ce qu'un système de recommandation?}
 
@@ -43,10 +43,9 @@ Puis, nous verrons sur quel modèle mathématique nous nous sommes appuyés pour
 
 Le but de notre projet est de pouvoir recommander un film ou plusieurs à n'importe quel utilisateur. 
 Pour cela, nous devons savoir à quel point un utilisateur va aimer tel ou tel film pour le lui recommander ou pas. 
-Il nous faut donc une sorte d'échelle d'affinité entre l'utilisateur et chaque film. Ce qui parait pertinent est alors d'estimer pour chaque film une note que lui donnerait l'utilisateur s'il le voyait.
+Il nous faut donc une sorte d'échelle d'affinité entre l'utilisateur et chaque film. Ce qui parait alors pertinent est d'estimer pour chaque film une note que lui donnerait l'utilisateur s'il le voyait. 
 Nous pourrons ainsi recommander le film ayant la meilleur note prédite.
-Notre objectif est de trouver un modèle mathématique permettant de déterminer la note que mettrait un utilisateur à n'importe quel film qu'il n'a pas vu. 
-Cependant il nous faut nous appuyer sur quelque chose. Pour commencer à travailler, il faut déjà connaître certaines informations : nous travaillerons avec des notes de films données par un certain nombre d'utilisateurs.
+Notre objectif est de trouver un modèle mathématique permettant de déterminer la note que mettrait un utilisateur à n'importe quel film qu'il n'a pas vu. Cependant il nous faut nous appuyer sur quelque chose. Pour commencer à travailler, il faut déjà connaître certaines informations : nous travaillerons avec des notes de films données par un certain nombre d'utilisateurs.
 
 \subsection{Première difficulté : les données}
 \subsubsection{Extraction des données}
@@ -55,11 +54,11 @@ Le besoin d'avoir des données nous guide vers une grande base de données appel
 Plusieurs jeux de données y sont disponibles. 
 Nous choisissons de travailler avec des notes données par 670 utilisateurs à 9125 films.
 Par la suite nous nous référerons au nombre d'utilisateurs par $n_u$ et au nombre de films par $n_f$.
-Nous extrayons alors 2 fichiers : l’un contenant les $n_f$ films avec leurs titres et un numéro d'identification attribué,  
+Nous extrayons alors 2 fichiers : l’un contenant les $n_f$ films dans un tableau avec leurs titres et un numéro d'identification attribué, 
 l’autre avec les notes des utilisateurs eux aussi numérotés par des identifiants.
 Ce dernier fichier est un tableau avec $n_u$ lignes du type : identifiant de l’utilisateur, id du film qu’il a noté, note. 
 Ces 2 fichiers étant peu pratiques pour manipuler leurs données,  
-nous créons une fonction tableau\_des\_notes() qui retourne un tableau, une matrice de dimension $n_u * n_f$ qui contient les notes données par les utilisateurs, en ligne, aux films, en colonne. Seulement, aucun utilisateur n'a noté tous les films : il y a des cases vides dans notre tableau. Nous insérons alors dans ces cases des `` NaN ''(Not a Number), type de donnée facile à traiter dans notre programme.
+nous créons une fonction tableau\_des\_notes() qui retourne un tableau, une matrice de dimensions $n_u * n_f$ qui contient les notes données par les utilisateurs, en ligne, aux films, en colonne. Seulement, aucun utilisateur n'a noté tous les films : il y a des cases vides dans notre tableau. Nous insérons alors dans ces cases des `` NaN ''(Not a Number), type de donnée facile à traiter dans notre programme.
 Le tableau des notes est appelé Y.
 
 
@@ -80,7 +79,7 @@ Nous remarquons alors que plus de 8000 films possèdent seulement entre 1 et 40 
 
 \includegraphics[scale=0.5]{hist2.png}
 
-Dans l’autre sens, nous voyons aussi que chaque utilisateur à noté 148 films en moyenne.
+Dans l’autre sens, nous voyons aussi que chaque utilisateur a noté 148 films en moyenne.
 
 \includegraphics[scale=0.5]{hist1.png}
 
@@ -133,19 +132,35 @@ Nous appelons J fonction de coût, c'est la fonction à minimiser pour trouver $
 \section{Implémentation de l'algorithme}
 %guillaume
 \subsection{descente du gradient en général optimisation}
-Nous utilisons un algorithme appelé descente du gradient pour minimiser J. Pour illustrer cet algorithme nous allons l'appliquer à une fonction qui dépend de deux variables : Soit
+%parler des minimum locaux
+Nous utilisons un algorithme appelé descente du gradient pour minimiser J. Pour illustrer cet algorithme nous allons l'appliquer à une fonction qui dépend de deux variables : soit
 \begin{align*}
 f\colon \mathbb{R}^2&\longrightarrow f(\mathbb{R}^2)\\
 (x_1, x_2)&\longmapsto f(x_1, x_2)
 \end{align*}
-Nous avons $df = \frac{\partial f}{\partial x_{1}}d x_{1} + \frac{\partial f}{\partial x_{2}}dx_{2}$. En faisant l'approximation
+Soit $(x_1, x_2) \in \mathbb(R)^2$. Soit $(\Delta x_1, \Delta x_2) \in \mathbb{R}^2$. Soit $\Delta f = f(x_1 + \Delta x_1, x_2 + \Delta x_2) - f(x_1, x_2)$.
+$\Delta f$ est la variation de f lorsque $x_1$ varie de $\Delta x_1$ et $x_2$ varie de $\Delta x_2$. Nous avons la variation infinitésimale de f, $df = \frac{\partial f}{\partial x_{1}}d x_{1} + \frac{\partial f}{\partial x_{2}}dx_{2}$ avec $dx_1 et dx_2$ respectivement la variation infinitésimale de $x_1$ et celle de $x_2$. En faisant l'approximation
  $\Delta f = \frac{\partial f}{\partial x_{1}}\Delta  x_{1} + \frac{\partial f}{\partial x_{2}}\Delta x_{2}$ nous nous rendons compte
- que en posant $\Delta x_{1} = -\alpha \frac{\partial f}{\partial x_{1}}$
+ qu'en posant $\Delta x_{1} = -\alpha \frac{\partial f}{\partial x_{1}}$
  et $\Delta x_{2} = -\alpha \frac{\partial f}{\partial x_{2}}$ avec $\alpha \in \mathbb{R}^+$
- nous obtenons $\Delta f = -\alpha (\frac{\partial f}{\partial x_{1}})^{2} - \alpha (\frac{\partial f}{\partial x_{2}})^{2} < 0$. Ainsi dans
- les limites de l'approximation faite au dessus a chaque fois que nous modifions les $x_{i}$ de $- \alpha \frac{\partial f}{\partial x_{i}}$
- nous avons une diminution de la valeur de $f(x_1, x_2)$.
-Nous appliquons le même raisonnement sur $J$ avec une subtilité. Comme nous n'arrivons pas à \textbf{(a koi?)}
+ nous obtenons $\Delta f = -\alpha (\frac{\partial f}{\partial x_{1}}(x_1, x_2)^{2} - \alpha (\frac{\partial f}{\partial x_{2}}(x_1, x_2)^{2} < 0$. Ainsi, dans
+ les limites de l'approximation faite au dessus, à chaque fois que nous modifions les $x_{i}$ de $- \alpha \frac{\partial f}{\partial x_{i}}(x_1, x_2)$
+ nous avons une diminution de la valeur de $f(x_1, x_2)$. C'est le principe de la descente du gradient et nous obtenons l'algorithme suivant pour minimiser f :\\\\
+\begin{algorithm}[H]
+\Res{$x_1$ et $x_2$ tels que $f(x_1, x_2)$ soit minimal}
+Affecter à $\alpha$ une valeur choisie;\\
+Affecter à $x_1$ une valeur aléatoire;\\
+Affecter à $x_2$ une valeur aléatoire;\\
+\Repeat{convergence de la valeur $f(x_1, x_2)$}{Affecter à $(x_1, x_2)$ la valeur ($x_1 - \alpha \frac{\partial f}{\partial x_{1}}(x_1, x_2), x_2 - \alpha \frac{\partial f}{\partial x_{2}}(x_1, x_2))$;}
+\caption{Descente du gradient sur f}
+\end{algorithm}
+
+Remarquons que $x_1$ et $x_2$ sont fixés aléatoirement : leur valeur de départ peut être quelconque, l'algorithme minimisera quand même f.\\
+%introduire la notion d etape du gradient
+Chose importante, ces approximations ne fonctionnent qu'avec des valeurs assez petite de $\Delta x_1$ et $\Delta x_2$. Il faut donc choisir un taux d'apprentissage lui aussi petit pour que la descente du gradient puisse fonctionner. Mais choisir un taux d'apprentissage trop petit modifierait trop peu les $x_i$ à chaque étape : il faudrait alors un très grand nombre d'étape pour arriver à un minimum de $f$.
+Nous voulons appliquer le même raisonnement sur $J$ pour modifier X et $\Theta$ un certain nombre de fois jusqu'à arriver à une valeur de $J(X, \Theta)$ assez faible. Voyons voir comment s'y prendre.
+
+Mais il y a une subtilité. Comme nous n'arrivons pas à \textbf{(à quoi?)}
 
 \begin{algorithm}[H]
  \Donnees{a mettre}  
