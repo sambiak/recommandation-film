@@ -1,4 +1,5 @@
 \documentclass[a4paper,10pt]{article}
+\usepackage[T1]{fontenc}
 \usepackage[utf8]{inputenc}
 \usepackage[frenchkw]{algorithm2e}
 \usepackage[francais]{babel}
@@ -176,7 +177,7 @@ Mais il y a une subtilité. Comme nous n'arrivons pas à \textbf{(à quoi?)}
 \end{algorithm}
 %je sais que c'est trop court et pas assez bien posé mais il faut commencer quelque part
 Nous prouvons en \ref{P1} que $ \nabla_{x_{j}}J(x, \Theta) = \nabla_{x_{j}^T}\frac{1}{2}\Vert\tilde{\theta}x_{j}^{T}-\tilde{y}_{.,j}\Vert^{2}$
-puis en \ref{P2} nous prouvons que $[\nabla_{x} \frac{1}{2}||Ax - b||^{2}_{2}]_{j} = [A^{T}(Ax - b)]_{j}$ ce qui nous permet de dire
+puis en \ref{P2} nous prouvons que $\nabla_{x} \frac{1}{2}||Ax - b||^{2}_{2} = A^{T}(Ax - b)$ ce qui nous permet de dire
 que $ \nabla_{x_{j}}J(x, \Theta) =  \tilde{\theta}^{T}(\tilde{\theta}x_{j}^{T}-\tilde{y}_{.,j})$. Ces divers calculs nous permettent
 de représenter une étape du gradient comme une série de produits de matrices. Au début, nous devions calculer le résultat terme a terme. Cette
 façon de faire était très lente et passer à une représentation matricielle nous a permis de grandement accélérer les étapes de la descente du gradient.
