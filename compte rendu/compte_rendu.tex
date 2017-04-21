@@ -1,33 +1,55 @@
 \documentclass[a4paper,10pt]{article}
-\usepackage[T1]{fontenc}
 \usepackage[utf8]{inputenc}
 \usepackage[frenchkw]{algorithm2e}
 \usepackage[francais]{babel}
 \usepackage{graphicx}
 \usepackage{amsfonts}
 \usepackage{amsmath}
+\usepackage{color}
 
 %opening
 \title{}
 \author{}
 
-\begin{document}
-
-\maketitle
-
 %Il reste à faire:
 %changer les titres
-%completer l algo de guillaume
-%mettre 2 alphas differents dans les algo et dans les explications de la descente du gradient en general
 %Les preuves en annexe sont pas du tout rigoureuses : poser A, x, b, etc.
 %ajouter petites phrases d'intro au debut de chaque annexe
 %Un sommaire
 %une conclusion
 %mettre le code en annexe
 %inclure graphiques et commenter ce qu'on obtient et donner des valeurs du taux d'erreur du nb d etape et du nb de carac dans la partie de Yassine
-%mettre des NaN dans la figure du tableau des notes Y -> fait !!
-%faire une belle page de présentation (Rania répond pas)
+%faire une belle page de présentation
 %Ajouter des figures dans la partie d'anthony
+%bibliographie
+
+%a arranger
+\begin{document}
+
+\begin{titlepage}
+	\begin{table}[t]
+	\centering
+		\begin{tabular}{r}
+			\includegraphics[scale=0.8]{image1.png}
+		\end{tabular}
+	\end{table}
+ \color{white}{ .}
+\vspace{2cm}
+ \color{red}
+	\begin{center}
+		\textsc{\Huge \underline{Recommandation de films} }\\
+		[1.5cm]
+		\color{black}
+		\textsc{\normalsize  AUGUSTONI Guillaume, AMRAM Yassine, PHILIBERT Juliette, GIRAUDO Anthony}\\
+		[0.75cm]
+		\textbf{\small Licence 1ère année - Mathématiques, Physique, Chimie, Informatique}\\
+		[0.3cm]	
+		\textrm{\small 2016-2017}\\
+		[0,75cm]
+		\textbf{\normalsize Encadrant de projet: } 
+		\textsc{\normalsize Emiya Valentin}\\
+	\end{center}
+\end{titlepage}
 
 \section*{Introduction}
 A l’ère du numérique, la collecte de données d’une multitude d’utilisateurs peut devenir très intéressante pour leur faire des suggestions 
@@ -106,7 +128,7 @@ Introduisons quelques notations qui seront utilisées par la suite.\\
 
 Nous travaillons tout au long de ce rapport avec des matrices réelles. $\forall (n, p) \in \mathbb{N}^2$ nous notons l'ensemble des matrices réelles de dimension $n * p$ : ${\cal M}_{n, p}$\\
 $\forall (n, p) \in \mathbb{N}^2$ $\forall A \in {\cal M}_{n, p}$ $\forall i \in \{1, 2, ..., n\}$ $a_i$ est la i-ème ligne de la matrice A et nous avons $a_i \in {\cal M}_{1, p}$. Et $\forall j \in \{1, 2, ..., p\}$ $a_{., j}$ est la j-ème colonne de la matrice A et nous avons $a_j \in {\cal M}_{n, 1}$. Remarquons que des majuscules sont utilisées pour des matrices qui ne sont ni des matrices lignes ni des matrices colonnes et des minuscules autrement. Nous utilisons aussi des minuscules pour les coefficients des matrices.\\
-Sauf indication contraire, lorsque nous utilisons la lettre j il s'agit d'un entier naturel non nul et inférieur ou égal à $n_f$. De la même façon la lettre i représente, lorsque ça n'est pas précisé, un entier naturel non nul et inférieur ou égal à $n_u$.\\
+Sauf indication contraire, lorsque nous utilisons la lettre j il s'agit d'un entier naturel quelconque non nul et inférieur ou égal à $n_f$. De la même façon la lettre i représente, lorsque ça n'est pas précisé, un entier naturel quelconque non nul et inférieur ou égal à $n_u$.\\
 Enfin, le film numéro j est le film dont les notes se trouvent à la j-ème colonne de Y et l'utilisateur i est l'utilisateur dont les notes qu'il a donné sont à la i-ème ligne de Y.
 
 \subsection{Modélisation du problème : factorisation de matrices}
@@ -137,7 +159,6 @@ J\colon{\cal M}_{n_u, n} \times {\cal M}_{n_f, n} &\longrightarrow \mathbb{R}^+\
 Nous appelons J fonction de coût, c'est la fonction à minimiser : il faut trouver $\Theta$ et X tels que J(X, $\Theta$) soit le plus bas possible. Ce X et ce $\Theta$ seront ceux qui représenteront nos données le mieux possible.
 
 \section{Implémentation de l'algorithme}
-%compléter l'algo et mettre deux taux d'apprentissage différents
 \subsection{Minimiser une fonction ? La descente du gradient}
 Nous utilisons un algorithme appelé descente du gradient pour minimiser J. Pour illustrer cet algorithme nous allons l'appliquer à une fonction qui dépend de deux variables : soit
 \begin{align*}
@@ -145,26 +166,29 @@ f\colon \mathbb{R}^2&\longrightarrow f(\mathbb{R}^2)\\
 (x_1, x_2)&\longmapsto f(x_1, x_2)
 \end{align*}
 Soit $(x_1, x_2) \in \mathbb{R}^2$. Nous avons une variation infinitésimale de f, $df = \frac{\partial f}{\partial x_{1}}d x_{1} + \frac{\partial f}{\partial x_{2}}dx_{2}$ avec $dx_1$ et $dx_2$ respectivement une variation infinitésimale de $x_1$ et une de $x_2$. 
-Soit $\alpha \in \mathbb{R}^{+*}$. 
- Posons $\Delta x_{1} = -\alpha \frac{\partial f}{\partial x_{1}}$
- et $\Delta x_{2} = -\alpha \frac{\partial f}{\partial x_{2}}$. Soit $\Delta f = f(x_1 + \Delta x_1, x_2 + \Delta x_2) - f(x_1, x_2)$. $\Delta f$ est la variation de f lorsque $x_1$ varie de $\Delta x_1$ et $x_2$ varie de $\Delta x_2$. 
-En faisant l'approximation $\Delta f = \frac{\partial f}{\partial x_{1}}\Delta  x_{1} + \frac{\partial f}{\partial x_{2}}\Delta x_{2}$ nous obtenons $\Delta f = -\alpha (\frac{\partial f}{\partial x_{1}}(x_1, x_2))^{2} - \alpha (\frac{\partial f}{\partial x_{2}}(x_1, x_2))^{2} < 0$. Ainsi, dans
- les limites de l'approximation faite au dessus, à chaque fois que nous modifions les $x_{i}$ de $- \alpha \frac{\partial f}{\partial x_{i}}(x_1, x_2)$
+Soit $(\alpha_{x_1}, \alpha_{x_2}) \in (\mathbb{R}^{+*})^2$. 
+ Posons $\Delta x_{1} = -\alpha_{x_1} \frac{\partial f}{\partial x_{1}}$
+ et $\Delta x_{2} = -\alpha_{x_2} \frac{\partial f}{\partial x_{2}}$. Soit $\Delta f = f(x_1 + \Delta x_1, x_2 + \Delta x_2) - f(x_1, x_2)$. $\Delta f$ est la variation de f lorsque $x_1$ varie de $\Delta x_1$ et $x_2$ varie de $\Delta x_2$. 
+En faisant l'approximation $\Delta f = \frac{\partial f}{\partial x_{1}}\Delta  x_{1} + \frac{\partial f}{\partial x_{2}}\Delta x_{2}$ nous obtenons $\Delta f = -\alpha_{x_1} (\frac{\partial f}{\partial x_{1}}(x_1, x_2))^{2} - \alpha_{x_2} (\frac{\partial f}{\partial x_{2}}(x_1, x_2))^{2} < 0$. Ainsi, dans
+ les limites de l'approximation faite au dessus, à chaque fois que nous modifions les $x_{k}$ de $- \alpha_{x_k} \frac{\partial f}{\partial x_{k}}(x_1, x_2)$
  nous avons une diminution de la valeur de $f(x_1, x_2)$.\\
 
 C'est le principe de la descente du gradient et nous obtenons l'algorithme suivant pour minimiser f :
 \begin{algorithm}
 \caption{Descente du gradient sur f}
-Affecter à $\alpha$ une valeur choisie\;
+\Entree{$\alpha_{x_1}, \alpha_{x_2}$, f}
+\Res{$x_1$ et $x_2$ tels que $f(x_1, x_2)$ soit un minimum}
+\BlankLine
 Affecter à $x_1$ une valeur aléatoire\;
 Affecter à $x_2$ une valeur aléatoire\;
-\Repeter{convergence de la valeur $f(x_1, x_2)$}{Affecter à $(x_1, x_2)$ la valeur ($x_1 - \alpha \frac{\partial f}{\partial x_{1}}(x_1, x_2), x_2 - \alpha \frac{\partial f}{\partial x_{2}}(x_1, x_2))$\;}
-\Res{$x_1$ et $x_2$ tels que $f(x_1, x_2)$ soit un minimum\;}
+\Repeter{convergence de la valeur $f(x_1, x_2)$}{Affecter à $(x_1, x_2)$ la valeur ($x_1 - \alpha_{x_1} \frac{\partial f}{\partial x_{1}}(x_1, x_2), x_2 - \alpha_{x_2} \frac{\partial f}{\partial x_{2}}(x_1, x_2))$\;}
+\BlankLine
 \end{algorithm}
 
 \noindent Une partie de cet algorithme est répété un certain nombre de fois : nous l'appelons "étape du gradient" ou parfois simplement "étape".\\
 Remarquons que $x_1$ et $x_2$ sont fixés aléatoirement : leur valeur de départ peut être quelconque, l'algorithme minimisera quand même f.\\
-Chose importante, les approximations utilisées ne fonctionnent qu'avec des valeurs assez petite de $\Delta x_1$ et $\Delta x_2$. Il faut donc choisir un taux d'apprentissage lui aussi petit pour que la descente du gradient puisse fonctionner. Mais choisir un taux d'apprentissage trop petit modifierait trop peu les $x_i$ à chaque étape : il faudrait alors un très grand nombre d'étape pour arriver à un minimum de $f$.\\
+Notons que $\alpha_{x_1}$ et $\alpha_{x_2}$ sont appelés taux d'apprentissage.
+Chose importante, les approximations utilisées ne fonctionnent qu'avec des valeurs assez petite de $\Delta x_1$ et $\Delta x_2$. Il faut donc choisir des taux d'apprentissage eux aussi petits pour que la descente du gradient puisse fonctionner. Mais choisir des taux d'apprentissage trop petits modifierait trop peu les $x_i$ à chaque étape : il faudrait alors un très grand nombre d'étape pour arriver à un minimum de $f$.\\
 
 Depuis le début nous parlons d'un minimum et pas du minimum. En fait la descente du gradient permet d'arriver à un minimum local d'une fonction. Pour minimiser J, nous avons décidé de nous contenter d'un minimum local.
 
@@ -172,21 +196,32 @@ Depuis le début nous parlons d'un minimum et pas du minimum. En fait la descent
 
 Nous voulons maintenant appliquer le même raisonnement sur $J$ pour modifier X et $\Theta$, initialement pris aléatoirement, un certain nombre de fois jusqu'à arriver à une valeur de $J(X, \Theta)$ assez faible. Voyons voir comment s'y prendre.\\
 
-La différence avec la partie précédente, c'est que nous parlons de matrice. Mais chacun des coefficients de ces matrice peut être considéré comme une variable. Nous pouvons alors utiliser la descente du gradient pour J en considérant qu'il s'agit d'une fonction à $n_u * n + n_f * n$ variables. Or utiliser la descente du gradient comme ceci est beaucoup trop long : 30 secondes par étape sachant qu'il nous faut plus de 500 étapes pour arriver à un résultat correct.\\
+La différence avec la partie précédente, c'est que nous parlons de matrices. Mais chacun des coefficients de ces matrice peut être considéré comme une variable. Nous pouvons alors utiliser la descente du gradient pour J en considérant qu'il s'agit d'une fonction à $n_u * n + n_f * n$ variables. Or utiliser la descente du gradient comme ceci est beaucoup trop long : 30 secondes par étape avec $n = 10$ sachant qu'il nous faut plus de 500 étapes pour arriver à un résultat correct.\\
 
-Or, nous remarquons que faire ce qui est décrit au dessus revient à faire :
+Or, nous remarquons que faire ce qui est décrit au dessus revient à faire à chaque étape :
 
 \begin{algorithm}
-\Donnees{a mettre}  
-\Res{X et $\Theta$ tels que J(X, $\Theta$) soit un minimum de J}
-\PourTous{j $\in$ \{1, 2, ..., $n_f$\}}{Affecter à $x_{j}$ la valeur $x_{j}-\alpha \nabla_{x_{j}}J(X, \Theta)$\;}
-\PourTous{i $\in$ \{1, 2, ..., $n_u$\}}{Affecter à $\Theta_{i}$ la valeur $\Theta_{i} - \alpha \nabla_{\theta_{i}} J(X, \Theta)$\;}
+\Entree{X, $\Theta$, $\alpha_X$, $\alpha_{\Theta}$, J}  
+\Res{X et $\Theta$ tels que J(X, $\Theta$) se soit rapproché du minimum de J}
+\BlankLine
+\textbf{Simultanément:}\\
+\indent \PourTous{j $\in$ \{1, 2, ..., $n_f$\}}{Affecter à $x_{j}$ la valeur $x_{j}-\alpha_X (\nabla_{(x_{j})^T}J(X, \Theta))^T$\;}
+\indent \PourTous{i $\in$ \{1, 2, ..., $n_u$\}}{Affecter à $\Theta_{i}$ la valeur $\theta_{i} - \alpha_{\Theta} (\nabla_{(\theta_{i})^T}J(X, \Theta))^T$\;}
 \caption{Étape de la descente du gradient}
 \end{algorithm}
 
-Il faudrait donc être capable de calculer rapidement $\nabla_{x_{j}}J(X, \Theta) \forall j \in \{1, 2, ..., n_f\}$ et $\nabla_{\theta_{i}} J(X, \Theta) \forall i \in \{1, 2, ..., n_u\}$.
-Nous prouvons en \ref{P1} que $ \nabla_{x_{j}}J(x, \Theta) = \nabla_{x_{j}^T}\frac{1}{2}\Vert\tilde{\theta}x_{j}^{T}-\tilde{y}_{.,j}\Vert^{2}$
-puis en \ref{P2} nous prouvons que $ \nabla_{x_{j}}J(x, \Theta) =  \tilde{\theta}^{T}(\tilde{\theta}x_{j}^{T}-\tilde{y}_{.,j})$. Ce qui nous permet de représenter une étape du gradient comme une série de produits de matrices rapidement calculables. Cela nous fait passer à une vitesse de 5 étapes par seconde.
+\noindent Cela en considérant une matrice colonne comme un vecteur pour calculer le gradient et en considérant le gradient comme une matrice colonne.\\
+Il faudrait maintenant être capable de calculer rapidement $\nabla_{(x_{j})^T}J(X, \Theta)$ $\forall j \in \{1, 2, ..., n_f\}$ et $\nabla_{(\theta_{i})^T} J(X, \Theta)$ $\forall i \in \{1, 2, ..., n_u\}$.
+Nous prouvons en \ref{P1} que $ \nabla_{(x_{j})^T}J(X, \Theta) = \nabla_{(x_{j})^T}\frac{1}{2}\Vert\tilde{\Theta}(x_{j})^{T}-\tilde{y}_{.,j}\Vert^{2}$ et que $ \nabla_{(\theta_i)^T}J(X, \Theta) = \nabla_{(\theta_{i})^T}\frac{1}{2}\Vert\tilde{X}(\theta_{i})^{T}-\tilde{y}_{i}\Vert^{2}$.\\\\
+Que sont $\tilde{\Theta}$, $\tilde{X}$, $\tilde{y}_i$ et $\tilde{y}_{., j}$ ? En fait $\tilde{y}_{.,j}$ est le vecteur $y_{.,j}$ auquel nous avons enlev\'{e} les composantes NaN : par exemple si $y_{.,j}=
+\begin{pmatrix}
+2\\3\\NaN\\5\\NaN
+\end{pmatrix}$
+alors $\tilde{y}_{.,j}=
+\begin{pmatrix}
+2\\3\\5
+\end{pmatrix}$. Et si nous avons pour cela retir\'{e} les lignes $l_{1}, l_{2}, \cdots$ et $l_{u}$ de y, nous retirons les m\^{e}mes lignes de $\theta$ pour former $\tilde{\theta}$.  D'o\`{u} $\tilde{\theta}$ d\'{e}pend de $y_{.,j}$ et donc de j. Même chose pour $\tilde{X}$ et $\tilde{y}_i$ : nous enlevons les colonnes de $y_i$ où il y a des NaN, puis les mêmes colonnes de X.\\\\
+Puis en \ref{P2} nous prouvons que $ \nabla_{(x_{j})^T}\frac{1}{2}\Vert\tilde{\theta}(x_{j})^{T}-\tilde{y}_{.,j}\Vert^{2} =  \tilde{\Theta}^{T}(\tilde{\Theta}(x_{j})^{T}-\tilde{y}_{.,j})$ et que $\nabla_{(\theta_{i})^T}\frac{1}{2}\Vert\tilde{X}(\theta_{i})^{T}-\tilde{y}_{i}\Vert^{2} =  \tilde{X}^{T}(\tilde{X}(\theta_{i})^{T}-\tilde{y}_{i})$. Ce qui nous permet de représenter une étape du gradient comme une série de produits de matrices rapidement calculables. Cela nous fait passer à une vitesse de 5 étapes par seconde avec $n = 10$.
 
 \section{Mise en application de l'algorithme}
 \subsection{Familiarisation avec problème plus simple}
@@ -252,18 +287,17 @@ Pour mettre en place cela nous avons choisi de ne pas recalculer $X$ et $\Theta$
 %guillame
 \appendix
 \section{Notations utilisés}
-Soit $A$ une matrice de dimension $n*m$ on note $A_{i, j}$ l'element de la matrice situé a la iéme ligne et jiéme collone.
-$||A||_{2} = \sqrt{\sum_{i = 1}^{n}\sum_{j = 1}^{m} A_{i, j}^{2}}$
+%j ai viré ce que j avais déjà dit dans une autre partie
 
+$||a|| = \sqrt{\sum_{k = 1}^{m} a_{k}^{2}}$ avec $m \in \mathbb{N}^*$ et $a \in {\cal M}_{m}$\\
 
-Si $X$ est un vecteur de dimension $w$ et $f$ une fonction qui depend de $X$ %j'attive pas a bien expliquer que f peut dependre
-%de plein de variables mais que X est juste l'un d'eux 
-on $\nabla_{X} f =
+Si $u$ est un vecteur de $\mathbb{R}^w$ avec $w \in \mathbb{N}^*$ et $f$ une fonction réelle dont une des variables est $X$ on a 
+$\nabla_{u} f(u, ...) =
 \begin{pmatrix}
-\frac{\partial f}{\partial X_{1}}\\
-\frac{\partial f}{\partial X_{2}}\\
+\frac{\partial f}{\partial u_{1}}(u, ...)\\
+\frac{\partial f}{\partial u_{2}}(u, ...)\\
 \vdots\\
-\frac{\partial f}{\partial X_{w}}
+\frac{\partial f}{\partial u_{w}}(u, ...)
 \end{pmatrix}$ 
 \section{Preuves}
 %pas rigoureux
