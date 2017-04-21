@@ -7,27 +7,45 @@
 \usepackage{amsmath}
 \usepackage{color}
 \usepackage[T1]{fontenc}
+\usepackage{float} 
 
 %opening
 \title{}
 \author{}
 
 %Il reste à faire:
-%changer les titres
-%Les preuves en annexe sont pas du tout rigoureuses : poser A, x, b, etc.
-%ajouter petites phrases d'intro au debut de chaque annexe
-%Un sommaire
-%une conclusion
-%mettre le code en annexe
-%inclure graphiques et commenter ce qu'on obtient et donner des valeurs du taux d'erreur du nb d etape et du nb de carac dans la partie de Yassine
-%faire une belle page de présentation
-%Ajouter des figures dans la partie d'anthony
-%bibliographie
 
-%a arranger
+
+%Anthony:
+
+%Ajouter des figures dans la partie factorisation de matrices (nécessaire ?)
+%faire une belle page de présentation
+
+
+%Guillaume :
+
+%faire la conclusion
+%virer la police moche de [T1]{fontenc} ( je comprend pas pourquoi tu dit que ça fait des erreurs quand on l'enlève : ça me fait pas d erreurs quand je le vire )
+
+
+%Yassine :
+
+%Dans ta partie : inclure graphiques, commenter ce qu'on obtient et donner les valeurs du taux d'erreur, du nb d etape et du nb de carac
+
+
+%Juliette :
+
+%bibliographie
+%soucis à propos de la phrase "plus de 8000 films possèdent seulement entre 1 et 40 notes" : le graphique montre un maximum de note à 25. (voir commentaires de Emiya)
+% verifier le titre pour un de tes graphiques : "Notes rangées en fonction du nombre de fois qu'ont été notés les films qu'elles notent"
+% améliorer les titres que j'ai mis à tes graphiques si tu penses que c nécessaire de le faire
+
 \begin{document}
 
+\renewcommand{\thepage}
+
 \begin{titlepage}
+%à arranger
 	\begin{table}[t]
 	\centering
 		\begin{tabular}{r}
@@ -52,7 +70,23 @@
 	\end{center}
 \end{titlepage}
 
+%page de garde :
+\newpage
+\strut
+\newpage
+
+%Sommaire :
+
+\renewcommand{\contentsname}{Sommaire}
+\tableofcontents
+\newpage
+
+%commencer la numérotation des pages:
+\renewcommand{\thepage}{\arabic{page}}
+\setcounter{page}{1}
+
 \section*{Introduction}
+
 A l’ère du numérique, la collecte de données d’une multitude d’utilisateurs peut devenir très intéressante pour leur faire des suggestions 
 personnalisées de tout type. C’est une chose que l’on rencontre souvent : recommandations d’amis sur Facebook, suggestions d’achats sur Internet, etc.
 Nous avons choisi de nous intéresser à la recommandation automatique de films.
@@ -78,7 +112,7 @@ Nous pourrons ainsi recommander le film ayant la meilleur note prédite.
 Notre objectif est de trouver un modèle mathématique permettant de déterminer la note que mettrait un utilisateur à n'importe quel film qu'il n'a pas vu. Cependant il nous faut nous appuyer sur quelque chose. Pour commencer à travailler, il faut déjà connaître certaines informations : nous travaillerons avec des notes de films données par un certain nombre d'utilisateurs.
 
 \subsection{Première difficulté : les données}
-\subsubsection{Extraction des données}
+\subsubsection{Extraction de données}
 
 Le besoin d'avoir des données nous guide vers une grande base de données appelée `` movielens '' qui est un site communautaire de recommandation de films où les utilisateurs du site notent des films de 0 à 5.
 Plusieurs jeux de données y sont disponibles. 
@@ -91,15 +125,11 @@ Ces 2 fichiers étant peu pratiques pour manipuler leurs données,
 nous créons une fonction tableau\_des\_notes() qui retourne un tableau, une matrice de dimensions $n_u * n_f$ qui contient les notes données par les utilisateurs, en ligne, aux films, en colonne. Seulement, aucun utilisateur n'a noté tous les films : il y a des cases vides dans notre tableau. Nous insérons alors dans ces cases des `` NaN ''(Not a Number), type de donnée facile à traiter dans notre programme.
 Le tableau des notes est appelé Y.
 
-
-\begin{figure}[h]
+\begin{figure}[H]
   \centering
   \includegraphics[scale=0.4]{Ynew.png}
   \caption{Tableau des notes Y}
- 
 \end{figure}
-
-
 
 \subsubsection{Analyse des données}
 
@@ -107,17 +137,25 @@ Nous créons ensuite deux fonctions permettant de faire des statistiques sur nos
 
 Nous remarquons alors que plus de 8000 films possèdent seulement entre 1 et 40 notes, que le plus souvent un film a été noté deux fois et que le film auquel a été attribué le plus de notes a 339 notes.
 
+\begin{figure}[H]
+  \centering
 \includegraphics[scale=0.5]{hist2.png}
+\caption{Films triés en fonction du nombre de fois qu'ils ont été notés}
+\end{figure}
 
 Dans l’autre sens, nous voyons aussi que chaque utilisateur a noté 148 films en moyenne.
 
+\begin{figure}[H]
+  \centering
 \includegraphics[scale=0.5]{hist1.png}
+\caption{Notes rangées en fonction du nombre de fois qu'ont été notés les films qu'elles notent}
+\end{figure}
 
 Autre remarque, notre tableau présente 98,4 \% de NaN.\\
 
 Notre but devient de compléter ces trous, de prédire les notes que nous ne connaissons pas. Alors nous pourrions, en réutilisant la même méthode, pour n'importe quel personne ayant noté quelques films deviner les notes qu'il mettra aux films qu'il n'a pas encore vu.
 
-\section{Formalisation du problème d'optimisation et modélisation}
+\section{Modélisation du problème}
 
 Nous nous posons maintenant la question de comment nous y prendre pour prédire des notes ?
 Notre seule ressource est la matrice Y non pleine. Sur quel modèle s'appuyer pour la compléter ?
@@ -132,7 +170,7 @@ $\forall (n, p) \in \mathbb{N}^2$ $\forall A \in {\cal M}_{n, p}$ $\forall i \in
 Sauf indication contraire, lorsque nous utilisons la lettre j il s'agit d'un entier naturel quelconque non nul et inférieur ou égal à $n_f$. De la même façon la lettre i représente, lorsque ça n'est pas précisé, un entier naturel quelconque non nul et inférieur ou égal à $n_u$.\\
 Enfin, le film numéro j est le film dont les notes se trouvent à la j-ème colonne de Y et l'utilisateur i est l'utilisateur dont les notes qu'il a donné sont à la i-ème ligne de Y.
 
-\subsection{Modélisation du problème : factorisation de matrices}
+\subsection{Factorisation de matrices}
 
 Posons $Y_f$ la matrice Y complétée qui contient toutes les prédictions, exactes, des notes qui nous manquent. C'est la matrice à laquelle nous voulons aboutir, celle que nous devons deviner. Voici notre méthode.\\ 
  
@@ -161,6 +199,7 @@ Nous appelons J fonction de coût, c'est la fonction à minimiser : il faut trou
 
 \section{Implémentation de l'algorithme}
 \subsection{Minimiser une fonction ? La descente du gradient}
+
 Nous utilisons un algorithme appelé descente du gradient pour minimiser J. Pour illustrer cet algorithme nous allons l'appliquer à une fonction qui dépend de deux variables : soit
 \begin{align*}
 f\colon \mathbb{R}^2&\longrightarrow f(\mathbb{R}^2)\\
@@ -242,13 +281,11 @@ Comment faire ? Notre but est de minimiser la fonction
 \end{align*}
 Tiens donc, minimiser une fonction ? Nous savons faire grâce à la descente du gradient. Et nous le faisons.\\
 
-Maintenant nous pouvons nous demander à quel point cette méthode est précise. Nous utilisons donc notre algorithme sur plusieurs configurations du tableau T en enlevant à chaque fois une note différente du tableau extrait. Et nous observons un écart absolu moyen de 0.24 entre la note prédite et la valeur réelle de la note enlevée. Nous avons donc une très bonne précision sachant que les notes sont précises à 0.5 près. Mais malheureusement cette méthode ne peut être employée que sur un tableau qui n'a qu'une seule case vide.
+Maintenant nous pouvons nous demander à quel point cette méthode est précise. Nous utilisons donc notre algorithme sur plusieurs configurations du tableau T en enlevant à chaque fois une note différente du tableau extrait. Et nous observons un écart absolu moyen de 0.24 entre la note prédite et la valeur réelle de la note enlevée. Nous avons donc une très bonne précision sachant que les notes sont précises à 0.5 près. Mais malheureusement cette méthode ne peut être employée que sur un tableau qui n'a qu'une seule case vide.\\
 
-\subsection{yassine}
+Reprenons maintenant notre vrai problème : arriver à compléter Y.
 
-Reprenons notre vrai problème : arriver à compléter Y.
-
-\subsubsection{taux d'erreur}
+\subsection{Taux d'erreur}
 
 Maintenant que nous avons un algorithme permettant de prédire les notes manquantes de Y, il reste à savoir si nos prédictions sont bonnes !\\
 
@@ -265,7 +302,7 @@ Ensuite, il suffit de comparer les notes enlevées à celles qui ont été préd
 Nous obtenons ainsi un écart moyen, le taux d'erreur, qui nous indique la fiabilité de notre prédiction : 
 un écart peu élevé signifie que les notes prédites ont de grandes chances d'être pertinentes.
 
-\subsubsection{influence des paramètres}
+\subsection{Influence des paramètres}
 
 Il est intéressant d'étudier les facteurs qui peuvent rendre notre prédiction plus ou moins fiable. Bien entendu, nous excluons l'impact de la méthode de prédiction utilisée, celle-ci étant fixée à la base de notre projet. Nous nous demandons donc comment améliorer la fiabilité de notre prédiction sans changer complètement de méthode.\\
 
@@ -275,16 +312,16 @@ Ensuite, la descente du gradient dépend directement des taux d'apprentissage qu
 
 %inclure graphiques et commenter ce qu'on obtient et donner des valeurs du taux d'erreur du nb d etape et du nb de carac
 
-\subsubsection{Recommandation d'un film à un utilisateur en pratique}
-%guillaume
+\subsection{En pratique : recommandation d'un film à un nouvel utilisateur}
+
 Au final une question intéressante est est-ce que le modèle arrivera d'une manière efficace à prédire les notes d'un nouvel utilisateur ?\\
 
 Pour mettre en place cela nous avons choisi de ne pas recalculer $X$ et $\Theta$ pour chaque nouvel utilisateur. À la place, nous supposons que l'ajout des notes d'un nouvel utilisateur ne va pratiquement pas modifier le calcul de $X$ et des profils des anciens utilisateurs. Il nous suffit donc de calculer et d'ajouter seulement une nouvelle ligne à $\Theta$, caractérisant le profil du nouvel utilisateur. Ceci peut alors se faire très rapidement. À partir de ces nouvelles données, il nous suffit de compléter la ligne de Y correspondant aux notes du nouvel utilisateur pour trouver la plus élevée et recommander à l'utilisateur le film associé.
 
-\section{Conclusion}
+\section*{Conclusion}
 %1 page avec perspectives et limites de l'approche
 
-\subsection{perspectives}
+\subsection*{Perspectives}
 %guillame
 \appendix
 \section{Notations utilisés}
@@ -303,8 +340,11 @@ $\nabla_{u} f(u, ...) =
 \section{Preuves}
 %pas rigoureux
 \subsection{}  
-\label{P1}  
-$\nabla_{(x_{j})^T} J(\theta, X)=  
+\label{P1}
+Les notations utilisées sont les mêmes que dans la partie 3.2. Montrons : \[\nabla_{(x_{j})^T} J(\Theta, X) = \nabla_{(x_{j})^T}\frac{1}{2}\Vert\tilde{\Theta}(x_{j})^{T}-\tilde{y}_{.,j}\Vert^{2}\]
+Nous avons :
+\begin{align*}
+\nabla_{(x_{j})^T} J(\Theta, X) &=  
 \begin{pmatrix}  
 \displaystyle\frac{\partial \displaystyle\sum_{k=1}^{nf}\frac{1}{2}\Vert\tilde{\theta}(x_{k})^{T}-\tilde{y}_{.,k}\Vert^{2}}{\partial x_{j,1}}\\  
 \displaystyle\frac{\partial \displaystyle\sum_{k=1}^{nf}\frac{1}{2}\Vert\tilde{\theta}(x_{k})^{T}-\tilde{y}_{.,k}\Vert^{2}}{\partial x_{j,2}}\\  
@@ -320,8 +360,7 @@ $\nabla_{(x_{j})^T} J(\theta, X)=
 \vdots\\  
 \displaystyle\sum_{k=1}^{nf}  
 \frac{1}{2}\frac{\partial\Vert\tilde{\theta}(x_{k})^{T}-\tilde{y}_{.,k}\Vert^{2}}{\partial x_{j,n}}  
-\end{pmatrix}$\\  
-$  
+\end{pmatrix}  
 =  
 \begin{pmatrix}  
 \displaystyle  
@@ -331,13 +370,19 @@ $
 \vdots\\  
 \displaystyle  
 \frac{1}{2}\frac{\partial\Vert\tilde{\theta}(x_{j})^{T}-\tilde{y}_{.,j}\Vert^{2}}{\partial x_{j,n}}  
-\end{pmatrix}  
-=  
+\end{pmatrix}\\
+&=  
 \displaystyle  
-\nabla_{x_{j}^T}\frac{1}{2}\Vert\tilde{\theta}(x_{j})^{T}-\tilde{y}_{.,j}\Vert^{2}  
-$  
+\nabla_{(x_{j})^T}\frac{1}{2}\Vert\tilde{\Theta}(x_{j})^{T}-\tilde{y}_{.,j}\Vert^{2}
+\end{align*}\\
+
+Nous montrons de la même manière que : \[\nabla_{(\theta_{i})^T} J(\Theta, X) = \nabla_{(\theta_{i})^T}\frac{1}{2}\Vert\tilde{X}(\theta_{i})^{T}-\tilde{y}_{i}\Vert^{2}\]
 \subsection{}  
-\label{P2}  
+\label{P2}
+Montrons que $\forall n \in \mathbb{N}^{*}$ $\forall p \in \mathbb{N}^{*}$ si A est une matrice de dimension $p \times n$, x une matrice colonne de dimension $n \times 1$ et b une matrice colonne de dimension $p \times 1$ alors : \[\nabla_{x}\frac{1}{2}\Vert Ax-b \Vert^2 = A^{T}(Ax-b)\]
+Soit $(n,p) \in (\mathbb{N}^*)^2$. Soient $A \in {\cal M}_{p, n}$, $x \in {\cal M}_{n, 1}$ et $b \in {\cal M}_{p, 1}$.\\
+Pour montrer notre égalité, montrons que $\forall j \in \{1, 2, ..., p\}$ : \[[\nabla_{x} \frac{1}{2}||Ax - b||^{2}_{2}]_{j} = [A^{T}(Ax - b)]_{j}\]
+Soit $j \in \{1, 2, ..., p\}$.
 \begin{align*}  
 [\nabla_{x} \frac{1}{2}||Ax - b||^{2}_{2}]_{j} &= [\nabla_{x} \frac{1}{2}(\sum^{n}_{i = 1} (\sum^{p}_{k = 1} A_{i, k}x_{k})^{2} - 2b_{i}(\sum^{p}_{k = 1} A_{i, k}x_{k}) + b_{i}^{2})]_{j}\\  
 [\nabla_{x} \frac{1}{2}||Ax - b||^{2}_{2}]_{j} &= \frac{\partial\frac{1}{2}(\sum^{n}_{i = 1} (\sum^{p}_{k = 1} A_{i, k}x_{k})^{2} - 2b_{i}(\sum^{p}_{k = 1} A_{i, k}x_{k}) + b_{i}^{2})}{\partial x_{j}}\\  
