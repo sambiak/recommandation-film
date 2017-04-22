@@ -169,16 +169,9 @@ Nous nous posons maintenant la question de comment nous y prendre pour prédire 
 Notre seule ressource est la matrice Y non pleine. Sur quel modèle s'appuyer pour la compléter ?
 C'est ce que nous allons étudier dans cette partie.
 
-\subsection{Quelques notations}
-
-Introduisons quelques notations qui seront utilisées par la suite.\\
-
-Nous travaillons tout au long de ce rapport avec des matrices réelles. $\forall (n, p) \in \mathbb{N}^2$ nous notons l'ensemble des matrices réelles de dimension $n * p$ : ${\cal M}_{n, p}$\\
-$\forall (n, p) \in \mathbb{N}^2$ $\forall A \in {\cal M}_{n, p}$ $\forall i \in \{1, 2, ..., n\}$ $a_i$ est la i-ème ligne de la matrice A et nous avons $a_i \in {\cal M}_{1, p}$. Et $\forall j \in \{1, 2, ..., p\}$ $a_{., j}$ est la j-ème colonne de la matrice A et nous avons $a_j \in {\cal M}_{n, 1}$. Remarquons que des majuscules sont utilisées pour des matrices qui ne sont ni des matrices lignes ni des matrices colonnes et des minuscules autrement. Nous utilisons aussi des minuscules pour les coefficients des matrices.\\
-Sauf indication contraire, lorsque nous utilisons la lettre j il s'agit d'un entier naturel quelconque non nul et inférieur ou égal à $n_f$. De la même façon la lettre i représente, lorsque ça n'est pas précisé, un entier naturel quelconque non nul et inférieur ou égal à $n_u$.\\
-Enfin, le film numéro j est le film dont les notes se trouvent à la j-ème colonne de Y et l'utilisateur i est l'utilisateur dont les notes qu'il a donné sont à la i-ème ligne de Y.
-
 \subsection{Factorisation de matrices}
+
+Toutes les notations utilisés sont précisés en \ref{notations}.\\
 
 Posons $Y_f$ la matrice Y complétée qui contient toutes les prédictions, exactes, des notes qui nous manquent. C'est la matrice à laquelle nous voulons aboutir, celle que nous devons deviner. Voici notre méthode.\\ 
  

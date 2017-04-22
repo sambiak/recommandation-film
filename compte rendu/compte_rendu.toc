@@ -5,18 +5,17 @@
 \contentsline {subsubsection}{\numberline {1.2.1}Extraction de donn\IeC {\'e}es}{1}
 \contentsline {subsubsection}{\numberline {1.2.2}Analyse des donn\IeC {\'e}es}{2}
 \contentsline {section}{\numberline {2}Mod\IeC {\'e}lisation du probl\IeC {\`e}me}{4}
-\contentsline {subsection}{\numberline {2.1}Quelques notations}{4}
-\contentsline {subsection}{\numberline {2.2}Factorisation de matrices}{4}
-\contentsline {subsection}{\numberline {2.3}Fonction de co\IeC {\^u}t}{5}
+\contentsline {subsection}{\numberline {2.1}Factorisation de matrices}{4}
+\contentsline {subsection}{\numberline {2.2}Fonction de co\IeC {\^u}t}{5}
 \contentsline {section}{\numberline {3}Impl\IeC {\'e}mentation de l'algorithme}{5}
 \contentsline {subsection}{\numberline {3.1}Minimiser une fonction ? La descente du gradient}{5}
 \contentsline {subsection}{\numberline {3.2}Minimiser J}{6}
-\contentsline {section}{\numberline {4}Mise en application de l'algorithme}{8}
-\contentsline {subsection}{\numberline {4.1}Familiarisation avec probl\IeC {\`e}me plus simple}{8}
-\contentsline {subsection}{\numberline {4.2}Taux d'erreur}{9}
+\contentsline {section}{\numberline {4}Mise en application de l'algorithme}{7}
+\contentsline {subsection}{\numberline {4.1}Familiarisation avec probl\IeC {\`e}me plus simple}{7}
+\contentsline {subsection}{\numberline {4.2}Taux d'erreur}{8}
 \contentsline {subsection}{\numberline {4.3}Influence des param\IeC {\`e}tres}{9}
-\contentsline {subsection}{\numberline {4.4}En pratique : recommandation d'un film \IeC {\`a} un nouvel utilisateur}{10}
-\contentsline {section}{\numberline {A}Notations utilis\IeC {\'e}s}{11}
+\contentsline {subsection}{\numberline {4.4}En pratique : recommandation d'un film \IeC {\`a} un nouvel utilisateur}{9}
+\contentsline {section}{\numberline {A}Notations utilis\IeC {\'e}s}{10}
 \contentsline {section}{\numberline {B}Preuves}{11}
 \contentsline {subsection}{\numberline {B.1}}{11}
-\contentsline {subsection}{\numberline {B.2}}{12}
+\contentsline {subsection}{\numberline {B.2}}{11}
