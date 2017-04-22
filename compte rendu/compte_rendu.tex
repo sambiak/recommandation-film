@@ -73,7 +73,7 @@
 
 \section*{Remerciements}
 
-Nous remercions notre encadrant de projet, Valentin Emiya qui nous a guidé et soutenu tout au long de ce projet.\\
+Nous remercions notre encadrant de projet, Valentin Emiya qui nous a guidé et soutenu tout au long de ce projet. \\
 
 Nous remercions également Victoria Paolantoni qui nous a débloqué pour la rédaction de l'une des preuves.\\
 
@@ -158,7 +158,7 @@ Dans l’autre sens, nous voyons aussi que chaque utilisateur a noté 148 films 
 
 De plus, notre tableau présente 98,4 \% de NaN. Soit plus de 6 millions de notes à prédire ! Ceci semble représenter un réel défi puisque nous connaissons seulement 1,6 \% ou 97820 notes.
 
-Notre but devient de compléter ces trous, de prédire les notes que nous ne connaissons pas. Alors nous pourrions, en réutilisant la même méthode, pour n'importe quel personne ayant noté quelques films deviner les notes qu'il mettra aux films qu'il n'a pas encore vu.
+Notre but devient de compléter ces trous, de prédire les notes que nous ne connaissons pas. Alors nous pourrons, en réutilisant la même méthode, pour n'importe quel personne ayant noté quelques films deviner les notes qu'il mettra aux films qu'il n'a pas encore vu.
 
 \section{Modélisation du problème}
 
@@ -443,5 +443,24 @@ Soit $j \in \{1, 2, ..., p\}$.
 [\nabla_{x} \frac{1}{2}||Ax - b||^{2}_{2}]_{j} &= \sum^{n}_{i = 1} A^{T}_{j, i}[Ax - b]_{i}\\  
 [\nabla_{x} \frac{1}{2}||Ax - b||^{2}_{2}]_{j} &= [A^{T}(Ax - b)]_{j}  
 \end{align*}
+
+
+\newpage
+
+\hrule height 1pt
+\begin{center}
+\begin{Large}Résumé\end{Large}
+\end{center}
+\hrule height 1pt
+\vskip 1cm
+
+La recommandation automatique est un domaine très interressant qui peut susciter des questions. Nous nous sommes intéressés à la recommandation
+automatique de film avec pour but de construire un programme recommandant un film pertinent pour un utilisateur spécifique. Notre méthode s'appuit 
+sur la factorisation de matrice, et la descente du gradient.\\ \\ \\ \\ \\ \\
+ % bon c'est un peu degueu comme résumé mais c compliquer de résumer un projet en 5 lignes, bref help please
+
+\textbf{{Mots clés:}} descente du gradient, matrice, factorisation, prédiction de notes %il faut 5 mots clés , si vous avez des idées allez y
+
+
 
 \end{document}
