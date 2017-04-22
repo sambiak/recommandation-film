@@ -134,7 +134,7 @@ def nb_etapes_optimal(mini, V, X, theta, nb_car, nb_etapes, alpha_X, alpha_theta
         theta = d[0]
         n_etape += 50
     plt.plot(x,y)
-    plt.ylabel('Ecart quadratique')
+    plt.ylabel('Ecart moyen')
     nom_x = "Nombre d'étapes  //  nb_car = " + str(nb_car) + " / alpha_X = " + str(alpha_X) + " / alpha_theta = " + str(alpha_theta)
     plt.xlabel(nom_x)
     nom_fichier = "nb_car-" + str(nb_car) + "_alpha_X-" + str(alpha_X) + "_alpha_theta-" + str(alpha_theta) + ".png"
