@@ -6,7 +6,21 @@
 \usepackage{amsfonts}
 \usepackage{amsmath}
 \usepackage{color}
-\usepackage{float} 
+\usepackage{float}
+\usepackage{listings}
+\lstset{language={Python}}
+
+%pour gerer les marges
+\newenvironment{changemargin}[2]{\begin{list}{}{%
+\setlength{\topsep}{0pt}%
+\setlength{\leftmargin}{0pt}%
+\setlength{\rightmargin}{0pt}%
+\setlength{\listparindent}{\parindent}%
+\setlength{\itemindent}{\parindent}%
+\setlength{\parsep}{0pt plus 1pt}%
+\addtolength{\leftmargin}{#1}%
+\addtolength{\rightmargin}{#2}%
+}\item }{\end{list}}
 
 %opening
 \title{}
@@ -140,6 +154,7 @@ Le tableau des notes est appelé Y.
 
 Nous créons ensuite deux fonctions permettant de faire des statistiques sur nos données : l’une permettant de compter combien de films chaque utilisateur a vu, et l’autre comptant le nombre de notes attribuées pour chaque film. De ces fonctions, nous tirons des graphiques nous permettant d'avoir une idée plus précise de nos données.\\
 
+%là y a un soucis par rapport au graphique
 Nous remarquons alors que plus de 90 \% des films possèdent entre 1 et 40 notes, et que le plus souvent un film a 2 notes. Le film auquel a été attribué le plus de notes a 339 notes.
 
 \begin{figure}[H]
@@ -156,7 +171,7 @@ Dans l’autre sens, nous voyons aussi que chaque utilisateur a noté 148 films 
 \caption{Notes rangées en fonction du nombre de fois qu'ont été notés les films qu'elles notent}
 \end{figure}
 
-De plus, notre tableau présente 98,4 \% de NaN. Soit plus de 6 millions de notes à prédire ! Ceci semble représenter un réel défi puisque nous connaissons seulement 1,6 \% ou 97820 notes.
+De plus, notre tableau présente 98,4 \% de NaN. Soit plus de 6 millions de notes à prédire ! Ce qui est un réel défit.
 
 Notre but devient de compléter ces trous, de prédire les notes que nous ne connaissons pas. Alors nous pourrons, en réutilisant la même méthode, pour n'importe quel personne ayant noté quelques films deviner les notes qu'il mettra aux films qu'il n'a pas encore vu.
 
@@ -353,17 +368,15 @@ mais nous nous sommes retrouvés surchargés par le travail demandé dans les au
 
 
 %Bibliographie
-\begin{thebibliography}{99}
+\newpage
 
+\begin{thebibliography}{99}
 \bibitem{matrix} Matrix factorisation techniques for recommender systems, Y. Koren and R. Bell and C. Volinski ,IEEE Computer Society ,2009 ,pages 42-49
-\bibitem{mooc} MOOC - Machine Learning , Andrew Ng , Stanford University , 2016? , Coursera.org
- ×
+\bibitem{mooc} MOOC - Machine Learning , Andrew Ng , Stanford University , date inconnue , Coursera.org
+
 \end{thebibliography}
 
 \newpage
-
-
-
 
 
 \appendix
@@ -443,6 +456,37 @@ Soit $j \in \{1, 2, ..., p\}$.
 [\nabla_{x} \frac{1}{2}||Ax - b||^{2}_{2}]_{j} &= \sum^{n}_{i = 1} A^{T}_{j, i}[Ax - b]_{i}\\  
 [\nabla_{x} \frac{1}{2}||Ax - b||^{2}_{2}]_{j} &= [A^{T}(Ax - b)]_{j}  
 \end{align*}
+
+\section{Code}
+
+Dans cet annexe figure notre code.
+
+\subsection{Extraction des données et fonctions permettant leur manipulation, movielens.py}
+\begin{changemargin}{-4cm}{0cm}
+\lstinputlisting{movielens.py}
+\end{changemargin}
+
+\subsection{Statistiques sur nos données, stat.py}
+\begin{changemargin}{-4cm}{0cm}
+\lstinputlisting{stat.py}
+\end{changemargin}
+
+\subsection{Descente du gradient sur un tableau avec une seule note manquante, descente\_du\_gradient.py}
+\begin{changemargin}{-4cm}{0cm}
+\lstinputlisting{descente_du_gradient.py}
+\end{changemargin}
+
+\subsection{Prédiction des notes, recomendation\_system\_final.py}
+\begin{changemargin}{-4cm}{0cm}
+\lstinputlisting{recomendation_system_final.py}
+\end{changemargin}
+
+\subsection{Recherche des meilleurs paramètres, etude\_efficacite.py}
+\begin{changemargin}{-4cm}{0cm}
+\lstinputlisting{etude_efficacite.py}
+\end{changemargin}
+
+
 
 
 \newpage
