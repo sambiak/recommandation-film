@@ -320,7 +320,38 @@ Pour mettre en place cela nous avons choisi de ne pas recalculer $X$ et $\Theta$
 \section*{Conclusion}
 %1 page avec perspectives et limites de l'approche
 
-\subsection*{Perspectives}
+%-Rappel du probleme
+Pour ce projet nous cherchions a creer un systeme de reccomandation. Pour ce faire nous avons choisi de
+creer un systeme qui devine les notes qu'un utilisateur.%trop court
+%resultats
+Nous avons %je sais pas si c'est bien conjugé
+choisi de prendre un sous ensemble de la base de données ``movielens``
+pour ne pas prendre trop de temps lors de l'execution des algorithmes. %on pourait mettre la compléxité d'une étape de la descente du gradient et la justifier en annexe
+Notre précision sur les reccomandations est moindre que si nous avions pris la
+base complete. Nous avons fait ce choix car nous avions décidé de nous 
+focaliser sur l'apprentissage automatique. [c'est probablement pas clair on peut peut-etre remplacer apprentissage automatique par prédiction des notes]
+%pas de transition car je sais pas rediger (:
+Pour évaluer les résultats nous les comparons a d'autres algorithmes.
+[donner les resultats pour le sous matrice par rapport a la moyenne des notes et pour l'ensemble de nos donnés par rapport a la moyenne]%je regrette de devoir vous refiler ceal mais j'ai pas assez de batterie pour faire tourner pycharm
+%j'ajouterai probablement un autre algo pour comparer au notre dimanche quand je serais revenu
+%si vous pouvez analyser ces resultats ce serait cool encore désolé de vous refiler cela
+%limites de l'approche
+%toujours pas de transition (;
+
+%perspectives
+Notre modèle ne prend en compte que les notes toutefois d'autre informations sont disponibles sur la base de données.
+En effet movielens nous donne aussi le moment ou les films ont été notés et les genres auquel appertiennent les films.
+Le genre du film est peu intéressant car notre algorithme déduit des caractéristiques au film plus précise que le seul genre.%mal dit
+Le moment où le film a été noté est plus facilement exploitable car [expliquer ] dans le papier de ''machin'' la prise en compte  du temps a
+permis de gros gain de précision%j'ai pas le paper et pas d'internet je vous laisse ceci aussi 
+Nous aurions aimé pousser le projet plus loin et éxplorer ces aspects 
+mais nous nous sommes retrouvés surchargés par le travail demandé dans les autres matieres et nous avons du abandonner ces aspects.
+
+
+%-Aquis du projet
+%-Analyse des activités réalisés
+%-porte sur les domaines theorique partique humain et personnel
+\subsection{perspectives}
 %guillame
 \appendix
 \section{Notations utilisés}
@@ -328,7 +359,7 @@ Pour mettre en place cela nous avons choisi de ne pas recalculer $X$ et $\Theta$
 
 $||a|| = \sqrt{\sum_{k = 1}^{m} a_{k}^{2}}$ avec $m \in \mathbb{N}^*$ et $a \in {\cal M}_{m}$\\
 
-Si $u$ est un vecteur de $\mathbb{R}^w$ avec $w \in \mathbb{N}^*$ et $f$ une fonction réelle dont une des variables est $X$ on a 
+Si $u$ est un vecteur de $\mathbb{R}^w$ avec $w \in \mathbb{N}^*$ et $f$ une fonction réelle dont une des variables est $u$ on a 
 $\nabla_{u} f(u, ...) =
 \begin{pmatrix}
 \frac{\partial f}{\partial u_{1}}(u, ...)\\
