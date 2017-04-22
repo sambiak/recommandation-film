@@ -6,21 +6,7 @@
 \usepackage{amsfonts}
 \usepackage{amsmath}
 \usepackage{color}
-\usepackage{float}
-\usepackage{listings}
-\lstset{language={Python}}
-
-%pour gerer les marges
-\newenvironment{changemargin}[2]{\begin{list}{}{%
-\setlength{\topsep}{0pt}%
-\setlength{\leftmargin}{0pt}%
-\setlength{\rightmargin}{0pt}%
-\setlength{\listparindent}{\parindent}%
-\setlength{\itemindent}{\parindent}%
-\setlength{\parsep}{0pt plus 1pt}%
-\addtolength{\leftmargin}{#1}%
-\addtolength{\rightmargin}{#2}%
-}\item }{\end{list}}
+\usepackage{float} 
 
 %opening
 \title{}
@@ -154,7 +140,6 @@ Le tableau des notes est appelé Y.
 
 Nous créons ensuite deux fonctions permettant de faire des statistiques sur nos données : l’une permettant de compter combien de films chaque utilisateur a vu, et l’autre comptant le nombre de notes attribuées pour chaque film. De ces fonctions, nous tirons des graphiques nous permettant d'avoir une idée plus précise de nos données.\\
 
-%là y a un soucis par rapport au graphique
 Nous remarquons alors que plus de 90 \% des films possèdent entre 1 et 40 notes, et que le plus souvent un film a 2 notes. Le film auquel a été attribué le plus de notes a 339 notes.
 
 \begin{figure}[H]
@@ -171,7 +156,7 @@ Dans l’autre sens, nous voyons aussi que chaque utilisateur a noté 148 films 
 \caption{Notes rangées en fonction du nombre de fois qu'ont été notés les films qu'elles notent}
 \end{figure}
 
-De plus, notre tableau présente 98,4 \% de NaN. Soit plus de 6 millions de notes à prédire ! Ce qui est un réel défit.
+De plus, notre tableau présente 98,4 \% de NaN. Soit plus de 6 millions de notes à prédire ! Ceci semble représenter un réel défi puisque nous connaissons seulement 1,6 \% ou 97820 notes.
 
 Notre but devient de compléter ces trous, de prédire les notes que nous ne connaissons pas. Alors nous pourrons, en réutilisant la même méthode, pour n'importe quel personne ayant noté quelques films deviner les notes qu'il mettra aux films qu'il n'a pas encore vu.
 
@@ -307,7 +292,7 @@ Comment connaître la fiabilité de notre prédiction à partir de ces seules do
 Il faudrait mesurer l'écart entre les notes prédites et les notes déjà connues.
 Mais comment faire en sorte que l'algorithme cherche à prédire des notes que l'on connaît déjà ?
 Tout simplement en lui faisant croire que nous ne les connaissons pas !
-Cependant, si nous effaçons toutes les notes connues de notre tableau de départ, il est évident que l'algorithme ne pourra pas fonctionner.
+Cependant, si l'on efface toutes les notes connues de notre tableau de départ, il est évident que l'algorithme ne pourra pas fonctionner.
 C'est pourquoi nous n'effaçons qu'une partie des notes connues (10 \% exactement). 
 Ainsi, nous choisissons 10 \% des notes de Y en faisant en sorte de retenir où elles étaient placées et leurs valeurs. 
 Puis, nous les transformons en NaN et nous fournissons ce nouveau tableau à l'algorithme qui le complète.
@@ -319,9 +304,11 @@ un écart peu élevé signifie que les notes prédites ont de grandes chances d'
 
 Il est intéressant d'étudier les facteurs qui peuvent rendre notre prédiction plus ou moins fiable. Bien entendu, nous excluons l'impact de la méthode de prédiction utilisée, celle-ci étant fixée à la base de notre projet. Nous nous demandons donc comment améliorer la fiabilité de notre prédiction sans changer complètement de méthode.\\
 
-Tout d'abord les prédictions vont différer suivant le choix de $n$, le nombre de caractéristique.\\
-Ensuite, la descente du gradient dépend directement des taux d'apprentissage que nous choisissons. En effet, nous adaptons à chaque étape la matrice $\Theta$ et la matrice X en fonction de ces taux d'apprentissage. L'enjeu est de taille quant au choix de ceux-ci : nous avons déjà vu qu'il fallait qu'ils ne soient ni trop grands ni trop petits. Il convient donc de trouver les taux d'apprentissages et le nombre de caractéristique optimaux pour obtenir la meilleure prédiction possible.\\
-À ce stade-là, vous devez sûrement vous dire que ce sont les seuls paramètres qui influent sur la précision de la méthode, mais il en est un qui est aussi essentiel. C'est le nombre d'étapes du gradient que nous choisissons de faire effectuer à l'algorithme. Au premier abord, notre intuition nous conduit à penser que plus le nombres d'étapes que nous effectuons est grand, plus grande sera la précision de la prédiction. Mais c'est en fait erroné. Certes, nous nous doutons bien qu'une étape ou 2 ne vont pas suffire pour obtenir des prédictions pertinentes, mais trop faire d'étape pourrait desservir notre prédiction. Nous avons observé cet effet en traçant la courbe du taux d'erreur en fonction du nombre d'étapes. Et nous observons clairement un minimum du taux d'erreur pour un certain nombre d'étapes, au delà le taux d'erreur augmente. Cet effet est couramment observé en apprentissage automatique et il est surnommé "sur-apprentissage". Pour le contrer, nous avons donc décidé de trouver le nombre d'étapes optimal pour les taux d'apprentissage et le nombre de caractéristiques optimaux.
+Tout d'abord les prédictions vont différer suivant le choix de $n$, le nombre de caractéristiques.\\
+Ensuite, la descente du gradient dépend directement des taux d'apprentissage (notés alpha) que nous choisissons. En effet, nous adaptons à chaque étape la matrice $\Theta$ et la matrice X en fonction de ces taux d'apprentissage. L'enjeu est de taille quant au choix de ceux-ci : nous avons déjà vu qu'il fallait qu'ils ne soient ni trop grands ni trop petits. Il convient donc de trouver les taux d'apprentissages et le nombre de caractéristiques optimal pour obtenir la meilleure prédiction possible.\\
+À ce stade-là, vous devez sûrement vous dire que ce sont les seuls paramètres qui influent sur la précision de la méthode, mais il en est un qui est aussi essentiel. C'est le nombre d'étapes du gradient que nous choisissons de faire effectuer à l'algorithme. Au premier abord, notre intuition nous conduit à penser que plus le nombres d'étapes que nous effectuons est grand, plus grande sera la précision de la prédiction. Mais c'est en fait erroné. Certes, nous nous doutons bien qu'une étape ou 2 ne vont pas suffire pour obtenir des prédictions pertinentes, mais trop faire d'étape pourrait desservir notre prédiction. Nous avons observé cet effet en traçant la courbe du taux d'erreur en fonction du nombre d'étapes. Et nous observons clairement un minimum du taux d'erreur pour un certain nombre d'étapes, au delà le taux d'erreur augmente. Cet effet est couramment observé en apprentissage automatique et il est surnommé "sur-apprentissage". Pour le contrer, nous avons donc décidé de trouver le nombre d'étapes optimal pour les taux d'apprentissage et le nombre de caractéristiques optimal.
+Pour cela, nous avons réalisé un simple algorithme qui effectue la descente du gradient avec 5000 étapes pour chaque combinaison de paramètres. Donc nous commençons par poser un certain n, puis un certain taux d'apprentissage pour X, puis un pour theta, et nous testons toutes les combinaisons de ces 3 paramètres (dans une limite raisonnable bien sûr). Quant au nombre d'étapes, nous faisons en sorte que toutes les 50 étapes, l'algorithme enregistre le taux d'erreur. Puis à chaque descente du gradient effectuée pour chaque combinaison, le module matplotlib nous permet de tracer un graphique du taux d'erreur en fonction du nombre d'étapes. Bien entendu, au cours du déroulement de l'algorithme, dès qu'un taux d'erreur inférieur aux précédents est trouvé, nous enregistrons sa valeur et la combinaison de paramètres qui nous a mené à ce taux d'erreur.
+Au final, nous avons trouvé un taux d'erreur optimal pour n = 10, alpha_X = 0.000125, alpha_theta = 0.0001, nb_etapes \in [900,950. Le taux d'erreur vaut alors environ 0.79.
 
 %inclure graphiques et commenter ce qu'on obtient et donner des valeurs du taux d'erreur du nb d etape et du nb de carac
 
@@ -368,15 +355,17 @@ mais nous nous sommes retrouvés surchargés par le travail demandé dans les au
 
 
 %Bibliographie
-\newpage
-
 \begin{thebibliography}{99}
-\bibitem{matrix} Matrix factorisation techniques for recommender systems, Y. Koren and R. Bell and C. Volinski ,IEEE Computer Society ,2009 ,pages 42-49
-\bibitem{mooc} MOOC - Machine Learning , Andrew Ng , Stanford University , date inconnue , Coursera.org
 
+\bibitem{matrix} Matrix factorisation techniques for recommender systems, Y. Koren and R. Bell and C. Volinski ,IEEE Computer Society ,2009 ,pages 42-49
+\bibitem{mooc} MOOC - Machine Learning , Andrew Ng , Stanford University , 2016? , Coursera.org
+ ×
 \end{thebibliography}
 
 \newpage
+
+
+
 
 
 \appendix
@@ -457,56 +446,23 @@ Soit $j \in \{1, 2, ..., p\}$.
 [\nabla_{x} \frac{1}{2}||Ax - b||^{2}_{2}]_{j} &= [A^{T}(Ax - b)]_{j}  
 \end{align*}
 
-\section{Code}
-
-Dans cet annexe figure notre code.
-
-\subsection{Extraction des données et fonctions permettant leur manipulation, movielens.py}
-\begin{changemargin}{-4cm}{0cm}
-\lstinputlisting{movielens.py}
-\end{changemargin}
-
-\subsection{Statistiques sur nos données, stat.py}
-\begin{changemargin}{-4cm}{0cm}
-\lstinputlisting{stat.py}
-\end{changemargin}
-
-\subsection{Descente du gradient sur un tableau avec une seule note manquante, descente\_du\_gradient.py}
-\begin{changemargin}{-4cm}{0cm}
-\lstinputlisting{descente_du_gradient.py}
-\end{changemargin}
-
-\subsection{Prédiction des notes, recomendation\_system\_final.py}
-\begin{changemargin}{-4cm}{0cm}
-\lstinputlisting{recomendation_system_final.py}
-\end{changemargin}
-
-\subsection{Recherche des meilleurs paramètres, etude\_efficacite.py}
-\begin{changemargin}{-4cm}{0cm}
-\lstinputlisting{etude_efficacite.py}
-\end{changemargin}
-
-
-
 
 \newpage
 
 \vspace*{\stretch{1}}
 \hrule height 1pt
 \begin{center}
-\thispagestyle{empty}
-\section*{Résumé}
-
+\begin{Large}Résumé\end{Large}
 \end{center}
 \hrule height 1pt
 \vskip 1cm
 
-La recommandation automatique est un domaine très intéressant qui peut susciter de la curiosité. Nous nous sommes intéressés à la recommandation
-automatique de film avec pour but de construire un programme pouvant recommander de manière personnalisée un film pertinent à n'importe quel utilisateur. Notre méthode s'appuie 
-sur la factorisation de matrice, et la descente du gradient.\\ \\ \\ \\ \\ \\
+La recommandation automatique est un domaine très interressant qui peut susciter des questions. Nous nous sommes intéressés à la recommandation
+automatique de film avec pour but de construire un programme recommandant un film pertinent pour un utilisateur spécifique. Notre méthode s'appuit 
+sur la factorisation de matrice, et la descente du gradient.\\ \\ \\ \\ \\ \\
+ % bon c'est un peu degueu comme résumé mais c compliquer de résumer un projet en 5 lignes, bref help please
 
-\textbf{{Mots clés:}} descente du gradient, factorisation de matrices, prédiction de notes de films, informatique, programmation
-
+\textbf{{Mots clés:}} descente du gradient, matrice, factorisation, prédiction de notes %il faut 5 mots clés , si vous avez des idées allez y
 \vspace*{\stretch{1}}
 
 
