@@ -19,4 +19,4 @@
 \contentsline {section}{\numberline {A}Notations utilis\IeC {\'e}s}{11}
 \contentsline {section}{\numberline {B}Preuves}{11}
 \contentsline {subsection}{\numberline {B.1}}{11}
-\contentsline {subsection}{\numberline {B.2}}{11}
+\contentsline {subsection}{\numberline {B.2}}{12}
