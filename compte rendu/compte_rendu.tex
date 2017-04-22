@@ -106,8 +106,7 @@ Mais comment recommander à un utilisateur un film qu’il aimera ? Beaucoup de 
 le genre du film, le jeu des acteurs, la date du film, ou tout simplement sa bonne qualité … Tout cela est très subjectif \! \\
 
 
-Nous en arrivons à la problématique suivante : Comment concevoir un programme informatique 
-qui prenne en compte tous ces critères pour produire une recommandation personnalisée pertinente ?
+Nous en arrivons à la problématique suivante : Comment concevoir un programme informatique permettant une recommandation personnalisée pertinente ?
 En se limitant à un certain nombre de films, la méthode proposée lors de ce projet consiste à estimer les notes que mettrait l’utilisateur aux films qu'il n'a pas vu.
 Nous pouvons ainsi trouver les films les plus en accord avec ses goûts en regardant les plus hautes prédictions de note.\\
 Pour ce rapport, dans un premier temps nous introduirons le sujet en expliquant notre approche du problème.
@@ -216,7 +215,7 @@ Soit $(\alpha_{x_1}, \alpha_{x_2}) \in (\mathbb{R}^{+*})^2$.
  et $\Delta x_{2} = -\alpha_{x_2} \frac{\partial f}{\partial x_{2}}$. Soit $\Delta f = f(x_1 + \Delta x_1, x_2 + \Delta x_2) - f(x_1, x_2)$. $\Delta f$ est la variation de f lorsque $x_1$ varie de $\Delta x_1$ et $x_2$ varie de $\Delta x_2$. 
 En faisant l'approximation $\Delta f = \frac{\partial f}{\partial x_{1}}\Delta  x_{1} + \frac{\partial f}{\partial x_{2}}\Delta x_{2}$ nous obtenons $\Delta f = -\alpha_{x_1} (\frac{\partial f}{\partial x_{1}}(x_1, x_2))^{2} - \alpha_{x_2} (\frac{\partial f}{\partial x_{2}}(x_1, x_2))^{2} < 0$. Ainsi, dans
  les limites de l'approximation faite au dessus, à chaque fois que nous modifions les $x_{k}$ de $- \alpha_{x_k} \frac{\partial f}{\partial x_{k}}(x_1, x_2)$
- nous avons une diminution de la valeur de $f(x_1, x_2)$.\\
+ nous avons une diminution de la valeur de $f(x_1, x_2)$. Et nous admettons que modifier un certain nombre de fois les $x_i$ de la sorte va faire converger la valeur $f(x_1, x_2)$ vers un minimum si la fonction est convexe sur l'intervalle dans lequel nous modifions les $x_i$.\\
 
 C'est le principe de la descente du gradient et nous obtenons l'algorithme suivant pour minimiser f :
 \begin{algorithm}
