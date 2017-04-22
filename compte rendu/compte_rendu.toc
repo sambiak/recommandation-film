@@ -15,13 +15,13 @@
 \contentsline {subsection}{\numberline {4.2}Taux d'erreur}{8}
 \contentsline {subsection}{\numberline {4.3}Influence des param\IeC {\`e}tres}{9}
 \contentsline {subsection}{\numberline {4.4}En pratique : recommandation d'un film \IeC {\`a} un nouvel utilisateur}{10}
-\contentsline {section}{\numberline {A}Notations utilis\IeC {\'e}s}{12}
-\contentsline {section}{\numberline {B}Preuves}{13}
-\contentsline {subsection}{\numberline {B.1}}{13}
-\contentsline {subsection}{\numberline {B.2}}{13}
-\contentsline {section}{\numberline {C}Code}{15}
-\contentsline {subsection}{\numberline {C.1}Extraction des donn\IeC {\'e}es et fonctions permettant leur manipulation, movielens.py}{15}
-\contentsline {subsection}{\numberline {C.2}Statistiques sur nos donn\IeC {\'e}es, stat.py}{19}
-\contentsline {subsection}{\numberline {C.3}Descente du gradient sur un tableau avec une seule note manquante, descente\_du\_gradient.py}{20}
-\contentsline {subsection}{\numberline {C.4}Pr\IeC {\'e}diction des notes, recomendation\_system\_final.py}{22}
-\contentsline {subsection}{\numberline {C.5}Recherche des meilleurs param\IeC {\`e}tres, etude\_efficacite.py}{24}
+\contentsline {section}{\numberline {A}Notations utilis\IeC {\'e}s}{13}
+\contentsline {section}{\numberline {B}Preuves}{14}
+\contentsline {subsection}{\numberline {B.1}}{14}
+\contentsline {subsection}{\numberline {B.2}}{14}
+\contentsline {section}{\numberline {C}Code}{16}
+\contentsline {subsection}{\numberline {C.1}Extraction des donn\IeC {\'e}es et fonctions permettant leur manipulation, movielens.py}{16}
+\contentsline {subsection}{\numberline {C.2}Statistiques sur nos donn\IeC {\'e}es, stat.py}{20}
+\contentsline {subsection}{\numberline {C.3}Descente du gradient sur un tableau avec une seule note manquante, descente\_du\_gradient.py}{21}
+\contentsline {subsection}{\numberline {C.4}Pr\IeC {\'e}diction des notes, recomendation\_system\_final.py}{23}
+\contentsline {subsection}{\numberline {C.5}Recherche des meilleurs param\IeC {\`e}tres, etude\_efficacite.py}{25}

@@ -29,7 +29,6 @@
 \author{}
 
 %Il reste à faire:
-%il faut aussi faire les remerciements et une 4eme de couverture tout à la fin avec un résumé de 5 lignes de notre projet + 4mots clés
 
 %Anthony:
 
@@ -39,19 +38,11 @@
 
 %faire la conclusion
 
-
-%Yassine :
-
-%Dans ta partie : inclure graphiques, commenter ce qu'on obtient et donner les valeurs du taux d'erreur, du nb d etape et du nb de carac
-
-
 %Juliette :
 
-%bibliographie
-%soucis à propos de la phrase "plus de 8000 films possèdent seulement entre 1 et 40 notes" : le graphique montre un maximum de note à 25. (voir commentaires de Emiya)
+%seulement entre 1 et 40 notes" : le graphique montre un maximum de note à 25. (voir commentaires de Emiya)
 % verifier le titre pour un de tes graphiques : "Notes rangées en fonction du nombre de fois qu'ont été notés les films qu'elles notent"
 % améliorer les titres que j'ai mis à tes graphiques si tu penses que c nécessaire de le faire
-%completer les ... dans les phrases
 
 \begin{document}
 
@@ -322,11 +313,16 @@ Il est intéressant d'étudier les facteurs qui peuvent rendre notre prédiction
 
 Tout d'abord les prédictions vont différer suivant le choix de $n$, le nombre de caractéristiques.\\
 Ensuite, la descente du gradient dépend directement des taux d'apprentissage (notés alpha) que nous choisissons. En effet, nous adaptons à chaque étape la matrice $\Theta$ et la matrice X en fonction de ces taux d'apprentissage. L'enjeu est de taille quant au choix de ceux-ci : nous avons déjà vu qu'il fallait qu'ils ne soient ni trop grands ni trop petits. Il convient donc de trouver les taux d'apprentissages et le nombre de caractéristiques optimal pour obtenir la meilleure prédiction possible.\\
-À ce stade-là, vous devez sûrement vous dire que ce sont les seuls paramètres qui influent sur la précision de la méthode, mais il en est un qui est aussi essentiel. C'est le nombre d'étapes du gradient que nous choisissons de faire effectuer à l'algorithme. Au premier abord, notre intuition nous conduit à penser que plus le nombres d'étapes que nous effectuons est grand, plus grande sera la précision de la prédiction. Mais c'est en fait erroné. Certes, nous nous doutons bien qu'une étape ou 2 ne vont pas suffire pour obtenir des prédictions pertinentes, mais trop faire d'étape pourrait desservir notre prédiction. Nous avons observé cet effet en traçant la courbe du taux d'erreur en fonction du nombre d'étapes. Et nous observons clairement un minimum du taux d'erreur pour un certain nombre d'étapes, au delà le taux d'erreur augmente. Cet effet est couramment observé en apprentissage automatique et il est surnommé "sur-apprentissage". Pour le contrer, nous avons donc décidé de trouver le nombre d'étapes optimal pour les taux d'apprentissage et le nombre de caractéristiques optimal.
-Pour cela, nous avons réalisé un simple algorithme qui effectue la descente du gradient avec 5000 étapes pour chaque combinaison de paramètres. Donc nous commençons par poser un certain n, puis un certain taux d'apprentissage pour X, puis un pour theta, et nous testons toutes les combinaisons de ces 3 paramètres (dans une limite raisonnable bien sûr). Quant au nombre d'étapes, nous faisons en sorte que toutes les 50 étapes, l'algorithme enregistre le taux d'erreur. Puis à chaque descente du gradient effectuée pour chaque combinaison, le module matplotlib nous permet de tracer un graphique du taux d'erreur en fonction du nombre d'étapes. Bien entendu, au cours du déroulement de l'algorithme, dès qu'un taux d'erreur inférieur aux précédents est trouvé, nous enregistrons sa valeur et la combinaison de paramètres qui nous a mené à ce taux d'erreur.
-Au final, nous avons trouvé un taux d'erreur optimal pour $n = 10$, $\alpha_X = 0.000125$, $\alpha_\Theta = 0.0001$, $nb_etapes \in [900,950]$. Le taux d'erreur vaut alors environ $0.79$.
+À ce stade-là, vous devez sûrement vous dire que ce sont les seuls paramètres qui influent sur la précision de la méthode, mais il en est un qui est aussi essentiel. C'est le nombre d'étapes du gradient que nous choisissons de faire effectuer à l'algorithme. Au premier abord, notre intuition nous conduit à penser que plus le nombres d'étapes que nous effectuons est grand, plus grande sera la précision de la prédiction. Mais c'est en fait erroné. Certes, nous nous doutons bien qu'une étape ou 2 ne vont pas suffire pour obtenir des prédictions pertinentes, mais trop faire d'étape pourrait desservir notre prédiction. Nous avons observé cet effet en traçant la courbe du taux d'erreur en fonction du nombre d'étapes. Et nous observons clairement un minimum du taux d'erreur pour un certain nombre d'étapes, au delà le taux d'erreur augmente. Cet effet est couramment observé en apprentissage automatique et il est surnommé "sur-apprentissage". Pour le contrer, nous avons donc décidé de trouver le nombre d'étapes optimal pour les taux d'apprentissage et le nombre de caractéristiques optimal.\\
 
-%inclure graphiques et commenter ce qu'on obtient et donner des valeurs du taux d'erreur du nb d etape et du nb de carac
+Pour cela, nous avons réalisé un simple algorithme qui effectue la descente du gradient avec 5000 étapes pour chaque combinaison de paramètres. Donc nous commençons par poser un certain $n$, puis un certain taux d'apprentissage pour X, puis un pour $\Theta$, et nous testons un grand nombre de combinaisons de ces 3 paramètres. Quant au nombre d'étapes, nous faisons en sorte que toutes les 50 étapes, l'algorithme enregistre le taux d'erreur. Puis à chaque descente du gradient effectuée pour chaque combinaison nous traçons un graphique du taux d'erreur en fonction du nombre d'étapes. Bien entendu, au cours du déroulement de l'algorithme, dès qu'un taux d'erreur inférieur aux précédents est trouvé, nous enregistrons sa valeur et la combinaison de paramètres qui nous a mené à ce taux d'erreur.
+Au final, nous avons trouvé un taux d'erreur optimal pour $n = 10$, $\alpha_X = 0.000125$, $\alpha_\Theta = 0.0001$, $nb_etapes \in [900,950]$. La moyenne des écarts absolus entre les notes prédites et la réalité vaut alors environ $0.79$.
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.5]{yassine.png}
+\caption{Ecart moyen entre les notes prédites et la réalité en fonction du nombre d'étape du gradient avec $n = 10$, $\alpha_X = 0.000125$ et $\alpha_\Theta = 0.0001$}
+\end{figure}
 
 \subsection{En pratique : recommandation d'un film à un nouvel utilisateur}
 
