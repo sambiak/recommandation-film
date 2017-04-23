@@ -32,9 +32,7 @@
 %raccourcir de 5000 carctères
 %Juliette :
 
-%seulement entre 1 et 40 notes" : le graphique montre un maximum de note à 25. (voir commentaires de Emiya)
-% verifier le titre pour un de tes graphiques : "Notes rangées en fonction du nombre de fois qu'ont été notés les films qu'elles notent"
-% améliorer les titres que j'ai mis à tes graphiques si tu penses que c nécessaire de le faire
+%voila j'ai changer le nom de mon graphique et la phrase qui clochait
 
 \begin{document}
 
@@ -52,7 +50,7 @@
 		\textsc{\Huge \underline{Recommandation de films} }\\
 		[1.5cm]
 		\color{black}
-		\textsc{\normalsize  AUGUSTONI Guillaume, AMRAM Yassine, PHILIBERT Juliette, GIRAUDO Anthony}\\
+		\textsc{\normalsize  AMRAM Yassine, AUGUSTONI Guillaume, GIRAUDO Anthony, PHILIBERT Juliette}\\
 		[0.75cm]
 		\textbf{\small Licence 1ère année - Mathématiques, Physique, Chimie, Informatique}\\
 		[0.3cm]	
@@ -138,13 +136,13 @@ La matrice des notes est appelée Y.
 \subsubsection{Analyse des données}
 
 Nous créons ensuite deux fonctions permettant de faire des statistiques sur nos données : l’une permettant de compter combien de films chaque utilisateur a vu, et l’autre comptant le nombre de notes attribuées pour chaque film. De ces fonctions, nous tirons des graphiques nous permettant d'avoir une idée plus précise de nos données.\\
-%là y a un soucis par rapport au graphique 
-Nous remarquons alors que plus de 90 \% des films possèdent entre 1 et 40 notes, et que le plus souvent un film a 2 notes. Le film auquel a été attribué le plus de notes a 339 notes.
+
+Nous remarquons alors que plus de 90 \% des films possèdent entre 1 et 25 notes, et que le plus souvent un film a 2 notes. Le film auquel a été attribué le plus de notes a 339 notes.
 
 \begin{figure}[H]
   \centering
 \includegraphics[scale=0.5]{hist2.png}
-\caption{Films triés en fonction du nombre de fois qu'ils ont été notés}
+\caption{Films les moins notés (90\% de nos films) triés en fonction du nombre de fois qu'ils ont été notés}
 \end{figure}
 
 Dans l’autre sens, nous voyons aussi que chaque utilisateur a noté 148 films en moyenne.
@@ -152,7 +150,7 @@ Dans l’autre sens, nous voyons aussi que chaque utilisateur a noté 148 films 
 \begin{figure}[H]
   \centering
 \includegraphics[scale=0.5]{hist1.png}
-\caption{Notes rangées en fonction du nombre de fois qu'ont été notés les films qu'elles notent}
+\caption{Utilisateurs classés selon le nombre de notes qu'ils ont mis}
 \end{figure}
 
 De plus, notre tableau présente 98,4 \% de NaN. Soit plus de 6 millions de notes à prédire !
@@ -404,7 +402,7 @@ Soit $j \in \{1, 2, ..., p\}$.
 \section{En pratique : recommandation d'un film à un nouvel utilisateur}
 \label{specifique}
 
-Au final une question intéressante est est-ce que le modèle arrivera d'une manière efficace à prédire les notes d'un nouvel utilisateur ?\\
+Une question intéressante est est-ce que le modèle arrivera d'une manière efficace à prédire les notes d'un nouvel utilisateur ?\\
 
 Pour mettre en place cela nous choisissons de ne pas recalculer $X$ et $\Theta$ pour chaque nouvel utilisateur. À la place, nous supposons que l'ajout des notes d'un nouvel utilisateur ne va pratiquement pas modifier le calcul de $X$ et des profils des anciens utilisateurs. Il nous suffit donc de calculer et d'ajouter seulement une nouvelle ligne à $\Theta$, caractérisant le profil du nouvel utilisateur. Ceci peut alors se faire très rapidement. À partir de ces nouvelles données, il nous suffit de compléter la ligne de Y correspondant aux notes du nouvel utilisateur pour trouver la plus élevée et recommander à l'utilisateur le film associé.
 
