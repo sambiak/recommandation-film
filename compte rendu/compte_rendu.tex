@@ -92,10 +92,9 @@ Nous avons choisi de nous intéresser à la recommandation automatique de films.
 Mais comment recommander à un utilisateur un film qu’il aimera ? Beaucoup de critères peuvent entrer en compte : 
 le genre du film, le jeu des acteurs, la date du film, ou tout simplement sa bonne qualité … Tout cela est très subjectif ! \\
 
-Nous en arrivons à la problématique suivante : Comment concevoir un programme informatique permettant une recommandation personnalisée pertinente ?
-En se limitant à un certain nombre de films, la méthode proposée lors de ce projet consiste à estimer les notes que mettrait l’utilisateur aux films qu'il n'a pas vu.
-Nous pouvons ainsi trouver les films les plus en accord avec ses goûts en regardant les plus hautes notes prédites.\\
-Pour ce rapport, dans un premier temps nous introduirons le sujet en expliquant notre approche du problème.
+Nous en arrivons à la problématique suivante : Comment concevoir un programme informatique permettant une recommandation personnalisée pertinente ?\\
+
+Pour ce rapport, dans un premier temps nous introduirons le sujet en expliquant notre approche du problème. 
 Puis, nous verrons sur quel modèle mathématique nous nous sommes appuyés pour écrire notre algorithme, et nous finirons par expliquer comment marche notre algorithme et comment l’optimiser.
 
 \newpage
@@ -107,7 +106,7 @@ Puis, nous verrons sur quel modèle mathématique nous nous sommes appuyés pour
 Le but de notre projet est de pouvoir recommander un film ou plusieurs à n'importe quel utilisateur. 
 Pour cela, nous devons savoir à quel point un utilisateur va aimer tel ou tel film pour le lui recommander ou pas. Ce qui parait alors pertinent est d'estimer pour chaque film une note que lui donnerait l'utilisateur s'il le voyait. 
 Nous pourrions ainsi recommander le film ayant la meilleur note prédite.
-Notre objectif est alors de trouver un modèle mathématique permettant de déterminer la note que mettrait un utilisateur à n'importe quel film qu'il n'a pas vu. Cependant il nous faut nous appuyer sur quelque chose. Pour commencer à travailler, il faut déjà connaître certaines informations : nous travaillerons à partir de notes de films données par un certain nombre d'utilisateurs.
+Notre objectif est alors de trouver un modèle mathématique permettant de déterminer la note que mettrait un utilisateur à n'importe quel film qu'il n'a pas vu. Cependant il nous faut nous appuyer sur quelque chose. Pour commencer à travailler, il faut déjà connaître certaines informations : nous travaillerons à partir de notes de films données par un certain nombre d'utilisateurs. Et pour recommander un film à un utilisateur, il faudra avoir quelques informations sur ses goûts, il faudra qu'il ait donné quelques notes à quelques films.
 
 \subsection{Première difficulté : les données}
 \subsubsection{Extraction de données}
@@ -118,7 +117,7 @@ Nous choisissons de travailler avec des notes données par 670 utilisateurs à 9
 Nous nous référons au nombre d'utilisateurs par $n_u$ et au nombre de films par $n_f$.
 Nous extrayons alors 2 fichiers : l’un contenant les $n_f$ films dans un tableau avec leurs titres et un numéro d'identification attribué, l’autre avec les notes des utilisateurs eux aussi numérotés par des identifiants. 
 Les données de ces deux fichiers étant peu pratiques à manipuler,  
-nous codons une fonction tableau\_des\_notes() qui renvoie une matrice de dimensions $n_u * n_f$ qui contient les notes données par les utilisateurs aux films. Les lignes du tableau correspondent aux utilisateurs et les colonnes aux films. Seulement, aucun utilisateur n'a noté tous les films : il y a des cases vides dans notre tableau. Nous insérons alors dans ces cases des ``NaN''(Not a Number), type de donnée facile à traiter dans notre programme.
+nous codons une fonction tableau\_des\_notes() qui renvoie une matrice de dimensions $n_u \times n_f$ qui contient les notes données par les utilisateurs aux films. Les lignes du tableau correspondent aux utilisateurs et les colonnes aux films. Seulement, aucun utilisateur n'a noté tous les films : il y a des cases vides dans notre tableau. Nous insérons alors dans ces cases des ``NaN''(Not a Number), type de donnée facile à traiter dans notre programme.
 La matrice des notes est appelée Y.
 
 \begin{figure}[H]
@@ -139,42 +138,40 @@ Nous remarquons alors que plus de 90 \% des films possèdent entre 1 et 25 notes
 \caption{Répartition des films les moins notés (90\% de nos films) en fonction du nombre de fois qu'ils ont été notés}
 \end{figure}
 
-Le film auquel a été attribué le plus de notes a 339 notes.\\
 Nous voyons aussi que chaque utilisateur a noté 148 films en moyenne.
 
 \begin{figure}[H]
   \centering
 \includegraphics[scale=0.5]{hist1.png}
-\caption{Répartition des utilisateurs selon le nombre de notes qu'ils ont mis}
+\caption{Répartition des utilisateurs selon le nombre de notes qu'ils ont donné}
 \end{figure}
 
 De plus, notre tableau présente 98,4 \% de NaN. Soit plus de 6 millions de notes à prédire !
 
-Notre but devient de compléter ces trous, de prédire les notes que nous ne connaissons pas. Alors nous pourrons, en réutilisant la même méthode, pour n'importe quel personne ayant noté quelques films deviner les notes qu'elle mettra aux films qu'il n'a pas encore vu.
+Notre objectif est donc de compléter ces trous, de prédire les notes que nous ne connaissons pas. Alors nous pourrons, en réutilisant la même méthode, pour n'importe quelle personne ayant noté quelques films deviner les notes qu'elle mettra aux films qu'elle n'a pas encore vu.
 
 \section{Modélisation du problème}
 
 Nous nous posons maintenant la question de comment nous y prendre pour prédire des notes ?
-Notre seule ressource est la matrice Y non pleine. Sur quel modèle s'appuyer pour la compléter ?
+Notre seule ressource est la matrice Y incomplète. Sur quel modèle s'appuyer pour la compléter ?
 C'est ce que nous allons étudier dans cette partie.
 
 \subsection{Factorisation de matrices}
 
-Toutes les notations utilisés sont précisés en \ref{notations}.\\
+Toutes les notations utilisées sont précisées en \ref{notations}.\\
 
-Posons $Y_f$ la matrice Y complétée qui contient toutes les prédictions, exactes, des notes qui nous manquent. C'est la matrice à laquelle nous voulons aboutir, celle que nous devons deviner. Voici notre méthode.\\ 
- 
-Nous supposons que nous sommes capable de déterminer à partir de Y deux matrices X et $\Theta$ telles que $\Theta X^T = Y_f$ avec $\Theta$ une matrice de dimensions $n_u * n$ et X une matrice de dimensions $n_f * n$. $n \in \mathbb{N}^*$ est quelconque, nous verrons par la suite que nous pouvons le fixer comme bon nous semble.\\ 
-Notre hypothèse sur l'interprétation de $\Theta$ et X ? Ce qui nous fait supposer leur existence ? Nous allons éclairer ce point tout de suite par des explications plus précises.\\
+Posons $Y_f$ la matrice Y complétée. Elle contient toutes les prédictions exactes des notes qui nous manquent. C'est la matrice à laquelle nous voulons aboutir, celle que nous devons deviner. Voici notre méthode.\\
 
-Le paragraphe qui suit est la description de nos suppositions sur l'interprétation que nous pouvons faire à propos de n, $\Theta$ et X. Après chaque verbe au conditionnel il est sous-entendu "d'après notre hypothèse".\\
-Parlons un peu du nombre n. Ce dernier serait en fait un nombre de caractéristiques quelconques, qui nous sont inconnues et qui peuvent bien décrire nos films : si nous pensons qu'ils peuvent être décrits efficacement par 10 caractéristiques, nous choisissons de trouver $\Theta$ et X avec $n = 10$. 
-Une caractéristique peut être n'importe quoi, du taux d'action au taux de blondeur des cheveux de l'actrice principale. Pour l'instant admettons seulement que ces n caractéristiques peuvent exister. Nous les numérotons de 1 à n, puis nous verrons comment elles sont déterminées dans une autre partie.\\
-Décrivons X. Nous avons déjà dit que cette matrice possède $n_f$ lignes. Chaque ligne caractériserait un film. Ainsi $\forall j \in \{1, 2, ..., n_f\}$ le film j serait décrit par $x_j$ de dimensions $1 * n$. Comment ? En fait $\forall k \in \{1, 2, ..., n\}$ $x_{j,k}$ correspondrait à un taux de correspondance entre le film j et la k-ième caractéristique. Si la k-ième caractéristique est l'action et si le film j est un film d'action tandis que le film j' ($j' \in \{1, 2, ..., n_f\}$) est un film romantique sans action alors $x_{j,k}$ sera un réel supérieur à $x_{j',k}$.\\
+Nous supposons que nous sommes capable de déterminer à partir de Y deux matrices X et $\Theta$ telles que $\Theta X^T = Y_f$ avec $\Theta$ une matrice de dimensions $n_u \times n$ et X une matrice de dimensions $n_f \times n$. $n \in \mathbb{N}^*$ est quelconque, nous verrons par la suite que nous pouvons le fixer comme bon nous semble.\\ 
+Quel est notre hypothèse sur l'interprétation de $\Theta$ et X ? Qu'est ce qui nous fait supposer leur existence ? Nous allons éclairer ces points tout de suite par des explications plus précises.\\
+
+Le paragraphe qui suit est la description de nos hypothèses sur l'interprétation que nous pouvons faire à propos de n, $\Theta$ et X. Après chaque verbe au conditionnel il est sous-entendu "d'après notre hypothèse".\\
+Parlons un peu du nombre n. Ce dernier serait en fait un nombre de caractéristiques quelconques, qui nous sont inconnues, et qui peuvent bien décrire nos films : si nous pensons qu'ils peuvent être décrits efficacement par 10 caractéristiques, nous choisissons de trouver $\Theta$ et X avec $n = 10$. 
+Une caractéristique peut être n'importe quoi, du taux d'action à la couleur des cheveux de l'actrice principale. Pour l'instant admettons seulement que ces n caractéristiques peuvent exister. Nous les numérotons de 1 à n, puis nous verrons comment elles sont déterminées dans une autre partie.\\
+Décrivons X. Nous avons déjà dit que cette matrice possède $n_f$ lignes. Chaque ligne caractériserait un film. Ainsi $\forall j \in \{1, 2, ..., n_f\}$ le film j serait décrit par $x_j$ de dimensions $1 \times n$. Comment ? En fait $\forall k \in \{1, 2, ..., n\}$ $x_{j,k}$ correspondrait à un taux de correspondance entre le film j et la k-ième caractéristique. Si la k-ième caractéristique est l'action et si le film j est un film d'action tandis que le film j' ($j' \in \{1, 2, ..., n_f\}$) est un film romantique sans action alors $x_{j,k}$ sera un réel supérieur à $x_{j',k}$.\\
 Décrivons maintenant $\Theta$. $\forall i \in \{1, 2, ..., n_u\}$ $\theta_{i}$ représenterait les goûts de l'utilisateur i. $\forall k \in \{1, 2, ..., n\}$ $\theta_{i,k}$ serait un taux d'appréciation de la caractéristique k pour l'utilisateur i.\\
-Ainsi seraient les deux matrices auxquelles nous voulons aboutir.\\
 
-Voyons maintenant voir en quoi le produit $\Theta X^T$ peut valoir $Y_f$. D'après le produit matriciel, $\forall i \in \{1, 2, ..., n_u\}$ et $\forall j \in \{1, 2, ..., n_f\}$ on a $(y_{f})_{i,j} = theta_{i}(x_{j})^{T}$ : la note que l'utilisateur i a donné ou donnera au film j dépend des caractéristiques du film et du profil de l'utilisateur. Et nous avons :
+Voyons maintenant voir en quoi le produit $\Theta X^T$ peut valoir $Y_f$. D'après le produit matriciel, $\forall i \in \{1, 2, ..., n_u\}$ et $\forall j \in \{1, 2, ..., n_f\}$ on a $(y_{f})_{i,j} = \theta_{i}(x_{j})^{T}$ : la note que l'utilisateur i a donné ou donnera au film j dépend des caractéristiques du film et du profil de l'utilisateur. Et nous avons :
 \[(y_{f})_{i,j} = \sum_{k = 1}^{n} \theta_{i,k} * x_{j,k}\]
 Ce qui semble logique : la note est une combinaison linéaire des taux de caractéristiques du film avec des coefficient qui sont plus ou moins élevé suivant le goût de l'utilisateur pour la caractéristique concernée.
 
