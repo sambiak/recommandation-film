@@ -4,7 +4,7 @@
 \contentsline {subsection}{\numberline {1.2}Premi\IeC {\`e}re difficult\IeC {\'e} : les donn\IeC {\'e}es}{1}
 \contentsline {subsubsection}{\numberline {1.2.1}Extraction de donn\IeC {\'e}es}{1}
 \contentsline {subsubsection}{\numberline {1.2.2}Analyse des donn\IeC {\'e}es}{2}
-\contentsline {section}{\numberline {2}Mod\IeC {\'e}lisation du probl\IeC {\`e}me}{4}
+\contentsline {section}{\numberline {2}Mod\IeC {\'e}lisation du probl\IeC {\`e}me}{3}
 \contentsline {subsection}{\numberline {2.1}Factorisation de matrices}{4}
 \contentsline {subsection}{\numberline {2.2}Fonction de co\IeC {\^u}t}{5}
 \contentsline {section}{\numberline {3}Impl\IeC {\'e}mentation de l'algorithme}{5}
