@@ -320,11 +320,11 @@ Optimisation de l'algorithme proposé dans la partie 3.2. Les notations utilisé
 \indent Faire simultan\'{e}ment:\\
 \indent \indent Pour tout j $\in$ \{1, 2, ..., nf\}:\\
 \indent \indent \indent Pour tout k $\in$ \{1, 2, ..., n\} :\\
-\indent \indent \indent \indent Affecter \`{a} $x_{j,k}$ la valeur $x_{j,k}-\alpha_X \frac{\partial J}{\partial x_{j,k}}$\\
+\indent \indent \indent \indent Affecter \`{a} $x_{j,k}$ la valeur $x_{j,k}-\alpha_X \frac{\partial J}{\partial x_{j,k}}(X, \Theta)$\\
 \indent Faire simultan\'{e}ment:\\
 \indent \indent Pour tout i $\in$ \{1, 2, ..., nu\}:\\
 \indent \indent \indent Pour tout k $\in$ \{1, 2, ..., n\} :\\
-\indent \indent \indent \indent Affecter \`{a} $\theta_{i,k}$ la valeur $\theta_{i,k}-\alpha_\Theta \frac{\partial J}{\partial \theta_{i,k}}$\\
+\indent \indent \indent \indent Affecter \`{a} $\theta_{i,k}$ la valeur $\theta_{i,k}-\alpha_\Theta \frac{\partial J}{\partial \theta_{i,k}}(X, \Theta)$\\
 
 \noindent Cet algorithme poss\`{e}de deux fois deux boucles imbriqu\'{e}es ce qui le rend tr\`es lent: 30 secondes par \'{e}tapes avec 10 caract\'{e}ristiques sachant qu'il faut au moins 500 \'{e}tapes pour arriver à une approximation de Y correcte. C'est pourquoi nous voulons l'optimiser.
 
@@ -359,7 +359,7 @@ Ce qui nous donne ce nouvel algorithme beaucoup plus rapide :\\
 \noindent Une \'{e}tape :\\
 \indent Faire simultan\'{e}ment:\\
 \indent \indent Pour tout j $\in$ \{1, 2, ..., nf\}:\\
-\indent \indent \indent Affecter \`{a} $x_{j,k}$ la valeur $x_{j,k}-\alpha(\tilde{\theta}^{T}(\tilde{\theta}x_{j}^{T}-\tilde{y}_{.,j}))^{T}$\\
+\indent \indent \indent Affecter \`{a} $x_{j,k}$ la valeur $x_{j,k}-\alpha(\tilde{\Theta}^{T}(\tilde{\Theta}x_{j}^{T}-\tilde{y}_{.,j}))^{T}$\\
 \indent Faire simultan\'{e}ment:\\
 \indent \indent Pour tout i $\in$ \{1, 2, ..., nu\}:\\
 \indent \indent \indent Affecter \`{a} $\theta_{i,k}$ la valeur $\theta_{i,k}-\alpha(\tilde{X}^{T}(\tilde{X}\theta_{i}^{T}-\tilde{y}_{i}))^{T}$\\
