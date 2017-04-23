@@ -29,15 +29,7 @@
 \author{}
 
 %Il reste à faire:
-
-%Anthony:
-
-%Ajouter des figures dans la partie factorisation de matrices (nécessaire ?)
-
-%Guillaume :
-
-%faire la conclusion
-
+%raccourcir de 7000 carctères
 %Juliette :
 
 %seulement entre 1 et 40 notes" : le graphique montre un maximum de note à 25. (voir commentaires de Emiya)
@@ -119,15 +111,14 @@ Puis, nous verrons sur quel modèle mathématique nous nous sommes appuyés pour
 \subsection{Notre approche}
 
 Le but de notre projet est de pouvoir recommander un film ou plusieurs à n'importe quel utilisateur. 
-Pour cela, nous devons savoir à quel point un utilisateur va aimer tel ou tel film pour le lui recommander ou pas. 
-Il nous faut donc une sorte d'échelle d'affinité entre l'utilisateur et chaque film. Ce qui parait alors pertinent est d'estimer pour chaque film une note que lui donnerait l'utilisateur s'il le voyait. 
-Nous pourrons ainsi recommander le film ayant la meilleur note prédite.
-Notre objectif est de trouver un modèle mathématique permettant de déterminer la note que mettrait un utilisateur à n'importe quel film qu'il n'a pas vu. Cependant il nous faut nous appuyer sur quelque chose. Pour commencer à travailler, il faut déjà connaître certaines informations : nous travaillerons avec des notes de films données par un certain nombre d'utilisateurs.
+Pour cela, nous devons savoir à quel point un utilisateur va aimer tel ou tel film pour le lui recommander ou pas. Ce qui parait alors pertinent est d'estimer pour chaque film une note que lui donnerait l'utilisateur s'il le voyait. 
+Nous pourrions ainsi recommander le film ayant la meilleur note prédite.
+Notre objectif est alors de trouver un modèle mathématique permettant de déterminer la note que mettrait un utilisateur à n'importe quel film qu'il n'a pas vu. Cependant il nous faut nous appuyer sur quelque chose. Pour commencer à travailler, il faut déjà connaître certaines informations : nous travaillerons avec des notes de films données par un certain nombre d'utilisateurs.
 
 \subsection{Première difficulté : les données}
 \subsubsection{Extraction de données}
 
-Le besoin d'avoir des données nous guide vers une grande base de données appelée `` movielens '' qui est un site communautaire de recommandation de films où les utilisateurs du site notent des films de 0 à 5.
+Le besoin d'avoir des données nous guide vers une grande base de données`` movielens.org '' qui est un site communautaire de recommandation de films où les utilisateurs du site notent des films de 0 à 5.
 Plusieurs jeux de données y sont disponibles. 
 Nous choisissons de travailler avec des notes données par 670 utilisateurs à 9125 films.
 Par la suite nous nous référerons au nombre d'utilisateurs par $n_u$ et au nombre de films par $n_f$.
@@ -136,7 +127,7 @@ l’autre avec les notes des utilisateurs eux aussi numérotés par des identifi
 Ce dernier fichier est un tableau avec $n_u$ lignes du type : identifiant de l’utilisateur, id du film qu’il a noté, note. 
 Ces 2 fichiers étant peu pratiques pour manipuler leurs données,  
 nous créons une fonction tableau\_des\_notes() qui retourne un tableau, une matrice de dimensions $n_u * n_f$ qui contient les notes données par les utilisateurs, en ligne, aux films, en colonne. Seulement, aucun utilisateur n'a noté tous les films : il y a des cases vides dans notre tableau. Nous insérons alors dans ces cases des `` NaN ''(Not a Number), type de donnée facile à traiter dans notre programme.
-Le tableau des notes est appelé Y.
+La matrice des notes est appelé Y.
 
 \begin{figure}[H]
   \centering
@@ -164,9 +155,9 @@ Dans l’autre sens, nous voyons aussi que chaque utilisateur a noté 148 films 
 \caption{Notes rangées en fonction du nombre de fois qu'ont été notés les films qu'elles notent}
 \end{figure}
 
-De plus, notre tableau présente 98,4 \% de NaN. Soit plus de 6 millions de notes à prédire ! Ce qui est un réel défit.
+De plus, notre tableau présente 98,4 \% de NaN. Soit plus de 6 millions de notes à prédire !
 
-Notre but devient de compléter ces trous, de prédire les notes que nous ne connaissons pas. Alors nous pourrons, en réutilisant la même méthode, pour n'importe quel personne ayant noté quelques films deviner les notes qu'il mettra aux films qu'il n'a pas encore vu.
+Notre but devient de compléter ces trous, de prédire les notes que nous ne connaissons pas. Alors nous pourrons, en réutilisant la même méthode, pour n'importe quel personne ayant noté quelques films deviner les notes qu'elle mettra aux films qu'il n'a pas encore vu.
 
 \section{Modélisation du problème}
 
@@ -236,7 +227,7 @@ Remarquons que $x_1$ et $x_2$ sont fixés aléatoirement : leur valeur de dépar
 Notons que $\alpha_{x_1}$ et $\alpha_{x_2}$ sont appelés taux d'apprentissage.
 Chose importante, les approximations utilisées ne fonctionnent qu'avec des valeurs assez petite de $\Delta x_1$ et $\Delta x_2$. Il faut donc choisir des taux d'apprentissage eux aussi petits pour que la descente du gradient puisse fonctionner. Mais choisir des taux d'apprentissage trop petits modifierait trop peu les $x_i$ à chaque étape : il faudrait alors un très grand nombre d'étape pour arriver à un minimum de $f$.\\
 
-Depuis le début nous parlons d'un minimum et pas du minimum. En fait la descente du gradient permet d'arriver à un minimum local d'une fonction. Pour minimiser J, nous avons décidé de nous contenter d'un minimum local.
+Depuis le début nous parlons d'un minimum et pas du minimum. En fait la descente du gradient permet d'arriver à un minimum local d'une fonction. Pour minimiser J, nous avons décidé de nous contenter d'un minimum.
 
 \subsection{Minimiser J}
 
@@ -270,54 +261,32 @@ alors $\tilde{y}_{.,j}=
 Puis en \ref{P2} nous prouvons que $ \nabla_{(x_{j})^T}\frac{1}{2}\Vert\tilde{\theta}(x_{j})^{T}-\tilde{y}_{.,j}\Vert^{2} =  \tilde{\Theta}^{T}(\tilde{\Theta}(x_{j})^{T}-\tilde{y}_{.,j})$ et que $\nabla_{(\theta_{i})^T}\frac{1}{2}\Vert\tilde{X}(\theta_{i})^{T}-\tilde{y}_{i}\Vert^{2} =  \tilde{X}^{T}(\tilde{X}(\theta_{i})^{T}-\tilde{y}_{i})$. Ce qui nous permet de représenter une étape du gradient comme une série de produits de matrices rapidement calculables. Cela nous fait passer à une vitesse de 5 étapes par seconde avec $n = 10$. Et nous remarquons une convergence de la valeur de $J(X, \Theta)$ indiquant bien la présence d'un minimum que nous atteignons.
 
 \section{Mise en application de l'algorithme}
-\subsection{Familiarisation avec problème plus simple}
-
-Parlons d'un un autre problème plus simple, toujours dans le cadre de la recommandation de film grâce à la descente du gradient. Tout cela afin de bien comprendre comment fonctionne la descente du gradient. Nous n'en reparlerons plus par la suite.\\
-
-Énonçons le problème. Comment, à partir d'un tableau de note qui ne contient qu'un seul NaN, prédire la note manquante sans factorisation de matrice ? Il faut imaginer un tableau de la même forme que Y auquel il manque une seul note tout en bas à droite. Un seul utilisateur n'a alors pas noté tous les films. Mais nous arrivons à un obstacle : où trouver ce tableau ?\\
-
-Le problème qui se pose alors est de réussir à extraire de Y un sous-tableau plein auquel nous retirerons une note. Pour que notre travail soit assez intéressant, nous voulons que ce tableau soit le plus grand possible. En effet, avoir un grand tableau permettra de fournir plus de données à l'algorithme que nous créerons le rendant plus efficace. Nous cherchons alors à coder une fonction permettant d'extraire le plus grand tableau plein possible de Y. Or, il s'avère rapidement que cela est pratiquement impossible à faire et nous prend trop de temps. C'est pourquoi nous nous contentons de faire un algorithme renvoyant non pas le tableau extrait optimal, mais un tableau raisonnablement grand dont nous pouvons nous contenter. La matrice obtenue est $T \in {\cal M}_{u, f}$ avec $u = 25$ le nombre d'utilisateur et $f = 11$ le nombre de films. Le tableau est organisé de la même façon que Y et $t_{u, f} = NaN$ : seul l'utilisateur $u$ n'a pas noté le film $f$. Nous pouvons maintenant commencer à travailler. Nous oublions Y pour cette partie.\\
-
-Notre méthode ? Réussir à trouver $f-1$ coefficients $a_1, a_2, ..., a_{f-1}$ tels que $\forall i \in \{1, 2, ..., u-1\}$ $t_{i, f} = \sum_{k = 1}^{f-1} a_k * t_{i, k}$, en supposant qu'ils existent. Alors il suffirait de prédire $t_{u, f}$ en supposant qu'il vaut $\sum_{k = 1}^{f-1} a_k * t_{u, k}$. Autrement dit, nous supposons qu'il existe la même relation linéaire pour chaque utilisateur entre les notes données par un utilisateur aux $f- 1$ premiers films et la note donnée par cet utilisateur au film f. Et nous essayons de déterminer cette relation.\\
-
-Comment faire ? Notre but est de minimiser la fonction
-\begin{align*}
-\mathbb{R}^{f-1}&\longrightarrow \mathbb{R}^+\\ 
-(a_1, a_2, ..., a_{f-1})&\longmapsto \frac{1}{2}\sum_{i = 1}^{u - 1} (\sum_{k = 1}^{f-1} (a_k * t_{i, k}) - t_{i, f})^2
-\end{align*}
-Tiens donc, minimiser une fonction ? Nous savons faire grâce à la descente du gradient. Et nous le faisons.\\
-
-Maintenant nous pouvons nous demander à quel point cette méthode est précise. Nous utilisons donc notre algorithme sur plusieurs configurations du tableau T en enlevant à chaque fois une note différente du tableau extrait. Et nous observons un écart absolu moyen de 0.24 entre la note prédite et la valeur réelle de la note enlevée. Nous avons donc une très bonne précision sachant que les notes sont précises à 0.5 près. Mais malheureusement cette méthode ne peut être employée que sur un tableau qui n'a qu'une seule case vide.\\
-
-Reprenons maintenant notre vrai problème : arriver à compléter Y.
 
 \subsection{Taux d'erreur}
 
 Maintenant que nous avons un algorithme permettant de prédire les notes manquantes de Y, il reste à savoir si nos prédictions sont bonnes !\\
 
-Pour cela, il faut partir des choses que nous connaissons : les notes de Y. 
-Comment connaître la fiabilité de notre prédiction à partir de ces seules données ?  
+Pour cela, il faut partir des choses que nous connaissons : les notes de Y.   
 Il faudrait mesurer l'écart entre les notes prédites et les notes déjà connues.
 Mais comment faire en sorte que l'algorithme cherche à prédire des notes que l'on connaît déjà ?
 Tout simplement en lui faisant croire que nous ne les connaissons pas !
-Cependant, si nous effaçons toutes les notes connues de notre tableau de départ, il est évident que l'algorithme ne pourra pas fonctionner.
-C'est pourquoi nous n'effaçons qu'une partie des notes connues (10 \% exactement). 
+Nous effaçons donc une partie des notes connues, soit 10 \%. 
 Ainsi, nous choisissons 10 \% des notes de Y en faisant en sorte de retenir où elles étaient placées et leurs valeurs. 
 Puis, nous les transformons en NaN et nous fournissons ce nouveau tableau à l'algorithme qui le complète.
 Ensuite, il suffit de comparer les notes enlevées à celles qui ont été prédites à leur place. 
-Nous obtenons ainsi un écart moyen, le taux d'erreur, qui nous indique la fiabilité de notre prédiction : 
-un écart peu élevé signifie que les notes prédites ont de grandes chances d'être pertinentes.
+Nous obtenons ainsi un écart moyen, le taux d'erreur, qui nous indique la fiabilité de notre prédiction.
 
 \subsection{Influence des paramètres}
 
-Il est intéressant d'étudier les facteurs qui peuvent rendre notre prédiction plus ou moins fiable. Bien entendu, nous excluons l'impact de la méthode de prédiction utilisée, celle-ci étant fixée à la base de notre projet. Nous nous demandons donc comment améliorer la fiabilité de notre prédiction sans changer complètement de méthode.\\
+Il est intéressant d'étudier les facteurs qui peuvent rendre notre prédiction plus ou moins fiable. Bien entendu, nous excluons l'impact de la méthode de prédiction utilisée, celle-ci étant fixée à la base de notre projet (voir \ref{extrait} pour une autre méthode). Nous nous demandons donc comment améliorer la fiabilité de notre prédiction sans changer complètement de méthode.\\
 
 Tout d'abord les prédictions vont différer suivant le choix de $n$, le nombre de caractéristiques.\\
-Ensuite, la descente du gradient dépend directement des taux d'apprentissage (notés alpha) que nous choisissons. En effet, nous adaptons à chaque étape la matrice $\Theta$ et la matrice X en fonction de ces taux d'apprentissage. L'enjeu est de taille quant au choix de ceux-ci : nous avons déjà vu qu'il fallait qu'ils ne soient ni trop grands ni trop petits. Il convient donc de trouver les taux d'apprentissages et le nombre de caractéristiques optimal pour obtenir la meilleure prédiction possible.\\
-À ce stade-là, vous devez sûrement vous dire que ce sont les seuls paramètres qui influent sur la précision de la méthode, mais il en est un qui est aussi essentiel. C'est le nombre d'étapes du gradient que nous choisissons de faire effectuer à l'algorithme. Au premier abord, notre intuition nous conduit à penser que plus le nombres d'étapes que nous effectuons est grand, plus grande sera la précision de la prédiction. Mais c'est en fait erroné. Certes, nous nous doutons bien qu'une étape ou 2 ne vont pas suffire pour obtenir des prédictions pertinentes, mais trop faire d'étape pourrait desservir notre prédiction. Nous avons observé cet effet en traçant la courbe du taux d'erreur en fonction du nombre d'étapes. Et nous observons clairement un minimum du taux d'erreur pour un certain nombre d'étapes, au delà le taux d'erreur augmente. Cet effet est couramment observé en apprentissage automatique et il est surnommé "sur-apprentissage". Pour le contrer, nous avons donc décidé de trouver le nombre d'étapes optimal pour les taux d'apprentissage et le nombre de caractéristiques optimal.\\
+Ensuite, la descente du gradient dépend des taux d'apprentissage, notés $\alpha$, que nous choisissons. En effet, nous adaptons à chaque étape la matrice $\Theta$ et la matrice X en fonction de ces taux d'apprentissage. Nous avons déjà vu qu'il fallait qu'ils ne soient ni trop grands ni trop petits.\\
+Il convient donc de trouver les taux d'apprentissages et le nombre de caractéristiques optimal pour obtenir la meilleure prédiction possible.\\
+Il est un autre paramètre aussi essentiel. C'est le nombre d'étapes du gradient que nous choisissons de faire effectuer à l'algorithme. Nous pouvons penser que plus le nombres d'étapes que nous effectuons est grand, plus grande sera la précision de la prédiction. Mais c'est en fait erroné. Certes, nous nous doutons bien qu'une étape ou deux ne vont pas suffire pour obtenir des prédictions pertinentes, mais trop faire d'étape pourrait desservir notre prédiction. Nous avons observé cet effet en traçant la courbe du taux d'erreur en fonction du nombre d'étapes. Et nous observons clairement un minimum du taux d'erreur pour un certain nombre d'étapes, au delà le taux d'erreur augmente. Cet effet est couramment observé en apprentissage automatique et il est surnommé "sur-apprentissage". Pour le contrer, nous avons donc décidé de trouver le nombre d'étapes optimal pour les taux d'apprentissage et le nombre de caractéristiques optimal.\\
 
 Pour cela, nous avons réalisé un simple algorithme qui effectue la descente du gradient avec 5000 étapes pour chaque combinaison de paramètres. Donc nous commençons par poser un certain $n$, puis un certain taux d'apprentissage pour X, puis un pour $\Theta$, et nous testons un grand nombre de combinaisons de ces 3 paramètres. Quant au nombre d'étapes, nous faisons en sorte que toutes les 50 étapes, l'algorithme enregistre le taux d'erreur. Puis à chaque descente du gradient effectuée pour chaque combinaison nous traçons un graphique du taux d'erreur en fonction du nombre d'étapes. Bien entendu, au cours du déroulement de l'algorithme, dès qu'un taux d'erreur inférieur aux précédents est trouvé, nous enregistrons sa valeur et la combinaison de paramètres qui nous a mené à ce taux d'erreur.
-Au final, nous avons trouvé un taux d'erreur optimal pour $n = 10$, $\alpha_X = 0.000125$, $\alpha_\Theta = 0.0001$, $nb_etapes \in [900,950]$. La moyenne des écarts absolus entre les notes prédites et la réalité vaut alors environ $0.79$.
+Au final, nous trouvons un taux d'erreur optimal pour $n = 10$, $\alpha_X = 0.000125$, $\alpha_\Theta = 0.0001$, $nb_etapes \in [900,950]$. La moyenne des écarts absolus entre les notes prédites et la réalité vaut alors environ $0.79$.
 
 \begin{figure}[H]
 \centering
@@ -329,7 +298,7 @@ Au final, nous avons trouvé un taux d'erreur optimal pour $n = 10$, $\alpha_X =
 
 Au final une question intéressante est est-ce que le modèle arrivera d'une manière efficace à prédire les notes d'un nouvel utilisateur ?\\
 
-Pour mettre en place cela nous choisissons de ne pas recalculer $X$ et $\Theta$ pour chaque nouvel utilisateur. À la place, nous supposons que l'ajout des notes d'un nouvel utilisateur ne va pratiquement pas modifier le calcul de $X$ et des profils des anciens utilisateurs. Il nous suffit donc de calculer et d'ajouter seulement une nouvelle ligne à $\Theta$, caractérisant le profil du nouvel utilisateur. Ceci peut alors se faire très rapidement. À partir de ces nouvelles données, il nous suffit de compléter la ligne de Y correspondant aux notes du nouvel utilisateur pour trouver la plus élevée et recommander à l'utilisateur le film associé.
+Pour mettre en place cela nous calculons et ajoutons seulement une nouvelle ligne à $\Theta$, caractérisant le profil du nouvel utilisateur. Ceci peut alors se faire très rapidement. À partir de ces nouvelles données, il nous suffit de compléter la ligne de Y correspondant aux notes du nouvel utilisateur pour trouver la plus élevée et recommander à l'utilisateur le film associé.
 
 \newpage
 
@@ -341,45 +310,10 @@ Améliorer encore notre système de recommandation ? Nous avons quelques idée �
 D'abord utiliser une plus grande base de donnée : pour l'instant nous nous sommes limités à un peu plus de 9000 films mais nous pourrions largement augmenter ce nombre grâce aux donnée disponibles sur "movielens". Un plus grand nombre d'utilisateurs permettrait aussi une plus grande précision. Mais est un défi : une base de données trop grande rendrait notre algorithme très long à exécuter.\\
 Autre chose, certaines méthodes existent pour limiter le sur-apprentissage sont nous avons parlé et que nous n'avons pas utilisée : le faire permettrait une précision plus élevée.\\
 Développer une interface graphique pour notre système de recommandation serait aussi une chose intéressante : une application sur smartphone ou un site web rendrait facile d'utilisation notre système de recommandation et permettrait à beaucoup de personnes d'en profiter.\\
-Enfin, nous avons décidé de prendre en compte seulement des notes d'utilisateurs pour nos prédictions. Mais d'autres données seraient utilisables comme le genre du film et la date à laquelle il a été noté. Il serait intéressant de se demander si cela augmenterait la précision de nos prédictions. Le genre du film serait sûrement peu intéressant puisque notre programme propose lui même les caractéristiques les mieux appropriés qu'il déduit des notes. Par contre, la date à laquelle a été noté le film pourrait bien augmenter la précision (\cite{matrix})
+Enfin, nous avons décidé de prendre en compte seulement des notes d'utilisateurs pour nos prédictions. Mais d'autres données seraient utilisables comme le genre du film et la date à laquelle il a été noté. Il serait intéressant de se demander si cela augmenterait la précision de nos prédictions. Le genre du film serait sûrement peu intéressant puisque notre programme propose lui même les caractéristiques les mieux appropriés qu'il déduit des notes. Par contre, la date à laquelle a été noté le film pourrait bien augmenter la précision, référence \cite{matrix}.\\
 
-
-
-
-%1 page avec perspectives et limites de l'approche
-
-%-Rappel du probleme
-Notre but était de créer un système de recommandations de films. Pour cela, nous avons choisi de créer un système qui prédit les notes qu'un utilisateur aurait pu mettre à un film. 
-
-%resultats
-Nous avons %je sais pas si c'est bien conjugé
-choisi de prendre un sous ensemble de la base de données ``movielens``
-pour ne pas prendre trop de temps lors de l'execution des algorithmes. %on pourait mettre la compléxité d'une étape de la descente du gradient et la justifier en annexe
-Notre précision sur les reccomandations est moindre que si nous avions pris la
-base complete. Nous avons fait ce choix car nous avions décidé de nous 
-focaliser sur l'apprentissage automatique. [c'est probablement pas clair on peut peut-etre remplacer apprentissage automatique par prédiction des notes]
-%pas de transition car je sais pas rediger (:
-Pour évaluer les résultats nous les comparons a d'autres algorithmes.
-[donner les resultats pour le sous matrice par rapport a la moyenne des notes et pour l'ensemble de nos donnés par rapport a la moyenne]%je regrette de devoir vous refiler ceal mais j'ai pas assez de batterie pour faire tourner pycharm
-%j'ajouterai probablement un autre algo pour comparer au notre dimanche quand je serais revenu
-%si vous pouvez analyser ces resultats ce serait cool encore désolé de vous refiler cela
-%limites de l'approche
-%toujours pas de transition (;
-
-%perspectives
-Toutefois, notre modèle ne prend en compte que les notes malgrès le fait que d'autres informations sont disponibles sur la base de données.
-En effet, movielens nous donne aussi la date où les films ont été notés et le genre du film.
-Le genre du film est peu intéressant car notre algorithme déduit des caractéristiques au film plus précise que le genre.%mal dit
-Le moment où le film a été noté est plus facilement exploitable car [expliquer ] dans le papier de ''machin'' la prise en compte  du temps a
-permis de gros gain de précision%j'ai pas le paper et pas d'internet je vous laisse ceci aussi 
-Nous aurions aimé pousser le projet plus loin et explorer ces aspects 
-mais nous nous sommes retrouvés surchargés par le travail demandé dans les autres matieres et nous avons du abandonner ces aspects.
-% je pense que c'est un peu maladroit de dire qu'on a été surchargés de travail, faudrait plutot dire qu'on a preferer se concentrer sur un autre objectif ou juste ne pas se justifié de pk on la pas fait
-
-%-Aquis du projet
-%-Analyse des activités réalisés
-%-porte sur les domaines theorique partique humain et personnel
-
+Pour chacun de nous, ce projet fut passionnant et à apporté de nombreuses connaissances. Nous avons pu découvrir une partie du domaine de l'apprentissage automatique. Nous avons progressé au fur et à mesure de ce projet au niveau du travail en groupe. L'outil de travail collaboratif utilisé Github fut une découverte pour plusieurs d'entre nous et sera sûrement réutilisé par la suite. C'est aussi durant ce projet que certains ont appris à utiliser Latex, et cela nous sera aussi sûrement utile pour plus tard.\\
+Pour toutes ces raisons ce projet nous a beaucoup apporté.
 
 %Bibliographie 
 \newpage 
@@ -390,10 +324,6 @@ mais nous nous sommes retrouvés surchargés par le travail demandé dans les au
 \end{thebibliography}
 
 \newpage
-
-
-
-
 
 \appendix
 \section{Notations utilisés}
@@ -477,6 +407,28 @@ Soit $j \in \{1, 2, ..., p\}$.
 
 \newpage
 
+\section{Familiarisation avec problème plus simple}
+\label{extrait}
+
+Parlons d'un un autre problème plus simple, toujours dans le cadre de la recommandation de film grâce à la descente du gradient. Tout cela afin de bien comprendre comment fonctionne la descente du gradient.\\
+
+Énonçons le problème. Comment, à partir d'un tableau de note qui ne contient qu'un seul NaN, prédire la note manquante sans factorisation de matrice ? Il faut imaginer un tableau de la même forme que Y auquel il manque une seul note tout en bas à droite. Un seul utilisateur n'a alors pas noté tous les films. Mais nous arrivons à un obstacle : où trouver ce tableau ?\\
+
+Le problème qui se pose alors est de réussir à extraire de Y un sous-tableau plein auquel nous retirerons une note. Pour que notre travail soit assez intéressant, nous voulons que ce tableau soit le plus grand possible. En effet, avoir un grand tableau permettra de fournir plus de données à l'algorithme que nous créerons le rendant plus efficace. Nous cherchons alors à coder une fonction permettant d'extraire le plus grand tableau plein possible de Y. Or, il s'avère rapidement que cela est pratiquement impossible à faire et nous prend trop de temps. C'est pourquoi nous nous contentons de faire un algorithme renvoyant non pas le tableau extrait optimal, mais un tableau raisonnablement grand dont nous pouvons nous contenter. La matrice obtenue est $T \in {\cal M}_{u, f}$ avec $u = 25$ le nombre d'utilisateur et $f = 11$ le nombre de films. Le tableau est organisé de la même façon que Y et $t_{u, f} = NaN$ : seul l'utilisateur $u$ n'a pas noté le film $f$. Nous pouvons maintenant commencer à travailler. Nous oublions Y pour cette partie.\\
+
+Notre méthode ? Réussir à trouver $f-1$ coefficients $a_1, a_2, ..., a_{f-1}$ tels que $\forall i \in \{1, 2, ..., u-1\}$ $t_{i, f} = \sum_{k = 1}^{f-1} a_k * t_{i, k}$, en supposant qu'ils existent. Alors il suffirait de prédire $t_{u, f}$ en supposant qu'il vaut $\sum_{k = 1}^{f-1} a_k * t_{u, k}$. Autrement dit, nous supposons qu'il existe la même relation linéaire pour chaque utilisateur entre les notes données par un utilisateur aux $f- 1$ premiers films et la note donnée par cet utilisateur au film f. Et nous essayons de déterminer cette relation.\\
+
+Comment faire ? Notre but est de minimiser la fonction
+\begin{align*}
+\mathbb{R}^{f-1}&\longrightarrow \mathbb{R}^+\\ 
+(a_1, a_2, ..., a_{f-1})&\longmapsto \frac{1}{2}\sum_{i = 1}^{u - 1} (\sum_{k = 1}^{f-1} (a_k * t_{i, k}) - t_{i, f})^2
+\end{align*}
+Tiens donc, minimiser une fonction ? Nous savons faire grâce à la descente du gradient. Et nous le faisons.\\
+
+Maintenant nous pouvons nous demander à quel point cette méthode est précise. Nous utilisons donc notre algorithme sur plusieurs configurations du tableau T en enlevant à chaque fois une note différente du tableau extrait. Et nous observons un écart absolu moyen de 0.24 entre la note prédite et la valeur réelle de la note enlevée. Nous avons donc une très bonne précision sachant que les notes sont précises à 0.5 près. Mais malheureusement cette méthode ne peut être employée que sur un tableau qui n'a qu'une seule case vide.
+
+\newpage
+
 \section{Code} 
  
 Dans cet annexe figure notre code. 
@@ -516,11 +468,12 @@ Dans cet annexe figure notre code.
 \hrule height 1pt
 \vskip 1cm
 
-La recommandation automatique est un domaine très intéressant qui peut susciter de la curiosité. Nous nous sommes intéressés à la recommandation
-automatique de film avec pour but de construire un programme pouvant recommander de manière personnalisée un film pertinent à n'importe quel utilisateur. Notre méthode s'appuie 
-sur la factorisation de matrice, et la descente du gradient. Ce document est la description de nos travaux. \\ \\ \\ \\ \\ \\
+La recommandation automatique est un domaine très intéressant qui peut susciter de la curiosité. Nous nous sommes intéressés à la recommandation 
+automatique de film avec pour but de construire un programme pouvant recommander de manière personnalisée un film pertinent à n'importe quel utilisateur. Notre méthode s'appuie  
+sur la factorisation de matrice, et la descente du gradient.\\ \\ \\ \\ \\ \\ 
+ 
+\textbf{{Mots clés:}} descente du gradient, factorisation de matrices, prédiction de notes de films, informatique, programmation
 
-\textbf{{Mots clés:}} descente du gradient, matrice, factorisation, prédiction de notes %il faut 5 mots clés , si vous avez des idées allez y
 \vspace*{\stretch{1}}
 
 
