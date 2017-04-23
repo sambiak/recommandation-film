@@ -29,7 +29,8 @@
 \author{}
 
 %Il reste à faire:
-%raccourcir de 5000 carctères
+%raccourcir de 3000 caractères
+%mettre une image correcte de Y
 
 \begin{document}
 
@@ -218,7 +219,7 @@ Affecter à $x_2$ une valeur aléatoire\;
 \noindent Une partie de cet algorithme est répété un certain nombre de fois : nous l'appelons "étape du gradient" ou parfois simplement "étape".\\
 Remarquons que $x_1$ et $x_2$ sont fixés aléatoirement : leur valeur de départ peut être quelconque, l'algorithme minimisera quand même f.\\
 Notons que $\alpha_{x_1}$ et $\alpha_{x_2}$ sont appelés taux d'apprentissage.
-Chose importante, les approximations utilisées ne fonctionnent qu'avec des valeurs assez petite de $\Delta x_1$ et $\Delta x_2$. Il faut donc choisir des taux d'apprentissage eux aussi petits pour que la descente du gradient puisse fonctionner. Mais choisir des taux d'apprentissage trop petits modifierait trop peu les $x_i$ à chaque étape : il faudrait alors un très grand nombre d'étape pour arriver à un minimum de $f$.\\
+Chose importante, les approximations utilisées ne fonctionnent qu'avec des valeurs assez petite de $\Delta x_1$ et $\Delta x_2$. Il faut donc choisir des taux d'apprentissage eux aussi petits pour que la descente du gradient puisse fonctionner. Mais choisir des taux d'apprentissage trop petits modifierait trop peu les $x_i$ à chaque étape : il faudrait alors un très grand nombre d'étapes pour arriver à un minimum de $f$.\\
 
 Depuis le début nous parlons d'un minimum et pas du minimum. En fait la descente du gradient permet d'arriver à un minimum local d'une fonction. Pour minimiser J, nous avons décidé de nous contenter d'un minimum.
 
@@ -226,13 +227,12 @@ Depuis le début nous parlons d'un minimum et pas du minimum. En fait la descent
 
 Nous voulons maintenant appliquer le même raisonnement sur $J$ pour modifier X et $\Theta$, initialement pris aléatoirement, un certain nombre de fois jusqu'à arriver à une valeur de $J(X, \Theta)$ assez faible. Voyons voir comment s'y prendre.\\
 
-La différence avec la partie précédente, c'est que nous parlons de matrices. Mais chacun des coefficients de ces matrice peut être considéré comme une variable. Nous pouvons alors utiliser la descente du gradient pour J en considérant qu'il s'agit d'une fonction à $n_u * n + n_f * n$ variables. Or utiliser la descente du gradient de manière brute comme ceci est beaucoup trop long : 30 secondes par étape avec $n = 10$ sachant qu'il nous faut plus de 500 étapes pour arriver à un résultat correct. C'est pourquoi nous réfléchissons à la manière dont nous codons pour optimiser cela, mais le principe reste le même. Nous arrivons finalement à 5 étapes par seconde avec $n = 10$. Pour en savoir plus sur cette partie importante de notre projet voir annexe \ref{optimisation}.\\
+La différence avec la partie précédente, c'est que nous parlons de matrices. Mais chacun des coefficients de ces matrice peut être considéré comme une variable. Nous pouvons alors utiliser la descente du gradient pour J en considérant qu'il s'agit d'une fonction à $n_u * n + n_f * n$ variables. Or utiliser la descente du gradient de manière brute comme ceci est beaucoup trop long : 30 secondes par étape avec $n = 10$ sachant qu'il nous faut plus de 500 étapes pour arriver à un résultat correct. C'est pourquoi nous réfléchissons à la manière d'optimiser le code, tout en gardant le même principe. Nous arrivons finalement à 0.2 seconde par étape avec $n = 10$. Pour en savoir plus sur cette partie importante de notre projet voir annexe \ref{optimisation}.\\
 Et nous remarquons une convergence de la valeur de $J(X, \Theta)$ indiquant bien la présence d'un minimum que nous atteignons.
 
 \section{Mise en application de l'algorithme}
 
 \subsection{Taux d'erreur}
-
 
 Maintenant que nous avons un algorithme permettant de prédire les notes manquantes de Y, il reste à savoir si nos prédictions sont bonnes ! Il faudrait mesurer l'écart entre les notes prédites et les notes que mettraient vraiment les utilisateurs. Voici comment nous nous y prenons.\\
 
@@ -244,35 +244,35 @@ Nous obtenons ainsi un écart moyen, le taux d'erreur, indiquant la fiabilité d
 
 \subsection{Influence des paramètres}
 
-Il est intéressant d'étudier les facteurs qui peuvent rendre notre prédiction plus ou moins fiable. Bien entendu, nous excluons l'impact de la méthode de prédiction utilisée, celle-ci étant fixée à la base de notre projet (voir \ref{extrait} pour une autre méthode). Nous nous demandons donc comment améliorer la fiabilité de notre prédiction sans changer complètement de méthode.\\
+Il est intéressant d'étudier les facteurs qui peuvent rendre notre prédiction plus ou moins fiable. Bien entendu, nous excluons l'impact de la méthode de prédiction utilisée, celle-ci étant fixée à la base de notre projet (voir annexe \ref{extrait} pour une autre méthode). Nous nous demandons donc comment améliorer la fiabilité de notre prédiction sans changer complètement de méthode.\\
 
-Clairement le nombre d'étapes dépend de n, le nombre de caractéristique et des taux d'apprentissage $\alpha_X$ et $\alpha_\Theta$.\\
-Le nombre d'étape à effectuer est aussi important : faire trop d'étapes entraîne une remontée d taux d'erreur. Il s'agit du "sur-apprentissage" terme utilisé en apprentissage automatique.\\
+Clairement le nombre d'étapes dépend de n, le nombre de caractéristiques et des taux d'apprentissage $\alpha_X$ et $\alpha_\Theta$.\\
+Le nombre d'étape à effectuer est aussi important : faire trop d'étapes entraîne une remontée du taux d'erreur. Il s'agit du "sur-apprentissage" terme utilisé en apprentissage automatique.\\
 Nous avons donc décidé de trouver le nombre d'étapes optimal pour les taux d'apprentissage et le nombre de caractéristiques optimal.\\
 
 Pour cela, nous testons un grand nombre de combinaisons de $n$ et des $\alpha$. Et pour chaque combinaison nous effectuons la descente du gradient en traçant un graphique du taux d'erreur en fonction du nombre d'étapes.
-Au final, nous trouvons un taux d'erreur optimal pour $n = 10$, $\alpha_X = 0.000125$, $\alpha_\Theta = 0.0001$, $nb_etapes \in [900,950]$. La moyenne des écarts absolus entre les notes prédites et la réalité vaut alors environ $0.79$.
+Au final, nous trouvons un taux d'erreur optimal pour $n = 10$, $\alpha_X = 0.000125$, $\alpha_\Theta = 0.0001$, $nb_etapes \in [900,950]$. La moyenne des écarts absolus entre les notes prédites et la réalité vaut alors environ $0.8$.
 
 \begin{figure}[H]
 \centering
 \includegraphics[scale=0.5]{yassine.png}
-\caption{Ecart moyen entre les notes prédites et la réalité en fonction du nombre d'étape du gradient avec $n = 10$, $\alpha_X = 0.000125$ et $\alpha_\Theta = 0.0001$}
+\caption{Ecart moyen entre les notes prédites et la réalité en fonction du nombre d'étapes du gradient avec $n = 10$, $\alpha_X = 0.000125$ et $\alpha_\Theta = 0.0001$}
 \end{figure}
 
 \newpage
 
 \section*{Conclusion}
+%la faut changer la phrase trop longue
+Finalement, nous avons réussi à réaliser un programme qui, à partir d'un tableau de notes, peut en prédire de nouvelles. Il est capable de le faire pour des utilisateurs ayant donné quelques notes à quelques films. Cela avec une précision assez bonne : la moyenne des écarts absolus entre les notes prédites et la réalité est d'environ $0.8$. Cette précision est suffisante pour pouvoir comparer entre elles de manière significative les notes prédites d'un utilisateur. Ainsi nous pouvons recommander de manière fiable le film ayant la note la plus élevée.\\
 
-Finalement, nous avons réussi à réaliser un programme qui, à partir d'un tableau de notes, peut prédire pour un certain nombre de films les notes d'utilisateurs quelconques ayant mis quelques notes. Cela avec une précision assez bonne : la moyenne des écarts absolus entre les notes prédites et la réalité vaut environ $0.79$. En tout cas, il s'agit d'une précision assez élevée pour pouvoir comparer des notes prédites pour un utilisateur et ainsi recommander le film ayant celle la plus élevée.\\
-
-Améliorer encore notre système de recommandation ? Nous avons quelques idée à ce sujet.\\
+Pouvons nous encore améliorer notre système de recommandation ? Nous avons quelques idées à ce sujet.\\
 D'abord utiliser une plus grande base de donnée : pour l'instant nous nous sommes limités à un peu plus de 9000 films mais nous pourrions largement augmenter ce nombre grâce aux donnée disponibles 
-sur "movielens". Un plus grand nombre d'utilisateurs permettrait aussi une plus grande précision. Mais est un défi : une base de données trop grande rendrait notre algorithme très long à exécuter.\\
-Autre chose, certaines méthodes existent pour limiter le sur-apprentissage dont nous avons parlé et que nous n'avons pas utilisée : le faire permettrait une précision plus élevée.\\
-Développer une interface graphique pour notre système de recommandation serait aussi une chose intéressante : une application sur smartphone ou un site web rendrait facile d'utilisation notre système de recommandation et permettrait à beaucoup de personnes d'en profiter.\\
-Enfin, nous avons décidé de prendre en compte seulement des notes d'utilisateurs pour nos prédictions. Mais d'autres données pourrait être utilisables comme le genre du film et la date à laquelle il a été noté. Il serait intéressant de se demander si cela augmenterait la précision de nos prédictions. Le genre du film serait sûrement peu intéressant puisque notre programme propose lui même les caractéristiques les mieux appropriés qu'il déduit des notes. Par contre, la date à laquelle a été noté le film pourrait bien augmenter la précision, référence \cite{matrix}.\\
+sur "movielens". Un plus grand nombre d'utilisateurs permettrait aussi une plus grande précision. Mais ce serait un défi : une base de données trop grande rendrait notre algorithme très long à exécuter.\\
+De plus, certaines méthodes que nous n'avons pas utilisées existent pour limiter le sur-apprentissage : ceci permettrait une précision plus élevée (référence \cite{mooc}).\\
+Développer une interface graphique pour notre système de recommandation serait aussi une chose à faire : une application sur smartphone ou un site web rendrait facile d'utilisation notre système de recommandation et permettrait à beaucoup de personnes d'en profiter.\\
+Enfin, nous avons décidé de prendre en compte seulement des notes d'utilisateurs pour nos prédictions. Mais d'autres données pourraient être utilisables comme le genre du film et la date à laquelle il a été noté. Il serait intéressant de se demander si cela augmenterait la précision de nos prédictions. Le genre du film serait sûrement peu utile puisque notre programme propose lui même les caractéristiques les mieux appropriées qu'il déduit des notes. Par contre, la date à laquelle a été noté le film pourrait bien augmenter la précision, référence \cite{matrix}.\\
 
-Pour chacun de nous, ce projet fut passionnant et à apporté de nombreuses connaissances. Nous avons pu découvrir une partie du domaine de l'apprentissage automatique. Nous avons progressé au fur et à mesure de ce projet au niveau du travail en groupe. L'outil de travail collaboratif utilisé Github fut une découverte pour plusieurs d'entre nous et sera sûrement réutilisé par la suite. C'est aussi durant ce projet que certains ont appris à utiliser Latex, et cela nous sera aussi sûrement utile pour plus tard.\\
+Pour chacun de nous, ce projet fut passionnant et a apporté de nombreuses connaissances. Nous avons pu découvrir une partie du domaine de l'apprentissage automatique. Nous avons essayé d'améliorer notre travail en groupe au fur et à mesure de l'avancée du projet. L'outil de travail collaboratif utilisé Github fut une découverte pour plusieurs d'entre nous et sera sûrement réutilisé par la suite. C'est aussi durant ce projet que certains ont appris à utiliser Latex, et cela nous sera aussi sûrement utile pour plus tard.\\
 Pour toutes ces raisons ce projet nous a beaucoup apporté.
 
 %Bibliographie 
