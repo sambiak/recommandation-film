@@ -7,21 +7,24 @@
 \contentsline {section}{\numberline {2}Mod\IeC {\'e}lisation du probl\IeC {\`e}me}{4}
 \contentsline {subsection}{\numberline {2.1}Factorisation de matrices}{4}
 \contentsline {subsection}{\numberline {2.2}Fonction de co\IeC {\^u}t}{5}
-\contentsline {section}{\numberline {3}Impl\IeC {\'e}mentation de l'algorithme}{5}
-\contentsline {subsection}{\numberline {3.1}Minimiser une fonction ? La descente du gradient}{5}
-\contentsline {subsection}{\numberline {3.2}Minimiser J}{6}
+\contentsline {section}{\numberline {3}Impl\IeC {\'e}mentation de l'algorithme}{6}
+\contentsline {subsection}{\numberline {3.1}Minimiser une fonction ? La descente du gradient}{6}
+\contentsline {subsection}{\numberline {3.2}Minimiser la fonction de co\IeC {\^u}t}{7}
 \contentsline {section}{\numberline {4}Mise en application de l'algorithme}{7}
 \contentsline {subsection}{\numberline {4.1}Taux d'erreur}{7}
-\contentsline {subsection}{\numberline {4.2}Influence des param\IeC {\`e}tres}{8}
+\contentsline {subsection}{\numberline {4.2}Influence des param\IeC {\`e}tres}{7}
 \contentsline {section}{\numberline {A}Notations utilis\IeC {\'e}s}{11}
-\contentsline {section}{\numberline {B}Preuves}{12}
-\contentsline {subsection}{\numberline {B.1}}{12}
-\contentsline {subsection}{\numberline {B.2}}{12}
-\contentsline {section}{\numberline {C}En pratique : recommandation d'un film \IeC {\`a} un nouvel utilisateur}{14}
-\contentsline {section}{\numberline {D}Familiarisation avec probl\IeC {\`e}me plus simple}{15}
-\contentsline {section}{\numberline {E}Code}{16}
-\contentsline {subsection}{\numberline {E.1}Extraction des donn\IeC {\'e}es et fonctions permettant leur manipulation, movielens.py}{16}
-\contentsline {subsection}{\numberline {E.2}Statistiques sur nos donn\IeC {\'e}es, stat.py}{20}
-\contentsline {subsection}{\numberline {E.3}Descente du gradient sur un tableau avec une seule note manquante, descente\_du\_gradient.py}{21}
-\contentsline {subsection}{\numberline {E.4}Pr\IeC {\'e}diction des notes, recomendation\_system\_final.py}{23}
-\contentsline {subsection}{\numberline {E.5}Recherche des meilleurs param\IeC {\`e}tres, etude\_efficacite.py}{25}
+\contentsline {section}{\numberline {B}Optimisation}{12}
+\contentsline {subsection}{\numberline {B.1}Rappel de l'algorithme \IeC {\`a} optimiser}{12}
+\contentsline {subsection}{\numberline {B.2}Utilisation du gradient}{12}
+\contentsline {section}{\numberline {C}Preuves math\IeC {\'e}matiques}{14}
+\contentsline {subsection}{\numberline {C.1}Preuve num\IeC {\'e}ro 1}{14}
+\contentsline {subsection}{\numberline {C.2}Preuve num\IeC {\'e}ro 2}{14}
+\contentsline {section}{\numberline {D}En pratique : recommandation d'un film \IeC {\`a} un nouvel utilisateur}{16}
+\contentsline {section}{\numberline {E}Familiarisation avec un probl\IeC {\`e}me plus simple}{17}
+\contentsline {section}{\numberline {F}Code}{18}
+\contentsline {subsection}{\numberline {F.1}Extraction des donn\IeC {\'e}es et fonctions permettant leur manipulation, movielens.py}{18}
+\contentsline {subsection}{\numberline {F.2}Statistiques sur nos donn\IeC {\'e}es, stat.py}{22}
+\contentsline {subsection}{\numberline {F.3}Descente du gradient sur un tableau avec une seule note manquante, descente\_du\_gradient.py}{23}
+\contentsline {subsection}{\numberline {F.4}Pr\IeC {\'e}diction des notes, recomendation\_system\_final.py}{25}
+\contentsline {subsection}{\numberline {F.5}Recherche des meilleurs param\IeC {\`e}tres, etude\_efficacite.py}{27}
