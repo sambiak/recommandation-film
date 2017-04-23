@@ -108,20 +108,18 @@ Puis, nous verrons sur quel modèle mathématique nous nous sommes appuyés pour
 Le but de notre projet est de pouvoir recommander un film ou plusieurs à n'importe quel utilisateur. 
 Pour cela, nous devons savoir à quel point un utilisateur va aimer tel ou tel film pour le lui recommander ou pas. Ce qui parait alors pertinent est d'estimer pour chaque film une note que lui donnerait l'utilisateur s'il le voyait. 
 Nous pourrions ainsi recommander le film ayant la meilleur note prédite.
-Notre objectif est alors de trouver un modèle mathématique permettant de déterminer la note que mettrait un utilisateur à n'importe quel film qu'il n'a pas vu. Cependant il nous faut nous appuyer sur quelque chose. Pour commencer à travailler, il faut déjà connaître certaines informations : nous travaillerons avec des notes de films données par un certain nombre d'utilisateurs.
+Notre objectif est alors de trouver un modèle mathématique permettant de déterminer la note que mettrait un utilisateur à n'importe quel film qu'il n'a pas vu. Cependant il nous faut nous appuyer sur quelque chose. Pour commencer à travailler, il faut déjà connaître certaines informations : nous travaillerons à partir de notes de films données par un certain nombre d'utilisateurs.
 
 \subsection{Première difficulté : les données}
 \subsubsection{Extraction de données}
 
-Le besoin d'avoir des données nous guide vers une grande base de données`` movielens.org '' qui est un site communautaire de recommandation de films où les utilisateurs du site notent des films de 0 à 5.
+Le besoin d'avoir des données nous guide vers une grande base de données ``movielens.org'' qui est un site communautaire de recommandation de films où les utilisateurs du site notent des films de 0 à 5.
 Plusieurs jeux de données y sont disponibles. 
 Nous choisissons de travailler avec des notes données par 670 utilisateurs à 9125 films.
 Par la suite nous nous référerons au nombre d'utilisateurs par $n_u$ et au nombre de films par $n_f$.
-Nous extrayons alors 2 fichiers : l’un contenant les $n_f$ films dans un tableau avec leurs titres et un numéro d'identification attribué, 
-l’autre avec les notes des utilisateurs eux aussi numérotés par des identifiants.
-Ce dernier fichier est un tableau avec $n_u$ lignes du type : identifiant de l’utilisateur, id du film qu’il a noté, note. 
-Ces 2 fichiers étant peu pratiques pour manipuler leurs données,  
-nous créons une fonction tableau\_des\_notes() qui retourne un tableau, une matrice de dimensions $n_u * n_f$ qui contient les notes données par les utilisateurs, en ligne, aux films, en colonne. Seulement, aucun utilisateur n'a noté tous les films : il y a des cases vides dans notre tableau. Nous insérons alors dans ces cases des `` NaN ''(Not a Number), type de donnée facile à traiter dans notre programme.
+Nous extrayons alors 2 fichiers : l’un contenant les $n_f$ films dans un tableau avec leurs titres et un numéro d'identification attribué, l’autre avec les notes des utilisateurs eux aussi numérotés par des identifiants. 
+Les données de ces deux fichiers étant peu pratiques à manipuler,  
+nous codons une fonction tableau\_des\_notes() qui renvoie une matrice de dimensions $n_u * n_f$ qui contient les notes données par les utilisateurs aux films. Seulement, aucun utilisateur n'a noté tous les films : il y a des cases vides dans notre tableau. Nous insérons alors dans ces cases des `` NaN ''(Not a Number), type de donnée facile à traiter dans notre programme.
 La matrice des notes est appelée Y.
 
 \begin{figure}[H]
@@ -132,7 +130,7 @@ La matrice des notes est appelée Y.
 
 \subsubsection{Analyse des données}
 
-Nous créons ensuite deux fonctions permettant de faire des statistiques sur nos données : l’une permettant de compter combien de films chaque utilisateur a vu, et l’autre comptant le nombre de notes attribuées pour chaque film. De ces fonctions, nous tirons des graphiques nous permettant d'avoir une idée plus précise de nos données.\\
+Nous créons des fonctions permettant de faire des statistiques sur nos données.\\
 
 Nous remarquons alors que plus de 90 \% des films possèdent entre 1 et 25 notes, et que le plus souvent un film a 2 notes. Le film auquel a été attribué le plus de notes a 339 notes.
 
