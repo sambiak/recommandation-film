@@ -29,7 +29,7 @@
 \author{}
 
 %Il reste à faire:
-%raccourcir de 7000 carctères
+%raccourcir de 5000 carctères
 %Juliette :
 
 %seulement entre 1 et 40 notes" : le graphique montre un maximum de note à 25. (voir commentaires de Emiya)
@@ -127,7 +127,7 @@ l’autre avec les notes des utilisateurs eux aussi numérotés par des identifi
 Ce dernier fichier est un tableau avec $n_u$ lignes du type : identifiant de l’utilisateur, id du film qu’il a noté, note. 
 Ces 2 fichiers étant peu pratiques pour manipuler leurs données,  
 nous créons une fonction tableau\_des\_notes() qui retourne un tableau, une matrice de dimensions $n_u * n_f$ qui contient les notes données par les utilisateurs, en ligne, aux films, en colonne. Seulement, aucun utilisateur n'a noté tous les films : il y a des cases vides dans notre tableau. Nous insérons alors dans ces cases des `` NaN ''(Not a Number), type de donnée facile à traiter dans notre programme.
-La matrice des notes est appelé Y.
+La matrice des notes est appelée Y.
 
 \begin{figure}[H]
   \centering
@@ -264,28 +264,24 @@ Puis en \ref{P2} nous prouvons que $ \nabla_{(x_{j})^T}\frac{1}{2}\Vert\tilde{\t
 
 \subsection{Taux d'erreur}
 
-Maintenant que nous avons un algorithme permettant de prédire les notes manquantes de Y, il reste à savoir si nos prédictions sont bonnes !\\
 
-Pour cela, il faut partir des choses que nous connaissons : les notes de Y.   
-Il faudrait mesurer l'écart entre les notes prédites et les notes déjà connues.
-Mais comment faire en sorte que l'algorithme cherche à prédire des notes que l'on connaît déjà ?
-Tout simplement en lui faisant croire que nous ne les connaissons pas !
-Nous effaçons donc une partie des notes connues, soit 10 \%. 
+Maintenant que nous avons un algorithme permettant de prédire les notes manquantes de Y, il reste à savoir si nos prédictions sont bonnes ! Il faudrait mesurer l'écart entre les notes prédites et les notes que mettraient vraiment les utilisateurs. Voici comment nous nous y prenons.\\
+
+Nous effaçons une partie des notes connues, soit 10 \%. 
 Ainsi, nous choisissons 10 \% des notes de Y en faisant en sorte de retenir où elles étaient placées et leurs valeurs. 
-Puis, nous les transformons en NaN et nous fournissons ce nouveau tableau à l'algorithme qui le complète.
+Puis, nous les transformons en NaN et nous fournissons cette nouvelle matrice à l'algorithme qui la complète.
 Ensuite, il suffit de comparer les notes enlevées à celles qui ont été prédites à leur place. 
-Nous obtenons ainsi un écart moyen, le taux d'erreur, qui nous indique la fiabilité de notre prédiction.
+Nous obtenons ainsi un écart moyen, le taux d'erreur, indiquant la fiabilité de notre prédiction.
 
 \subsection{Influence des paramètres}
 
 Il est intéressant d'étudier les facteurs qui peuvent rendre notre prédiction plus ou moins fiable. Bien entendu, nous excluons l'impact de la méthode de prédiction utilisée, celle-ci étant fixée à la base de notre projet (voir \ref{extrait} pour une autre méthode). Nous nous demandons donc comment améliorer la fiabilité de notre prédiction sans changer complètement de méthode.\\
 
-Tout d'abord les prédictions vont différer suivant le choix de $n$, le nombre de caractéristiques.\\
-Ensuite, la descente du gradient dépend des taux d'apprentissage, notés $\alpha$, que nous choisissons. En effet, nous adaptons à chaque étape la matrice $\Theta$ et la matrice X en fonction de ces taux d'apprentissage. Nous avons déjà vu qu'il fallait qu'ils ne soient ni trop grands ni trop petits.\\
-Il convient donc de trouver les taux d'apprentissages et le nombre de caractéristiques optimal pour obtenir la meilleure prédiction possible.\\
-Il est un autre paramètre aussi essentiel. C'est le nombre d'étapes du gradient que nous choisissons de faire effectuer à l'algorithme. Nous pouvons penser que plus le nombres d'étapes que nous effectuons est grand, plus grande sera la précision de la prédiction. Mais c'est en fait erroné. Certes, nous nous doutons bien qu'une étape ou deux ne vont pas suffire pour obtenir des prédictions pertinentes, mais trop faire d'étape pourrait desservir notre prédiction. Nous avons observé cet effet en traçant la courbe du taux d'erreur en fonction du nombre d'étapes. Et nous observons clairement un minimum du taux d'erreur pour un certain nombre d'étapes, au delà le taux d'erreur augmente. Cet effet est couramment observé en apprentissage automatique et il est surnommé "sur-apprentissage". Pour le contrer, nous avons donc décidé de trouver le nombre d'étapes optimal pour les taux d'apprentissage et le nombre de caractéristiques optimal.\\
+Clairement le nombre d'étapes dépend de n, le nombre de caractéristique et des taux d'apprentissage $\alpha_X$ et $\alpha_Theta$.\\
+Le nombre d'étape à effectuer est aussi important : faire trop d'étapes entraîne une remontée d taux d'erreur. Il s'agit du "sur-apprentissage" terme utilisé en apprentissage automatique.\\
+Nous avons donc décidé de trouver le nombre d'étapes optimal pour les taux d'apprentissage et le nombre de caractéristiques optimal.\\
 
-Pour cela, nous avons réalisé un simple algorithme qui effectue la descente du gradient avec 5000 étapes pour chaque combinaison de paramètres. Donc nous commençons par poser un certain $n$, puis un certain taux d'apprentissage pour X, puis un pour $\Theta$, et nous testons un grand nombre de combinaisons de ces 3 paramètres. Quant au nombre d'étapes, nous faisons en sorte que toutes les 50 étapes, l'algorithme enregistre le taux d'erreur. Puis à chaque descente du gradient effectuée pour chaque combinaison nous traçons un graphique du taux d'erreur en fonction du nombre d'étapes. Bien entendu, au cours du déroulement de l'algorithme, dès qu'un taux d'erreur inférieur aux précédents est trouvé, nous enregistrons sa valeur et la combinaison de paramètres qui nous a mené à ce taux d'erreur.
+Pour cela, nous testons un grand nombre de combinaisons de $n$ et des $\alpha$. Et pour chaque combinaison nous effectuons la descente du gradient en traçant un graphique du taux d'erreur en fonction du nombre d'étapes.
 Au final, nous trouvons un taux d'erreur optimal pour $n = 10$, $\alpha_X = 0.000125$, $\alpha_\Theta = 0.0001$, $nb_etapes \in [900,950]$. La moyenne des écarts absolus entre les notes prédites et la réalité vaut alors environ $0.79$.
 
 \begin{figure}[H]
@@ -293,12 +289,6 @@ Au final, nous trouvons un taux d'erreur optimal pour $n = 10$, $\alpha_X = 0.00
 \includegraphics[scale=0.5]{yassine.png}
 \caption{Ecart moyen entre les notes prédites et la réalité en fonction du nombre d'étape du gradient avec $n = 10$, $\alpha_X = 0.000125$ et $\alpha_\Theta = 0.0001$}
 \end{figure}
-
-\subsection{En pratique : recommandation d'un film à un nouvel utilisateur}
-
-Au final une question intéressante est est-ce que le modèle arrivera d'une manière efficace à prédire les notes d'un nouvel utilisateur ?\\
-
-Pour mettre en place cela nous calculons et ajoutons seulement une nouvelle ligne à $\Theta$, caractérisant le profil du nouvel utilisateur. Ceci peut alors se faire très rapidement. À partir de ces nouvelles données, il nous suffit de compléter la ligne de Y correspondant aux notes du nouvel utilisateur pour trouver la plus élevée et recommander à l'utilisateur le film associé.
 
 \newpage
 
@@ -411,6 +401,15 @@ Soit $j \in \{1, 2, ..., p\}$.
 
 \newpage
 
+\section{En pratique : recommandation d'un film à un nouvel utilisateur}
+\label{specifique}
+
+Au final une question intéressante est est-ce que le modèle arrivera d'une manière efficace à prédire les notes d'un nouvel utilisateur ?\\
+
+Pour mettre en place cela nous choisissons de ne pas recalculer $X$ et $\Theta$ pour chaque nouvel utilisateur. À la place, nous supposons que l'ajout des notes d'un nouvel utilisateur ne va pratiquement pas modifier le calcul de $X$ et des profils des anciens utilisateurs. Il nous suffit donc de calculer et d'ajouter seulement une nouvelle ligne à $\Theta$, caractérisant le profil du nouvel utilisateur. Ceci peut alors se faire très rapidement. À partir de ces nouvelles données, il nous suffit de compléter la ligne de Y correspondant aux notes du nouvel utilisateur pour trouver la plus élevée et recommander à l'utilisateur le film associé.
+
+\newpage
+
 \section{Familiarisation avec problème plus simple}
 \label{extrait}
 
@@ -479,6 +478,5 @@ sur la factorisation de matrice, et la descente du gradient.\\ \\ \\ \\ \\ \\
 \textbf{{Mots clés:}} descente du gradient, factorisation de matrices, prédiction de notes de films, informatique, programmation
 
 \vspace*{\stretch{1}}
-
 
 \end{document}
