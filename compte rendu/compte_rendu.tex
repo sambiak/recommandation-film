@@ -30,9 +30,6 @@
 
 %Il reste à faire:
 %raccourcir de 5000 carctères
-%Juliette :
-
-%voila j'ai changer le nom de mon graphique et la phrase qui clochait
 
 \begin{document}
 
@@ -204,8 +201,8 @@ Soit $(x_1, x_2) \in \mathbb{R}^2$. Nous avons une variation infinitésimale de 
 Soit $(\alpha_{x_1}, \alpha_{x_2}) \in (\mathbb{R}^{+*})^2$. 
  Posons $\Delta x_{1} = -\alpha_{x_1} \frac{\partial f}{\partial x_{1}}$
  et $\Delta x_{2} = -\alpha_{x_2} \frac{\partial f}{\partial x_{2}}$. Soit $\Delta f = f(x_1 + \Delta x_1, x_2 + \Delta x_2) - f(x_1, x_2)$. $\Delta f$ est la variation de f lorsque $x_1$ varie de $\Delta x_1$ et $x_2$ varie de $\Delta x_2$. 
-En faisant l'approximation $\Delta f = \frac{\partial f}{\partial x_{1}}\Delta  x_{1} + \frac{\partial f}{\partial x_{2}}\Delta x_{2}$ nous obtenons $\Delta f = -\alpha_{x_1} (\frac{\partial f}{\partial x_{1}}(x_1, x_2))^{2} - \alpha_{x_2} (\frac{\partial f}{\partial x_{2}}(x_1, x_2))^{2} < 0$. Ainsi, dans
- les limites de l'approximation faite au dessus, à chaque fois que nous modifions les $x_{k}$ de $- \alpha_{x_k} \frac{\partial f}{\partial x_{k}}(x_1, x_2)$
+En faisant l'approximation $\Delta f = \frac{\partial f}{\partial x_{1}}\Delta  x_{1} + \frac{\partial f}{\partial x_{2}}\Delta x_{2}$ nous obtenons $\Delta f = -\alpha_{x_1} (\frac{\partial f}{\partial x_{1}}(x_1, x_2))^{2} - \alpha_{x_2} (\frac{\partial f}{\partial x_{2}}(x_1, x_2))^{2} < 0$.
+Ainsi, dans les limites de l'approximation faite au dessus, à chaque fois que nous modifions les $x_{k}$ de $- \alpha_{x_k} \frac{\partial f}{\partial x_{k}}(x_1, x_2)$
  nous avons une diminution de la valeur de $f(x_1, x_2)$. Et nous admettons que modifier un certain nombre de fois les $x_i$ de la sorte va faire converger la valeur $f(x_1, x_2)$ vers un minimum si la fonction est convexe sur l'intervalle dans lequel nous modifions les $x_i$.\\
 
 C'est le principe de la descente du gradient et nous obtenons l'algorithme suivant pour minimiser f :
@@ -247,16 +244,9 @@ Or, nous remarquons que faire ce qui est décrit au dessus revient à faire à c
 
 \noindent Cela en considérant une matrice colonne comme un vecteur pour calculer le gradient et en considérant le gradient comme une matrice colonne (voir \ref{notations}).\\
 Il faudrait maintenant être capable de calculer rapidement $\nabla_{(x_{j})^T}J(X, \Theta)$ $\forall j \in \{1, 2, ..., n_f\}$ et $\nabla_{(\theta_{i})^T} J(X, \Theta)$ $\forall i \in \{1, 2, ..., n_u\}$.
-Nous prouvons en \ref{P1} que $ \nabla_{(x_{j})^T}J(X, \Theta) = \nabla_{(x_{j})^T}\frac{1}{2}\Vert\tilde{\Theta}(x_{j})^{T}-\tilde{y}_{.,j}\Vert^{2}$ et que $ \nabla_{(\theta_i)^T}J(X, \Theta) = \nabla_{(\theta_{i})^T}\frac{1}{2}\Vert\tilde{X}(\theta_{i})^{T}-\tilde{y}_{i}\Vert^{2}$.\\\\
-Que sont $\tilde{\Theta}$, $\tilde{X}$, $\tilde{y}_i$ et $\tilde{y}_{., j}$ ? En fait $\tilde{y}_{.,j}$ est le vecteur $y_{.,j}$ auquel nous avons enlev\'{e} les composantes NaN : par exemple si $y_{.,j}=
-\begin{pmatrix}
-2\\3\\NaN\\5\\NaN
-\end{pmatrix}$
-alors $\tilde{y}_{.,j}=
-\begin{pmatrix}
-2\\3\\5
-\end{pmatrix}$. Et si nous avons pour cela retir\'{e} les lignes $l_{1}, l_{2}, \cdots$ et $l_{u}$ de y, nous retirons les m\^{e}mes lignes de $\theta$ pour former $\tilde{\theta}$.  D'o\`{u} $\tilde{\theta}$ d\'{e}pend de $y_{.,j}$ et donc de j. Même chose pour $\tilde{X}$ et $\tilde{y}_i$ : nous enlevons les colonnes de $y_i$ où il y a des NaN, puis les mêmes colonnes de X.\\\\
+Nous prouvons en \ref{P1} que $ \nabla_{(x_{j})^T}J(X, \Theta) = \nabla_{(x_{j})^T}\frac{1}{2}\Vert\tilde{\Theta}(x_{j})^{T}-\tilde{y}_{.,j}\Vert^{2}$ et que $ \nabla_{(\theta_i)^T}J(X, \Theta) = \nabla_{(\theta_{i})^T}\frac{1}{2}\Vert\tilde{X}(\theta_{i})^{T}-\tilde{y}_{i}\Vert^{2}$. Il n'est pas absolument nécessaire de savoir que représente ces matrices avec des tildes. Pour en savoir plus voir annexe \ref{tilde}.
 Puis en \ref{P2} nous prouvons que $ \nabla_{(x_{j})^T}\frac{1}{2}\Vert\tilde{\theta}(x_{j})^{T}-\tilde{y}_{.,j}\Vert^{2} =  \tilde{\Theta}^{T}(\tilde{\Theta}(x_{j})^{T}-\tilde{y}_{.,j})$ et que $\nabla_{(\theta_{i})^T}\frac{1}{2}\Vert\tilde{X}(\theta_{i})^{T}-\tilde{y}_{i}\Vert^{2} =  \tilde{X}^{T}(\tilde{X}(\theta_{i})^{T}-\tilde{y}_{i})$. Ce qui nous permet de représenter une étape du gradient comme une série de produits de matrices rapidement calculables. Cela nous fait passer à une vitesse de 5 étapes par seconde avec $n = 10$. Et nous remarquons une convergence de la valeur de $J(X, \Theta)$ indiquant bien la présence d'un minimum que nous atteignons.
+
 
 \section{Mise en application de l'algorithme}
 
@@ -275,7 +265,7 @@ Nous obtenons ainsi un écart moyen, le taux d'erreur, indiquant la fiabilité d
 
 Il est intéressant d'étudier les facteurs qui peuvent rendre notre prédiction plus ou moins fiable. Bien entendu, nous excluons l'impact de la méthode de prédiction utilisée, celle-ci étant fixée à la base de notre projet (voir \ref{extrait} pour une autre méthode). Nous nous demandons donc comment améliorer la fiabilité de notre prédiction sans changer complètement de méthode.\\
 
-Clairement le nombre d'étapes dépend de n, le nombre de caractéristique et des taux d'apprentissage $\alpha_X$ et $\alpha_Theta$.\\
+Clairement le nombre d'étapes dépend de n, le nombre de caractéristique et des taux d'apprentissage $\alpha_X$ et $\alpha_\Theta$.\\
 Le nombre d'étape à effectuer est aussi important : faire trop d'étapes entraîne une remontée d taux d'erreur. Il s'agit du "sur-apprentissage" terme utilisé en apprentissage automatique.\\
 Nous avons donc décidé de trouver le nombre d'étapes optimal pour les taux d'apprentissage et le nombre de caractéristiques optimal.\\
 
@@ -337,6 +327,20 @@ $\nabla_{u} f(u, ...) =
 
 \newpage
 
+\section{Que sont $\tilde{\Theta}$, $\tilde{X}$, $\tilde{y}_i$ et $\tilde{y}_{., j}$ ?}
+\label{tilde}
+Les notations utilisées sont les mêmes que dans la partie 3.2.\\
+En fait $\tilde{y}_{.,j}$ est le vecteur $y_{.,j}$ auquel nous avons enlev\'{e} les composantes NaN : par exemple si $y_{.,j}=
+\begin{pmatrix}
+2\\3\\NaN\\5\\NaN
+\end{pmatrix}$
+alors $\tilde{y}_{.,j}=
+\begin{pmatrix}
+2\\3\\5
+\end{pmatrix}$. Et si nous avons pour cela retir\'{e} les lignes $l_{1}, l_{2}, \cdots$ et $l_{u}$ de y, nous retirons les m\^{e}mes lignes de $\theta$ pour former $\tilde{\theta}$.  D'o\`{u} $\tilde{\theta}$ d\'{e}pend de $y_{.,j}$ et donc de j. Même chose pour $\tilde{X}$ et $\tilde{y}_i$ : nous enlevons les colonnes de $y_i$ où il y a des NaN, puis les mêmes colonnes de X.
+
+\newpage
+
 \section{Preuves}
 
 \subsection{}  
@@ -346,30 +350,30 @@ Nous avons :
 \begin{align*}
 \nabla_{(x_{j})^T} J(\Theta, X) &=  
 \begin{pmatrix}  
-\displaystyle\frac{\partial \displaystyle\sum_{k=1}^{nf}\frac{1}{2}\Vert\tilde{\theta}(x_{k})^{T}-\tilde{y}_{.,k}\Vert^{2}}{\partial x_{j,1}}\\  
-\displaystyle\frac{\partial \displaystyle\sum_{k=1}^{nf}\frac{1}{2}\Vert\tilde{\theta}(x_{k})^{T}-\tilde{y}_{.,k}\Vert^{2}}{\partial x_{j,2}}\\  
+\displaystyle\frac{\partial \displaystyle\sum_{k=1}^{nf}\frac{1}{2}\Vert\tilde{\Theta}(x_{k})^{T}-\tilde{y}_{.,k}\Vert^{2}}{\partial x_{j,1}}\\  
+\displaystyle\frac{\partial \displaystyle\sum_{k=1}^{nf}\frac{1}{2}\Vert\tilde{\Theta}(x_{k})^{T}-\tilde{y}_{.,k}\Vert^{2}}{\partial x_{j,2}}\\  
 \vdots\\  
-\displaystyle\frac{\partial \displaystyle\sum_{k=1}^{nf}\frac{1}{2}\Vert\tilde{\theta}(x_{k})^{T}-\tilde{y}_{.,k}\Vert^{2}}{\partial x_{j,n}}  
+\displaystyle\frac{\partial \displaystyle\sum_{k=1}^{nf}\frac{1}{2}\Vert\tilde{\Theta}(x_{k})^{T}-\tilde{y}_{.,k}\Vert^{2}}{\partial x_{j,n}}  
 \end{pmatrix}  
 =  
 \begin{pmatrix}  
 \displaystyle\sum_{k=1}^{nf}  
-\frac{1}{2}\frac{\partial\Vert\tilde{\theta}(x_{k})^{T}-\tilde{y}_{.,k}\Vert^{2}}{\partial x_{j,1}}\\  
+\frac{1}{2}\frac{\partial\Vert\tilde{\Theta}(x_{k})^{T}-\tilde{y}_{.,k}\Vert^{2}}{\partial x_{j,1}}\\  
 \displaystyle\sum_{k=1}^{nf}  
-\frac{1}{2}\frac{\partial\Vert\tilde{\theta}(x_{k})^{T}-\tilde{y}_{.,k}\Vert^{2}}{\partial x_{j,2}}\\  
+\frac{1}{2}\frac{\partial\Vert\tilde{\Theta}(x_{k})^{T}-\tilde{y}_{.,k}\Vert^{2}}{\partial x_{j,2}}\\  
 \vdots\\  
 \displaystyle\sum_{k=1}^{nf}  
-\frac{1}{2}\frac{\partial\Vert\tilde{\theta}(x_{k})^{T}-\tilde{y}_{.,k}\Vert^{2}}{\partial x_{j,n}}  
+\frac{1}{2}\frac{\partial\Vert\tilde{Theta}(x_{k})^{T}-\tilde{y}_{.,k}\Vert^{2}}{\partial x_{j,n}}  
 \end{pmatrix}\\
 &=  
 \begin{pmatrix}  
 \displaystyle  
-\frac{1}{2}\frac{\partial\Vert\tilde{\theta}(x_{j})^{T}-\tilde{y}_{.,j}\Vert^{2}}{\partial x_{j,1}}\\  
+\frac{1}{2}\frac{\partial\Vert\tilde{\Theta}(x_{j})^{T}-\tilde{y}_{.,j}\Vert^{2}}{\partial x_{j,1}}\\  
 \displaystyle  
-\frac{1}{2}\frac{\partial\Vert\tilde{\theta}(x_{j})^{T}-\tilde{y}_{.,j}\Vert^{2}}{\partial x_{j,2}}\\  
+\frac{1}{2}\frac{\partial\Vert\tilde{\Theta}(x_{j})^{T}-\tilde{y}_{.,j}\Vert^{2}}{\partial x_{j,2}}\\  
 \vdots\\  
 \displaystyle  
-\frac{1}{2}\frac{\partial\Vert\tilde{\theta}(x_{j})^{T}-\tilde{y}_{.,j}\Vert^{2}}{\partial x_{j,n}}  
+\frac{1}{2}\frac{\partial\Vert\tilde{\Theta}(x_{j})^{T}-\tilde{y}_{.,j}\Vert^{2}}{\partial x_{j,n}}  
 \end{pmatrix}
 =  
 \displaystyle  
