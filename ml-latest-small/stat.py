@@ -42,5 +42,8 @@ def pourcentage_de_nan(array):
 
 
 
-
+plt.hist(nbre_de_film_vu_par_utilisateur(tableau_des_notes()),bins=10,range=(0,250),color='red',edgecolor='blue')
+plt.xlabel("Nombres de notes données")
+plt.ylabel("Nombres d'utilisateurs concernés")
+plt.show()
 

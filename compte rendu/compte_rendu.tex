@@ -69,7 +69,7 @@
 
 Nous remercions notre encadrant de projet, Valentin Emiya qui nous a guidé et soutenu tout au long de ce projet. \\
 
-Nous remercions également Victoria Paolantoni qui nous a débloqué pour la rédaction de l'une des preuves.\\
+Nous remercions également Victoria Paolantoni qui nous a débloqué pour la rédaction de l'une des preuves mathématique.\\
 
 Enfin, nous remercions toutes les personnes ayant participé à la relecture de ce rapport.
 \newpage
@@ -90,7 +90,7 @@ A l’ère du numérique, la collecte de données d’une multitude d’utilisat
 personnalisées de tout type. C’est une chose que l’on rencontre souvent : recommandations d’amis sur Facebook, suggestions d’achats sur Internet, etc.
 Nous avons choisi de nous intéresser à la recommandation automatique de films.
 Mais comment recommander à un utilisateur un film qu’il aimera ? Beaucoup de critères peuvent entrer en compte : 
-le genre du film, le jeu des acteurs, la date du film, ou tout simplement sa bonne qualité … Tout cela est très subjectif \! \\
+le genre du film, le jeu des acteurs, la date du film, ou tout simplement sa bonne qualité … Tout cela est très subjectif ! \\
 
 
 Nous en arrivons à la problématique suivante : Comment concevoir un programme informatique permettant une recommandation personnalisée pertinente ?
@@ -224,7 +224,7 @@ Chose importante, les approximations utilisées ne fonctionnent qu'avec des vale
 
 Depuis le début nous parlons d'un minimum et pas du minimum. En fait la descente du gradient permet d'arriver à un minimum local d'une fonction. Pour minimiser J, nous avons décidé de nous contenter d'un minimum.
 
-\subsection{Minimiser J}
+\subsection{Minimiser la fonction de coût}
 
 Nous voulons maintenant appliquer le même raisonnement sur $J$ pour modifier X et $\Theta$, initialement pris aléatoirement, un certain nombre de fois jusqu'à arriver à une valeur de $J(X, \Theta)$ assez faible. Voyons voir comment s'y prendre.\\
 
@@ -367,9 +367,9 @@ Ce qui nous donne ce nouvel algorithme beaucoup plus rapide :\\
 
 \newpage
 
-\section{Preuves}
+\section{Preuves mathématiques}
 
-\subsection{}  
+\subsection{Preuve numéro 1}  
 \label{P1}
 Les notations utilisées sont les mêmes que dans la partie \ref{optimisation}. Montrons : \[\nabla_{(x_{j})^T} J(\Theta, X) = \nabla_{(x_{j})^T}\frac{1}{2}\Vert\tilde{\Theta}(x_{j})^{T}-\tilde{y}_{.,j}\Vert^{2}\]
 Nous avons :
@@ -407,7 +407,7 @@ Nous avons :
 \end{align*}\\
 
 Nous montrons de la même manière que : \[\nabla_{(\theta_{i})^T} J(\Theta, X) = \nabla_{(\theta_{i})^T}\frac{1}{2}\Vert\tilde{X}(\theta_{i})^{T}-\tilde{y}_{i}\Vert^{2}\]
-\subsection{}  
+\subsection{Preuve numéro 2}  
 \label{P2}
 Montrons que $\forall n \in \mathbb{N}^{*}$ $\forall p \in \mathbb{N}^{*}$ si A est une matrice de dimension $p \times n$, x une matrice colonne de dimension $n \times 1$ et b une matrice colonne de dimension $p \times 1$ alors : \[\nabla_{x}\frac{1}{2}\Vert Ax-b \Vert^2 = A^{T}(Ax-b)\]
 Soit $(n,p) \in (\mathbb{N}^*)^2$. Soient $A \in {\cal M}_{p, n}$, $x \in {\cal M}_{n, 1}$ et $b \in {\cal M}_{p, 1}$.\\
@@ -434,7 +434,7 @@ Pour mettre en place cela nous choisissons de ne pas recalculer $X$ et $\Theta$ 
 
 \newpage
 
-\section{Familiarisation avec problème plus simple}
+\section{Familiarisation avec un problème plus simple}
 \label{extrait}
 
 Parlons d'un un autre problème plus simple, toujours dans le cadre de la recommandation de film grâce à la descente du gradient. Tout cela afin de bien comprendre comment fonctionne la descente du gradient.\\
