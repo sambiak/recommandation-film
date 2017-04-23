@@ -1,27 +1,27 @@
 \select@language {french}
-\contentsline {section}{\numberline {1}Qu'est ce qu'un syst\IeC {\`e}me de recommandation?}{1}
-\contentsline {subsection}{\numberline {1.1}Notre approche}{1}
-\contentsline {subsection}{\numberline {1.2}Premi\IeC {\`e}re difficult\IeC {\'e} : les donn\IeC {\'e}es}{1}
-\contentsline {subsubsection}{\numberline {1.2.1}Extraction de donn\IeC {\'e}es}{1}
-\contentsline {subsubsection}{\numberline {1.2.2}Analyse des donn\IeC {\'e}es}{2}
-\contentsline {section}{\numberline {2}Mod\IeC {\'e}lisation du probl\IeC {\`e}me}{3}
+\contentsline {section}{\numberline {1}Qu'est ce qu'un syst\IeC {\`e}me de recommandation?}{2}
+\contentsline {subsection}{\numberline {1.1}Notre approche}{2}
+\contentsline {subsection}{\numberline {1.2}Premi\IeC {\`e}re difficult\IeC {\'e} : les donn\IeC {\'e}es}{2}
+\contentsline {subsubsection}{\numberline {1.2.1}Extraction de donn\IeC {\'e}es}{2}
+\contentsline {subsubsection}{\numberline {1.2.2}Analyse des donn\IeC {\'e}es}{3}
+\contentsline {section}{\numberline {2}Mod\IeC {\'e}lisation du probl\IeC {\`e}me}{4}
 \contentsline {subsection}{\numberline {2.1}Factorisation de matrices}{4}
 \contentsline {subsection}{\numberline {2.2}Fonction de co\IeC {\^u}t}{5}
 \contentsline {section}{\numberline {3}Impl\IeC {\'e}mentation de l'algorithme}{5}
 \contentsline {subsection}{\numberline {3.1}Minimiser une fonction ? La descente du gradient}{5}
 \contentsline {subsection}{\numberline {3.2}Minimiser J}{6}
 \contentsline {section}{\numberline {4}Mise en application de l'algorithme}{7}
-\contentsline {subsection}{\numberline {4.1}Familiarisation avec probl\IeC {\`e}me plus simple}{7}
-\contentsline {subsection}{\numberline {4.2}Taux d'erreur}{8}
-\contentsline {subsection}{\numberline {4.3}Influence des param\IeC {\`e}tres}{9}
-\contentsline {subsection}{\numberline {4.4}En pratique : recommandation d'un film \IeC {\`a} un nouvel utilisateur}{10}
-\contentsline {section}{\numberline {A}Notations utilis\IeC {\'e}s}{13}
-\contentsline {section}{\numberline {B}Preuves}{14}
-\contentsline {subsection}{\numberline {B.1}}{14}
-\contentsline {subsection}{\numberline {B.2}}{14}
-\contentsline {section}{\numberline {C}Code}{16}
-\contentsline {subsection}{\numberline {C.1}Extraction des donn\IeC {\'e}es et fonctions permettant leur manipulation, movielens.py}{16}
-\contentsline {subsection}{\numberline {C.2}Statistiques sur nos donn\IeC {\'e}es, stat.py}{20}
-\contentsline {subsection}{\numberline {C.3}Descente du gradient sur un tableau avec une seule note manquante, descente\_du\_gradient.py}{21}
-\contentsline {subsection}{\numberline {C.4}Pr\IeC {\'e}diction des notes, recomendation\_system\_final.py}{23}
-\contentsline {subsection}{\numberline {C.5}Recherche des meilleurs param\IeC {\`e}tres, etude\_efficacite.py}{25}
+\contentsline {subsection}{\numberline {4.1}Taux d'erreur}{7}
+\contentsline {subsection}{\numberline {4.2}Influence des param\IeC {\`e}tres}{8}
+\contentsline {section}{\numberline {A}Notations utilis\IeC {\'e}s}{11}
+\contentsline {section}{\numberline {B}Preuves}{12}
+\contentsline {subsection}{\numberline {B.1}}{12}
+\contentsline {subsection}{\numberline {B.2}}{12}
+\contentsline {section}{\numberline {C}En pratique : recommandation d'un film \IeC {\`a} un nouvel utilisateur}{14}
+\contentsline {section}{\numberline {D}Familiarisation avec probl\IeC {\`e}me plus simple}{15}
+\contentsline {section}{\numberline {E}Code}{16}
+\contentsline {subsection}{\numberline {E.1}Extraction des donn\IeC {\'e}es et fonctions permettant leur manipulation, movielens.py}{16}
+\contentsline {subsection}{\numberline {E.2}Statistiques sur nos donn\IeC {\'e}es, stat.py}{20}
+\contentsline {subsection}{\numberline {E.3}Descente du gradient sur un tableau avec une seule note manquante, descente\_du\_gradient.py}{21}
+\contentsline {subsection}{\numberline {E.4}Pr\IeC {\'e}diction des notes, recomendation\_system\_final.py}{23}
+\contentsline {subsection}{\numberline {E.5}Recherche des meilleurs param\IeC {\`e}tres, etude\_efficacite.py}{25}
