@@ -118,9 +118,10 @@ Plusieurs jeux de données y sont disponibles.
 Nous choisissons de travailler avec des notes données par 670 utilisateurs à 9125 films.
 Par la suite nous nous référerons au nombre d'utilisateurs par $n_u$ et au nombre de films par $n_f$.
 Nous extrayons alors 2 fichiers : l’un contenant les $n_f$ films dans un tableau avec leurs titres et un numéro d'identification attribué, 
-l’autre avec les notes des utilisateurs eux aussi numérotés par des identifiants. 
+l’autre avec les notes des utilisateurs eux aussi numérotés par des identifiants.
+Ce dernier fichier est un tableau avec $n_u$ lignes du type : identifiant de l’utilisateur, id du film qu’il a noté, note. 
 Ces 2 fichiers étant peu pratiques pour manipuler leurs données,  
-nous créons une fonction tableau\_des\_notes() qui retourne une matrice de dimensions $n_u * n_f$ qui contient les notes données par les utilisateurs, en ligne, aux films, en colonne. Seulement, aucun utilisateur n'a noté tous les films : il y a des cases vides dans notre tableau. Nous insérons alors dans ces cases des `` NaN ''(Not a Number), type de donnée facile à traiter dans notre programme.
+nous créons une fonction tableau\_des\_notes() qui retourne un tableau, une matrice de dimensions $n_u * n_f$ qui contient les notes données par les utilisateurs, en ligne, aux films, en colonne. Seulement, aucun utilisateur n'a noté tous les films : il y a des cases vides dans notre tableau. Nous insérons alors dans ces cases des `` NaN ''(Not a Number), type de donnée facile à traiter dans notre programme.
 La matrice des notes est appelée Y.
 
 \begin{figure}[H]
@@ -131,7 +132,7 @@ La matrice des notes est appelée Y.
 
 \subsubsection{Analyse des données}
 
-Nous créons des fonctions permettant de faire des statistiques sur nos données.
+Nous créons ensuite deux fonctions permettant de faire des statistiques sur nos données : l’une permettant de compter combien de films chaque utilisateur a vu, et l’autre comptant le nombre de notes attribuées pour chaque film. De ces fonctions, nous tirons des graphiques nous permettant d'avoir une idée plus précise de nos données.\\
 
 Nous remarquons alors que plus de 90 \% des films possèdent entre 1 et 25 notes, et que le plus souvent un film a 2 notes. Le film auquel a été attribué le plus de notes a 339 notes.
 
@@ -227,25 +228,8 @@ Depuis le début nous parlons d'un minimum et pas du minimum. En fait la descent
 
 Nous voulons maintenant appliquer le même raisonnement sur $J$ pour modifier X et $\Theta$, initialement pris aléatoirement, un certain nombre de fois jusqu'à arriver à une valeur de $J(X, \Theta)$ assez faible. Voyons voir comment s'y prendre.\\
 
-La différence avec la partie précédente, c'est que nous parlons de matrices. Mais chacun des coefficients de ces matrice peut être considéré comme une variable. Nous pouvons alors utiliser la descente du gradient pour J en considérant qu'il s'agit d'une fonction à $n_u * n + n_f * n$ variables. Or utiliser la descente du gradient comme ceci est beaucoup trop long : 30 secondes par étape avec $n = 10$ sachant qu'il nous faut plus de 500 étapes pour arriver à un résultat correct.\\
-
-Or, nous remarquons que faire ce qui est décrit au dessus revient à faire à chaque étape :
-
-\begin{algorithm}
-\Entree{X, $\Theta$, $\alpha_X$, $\alpha_{\Theta}$, J}  
-\Res{X et $\Theta$ tels que J(X, $\Theta$) se soit rapproché du minimum de J}
-\BlankLine
-\textbf{Simultanément:}\\
-\indent \PourTous{j $\in$ \{1, 2, ..., $n_f$\}}{Affecter à $x_{j}$ la valeur $x_{j}-\alpha_X (\nabla_{(x_{j})^T}J(X, \Theta))^T$\;}
-\indent \PourTous{i $\in$ \{1, 2, ..., $n_u$\}}{Affecter à $\Theta_{i}$ la valeur $\theta_{i} - \alpha_{\Theta} (\nabla_{(\theta_{i})^T}J(X, \Theta))^T$\;}
-\caption{Étape de la descente du gradient}
-\end{algorithm}
-
-\noindent Cela en considérant une matrice colonne comme un vecteur pour calculer le gradient et en considérant le gradient comme une matrice colonne (voir \ref{notations}).\\
-Il faudrait maintenant être capable de calculer rapidement $\nabla_{(x_{j})^T}J(X, \Theta)$ $\forall j \in \{1, 2, ..., n_f\}$ et $\nabla_{(\theta_{i})^T} J(X, \Theta)$ $\forall i \in \{1, 2, ..., n_u\}$.
-Nous prouvons en \ref{P1} que $ \nabla_{(x_{j})^T}J(X, \Theta) = \nabla_{(x_{j})^T}\frac{1}{2}\Vert\tilde{\Theta}(x_{j})^{T}-\tilde{y}_{.,j}\Vert^{2}$ et que $ \nabla_{(\theta_i)^T}J(X, \Theta) = \nabla_{(\theta_{i})^T}\frac{1}{2}\Vert\tilde{X}(\theta_{i})^{T}-\tilde{y}_{i}\Vert^{2}$. Il n'est pas absolument nécessaire de savoir que représente ces matrices avec des tildes. Pour en savoir plus voir annexe \ref{tilde}.
-Puis en \ref{P2} nous prouvons que $ \nabla_{(x_{j})^T}\frac{1}{2}\Vert\tilde{\theta}(x_{j})^{T}-\tilde{y}_{.,j}\Vert^{2} =  \tilde{\Theta}^{T}(\tilde{\Theta}(x_{j})^{T}-\tilde{y}_{.,j})$ et que $\nabla_{(\theta_{i})^T}\frac{1}{2}\Vert\tilde{X}(\theta_{i})^{T}-\tilde{y}_{i}\Vert^{2} =  \tilde{X}^{T}(\tilde{X}(\theta_{i})^{T}-\tilde{y}_{i})$. Ce qui nous permet de représenter une étape du gradient comme une série de produits de matrices rapidement calculables. Cela nous fait passer à une vitesse de 5 étapes par seconde avec $n = 10$. Et nous remarquons une convergence de la valeur de $J(X, \Theta)$ indiquant bien la présence d'un minimum que nous atteignons.
-
+La différence avec la partie précédente, c'est que nous parlons de matrices. Mais chacun des coefficients de ces matrice peut être considéré comme une variable. Nous pouvons alors utiliser la descente du gradient pour J en considérant qu'il s'agit d'une fonction à $n_u * n + n_f * n$ variables. Or utiliser la descente du gradient de manière brute comme ceci est beaucoup trop long : 30 secondes par étape avec $n = 10$ sachant qu'il nous faut plus de 500 étapes pour arriver à un résultat correct. C'est pourquoi nous réfléchissons à la manière dont nous codons pour optimiser cela, mais le principe reste le même. Nous arrivons finalement à 5 étapes par seconde avec $n = 10$. Pour en savoir plus sur cette partie importante de notre projet voir annexe \ref{optimisation}.\\
+Et nous remarquons une convergence de la valeur de $J(X, \Theta)$ indiquant bien la présence d'un minimum que nous atteignons.
 
 \section{Mise en application de l'algorithme}
 
@@ -281,11 +265,7 @@ Au final, nous trouvons un taux d'erreur optimal pour $n = 10$, $\alpha_X = 0.00
 
 \section*{Conclusion}
 
-Finalement, nous avons réussi à réaliser un programme qui, à partir d'un tableau de notes, 
-peut prédire pour un certain nombre de films les notes d'utilisateurs quelconques ayant mis quelques notes. 
-Cela avec une précision assez bonne : la moyenne des écarts absolus entre les notes prédites et la réalité vaut environ $0.79$. 
-En tout cas, il s'agit d'une précision assez élevée pour pouvoir comparer des notes prédites pour 
-un utilisateur et ainsi recommander le film ayant celle la plus élevée.\\
+Finalement, nous avons réussi à réaliser un programme qui, à partir d'un tableau de notes, peut prédire pour un certain nombre de films les notes d'utilisateurs quelconques ayant mis quelques notes. Cela avec une précision assez bonne : la moyenne des écarts absolus entre les notes prédites et la réalité vaut environ $0.79$. En tout cas, il s'agit d'une précision assez élevée pour pouvoir comparer des notes prédites pour un utilisateur et ainsi recommander le film ayant celle la plus élevée.\\
 
 Améliorer encore notre système de recommandation ? Nous avons quelques idée à ce sujet.\\
 D'abord utiliser une plus grande base de donnée : pour l'instant nous nous sommes limités à un peu plus de 9000 films mais nous pourrions largement augmenter ce nombre grâce aux donnée disponibles sur "movielens". Un plus grand nombre d'utilisateurs permettrait aussi une plus grande précision. Mais est un défi : une base de données trop grande rendrait notre algorithme très long à exécuter.\\
@@ -330,17 +310,60 @@ $\nabla_{u} f(u, ...) =
 
 \newpage
 
-\section{Que sont $\tilde{\Theta}$, $\tilde{X}$, $\tilde{y}_i$ et $\tilde{y}_{., j}$ ?}
-\label{tilde}
-Les notations utilisées sont les mêmes que dans la partie 3.2.\\
-En fait $\tilde{y}_{.,j}$ est le vecteur $y_{.,j}$ auquel nous avons enlev\'{e} les composantes NaN : par exemple si $y_{.,j}=
+\section{Optimisation}
+\label{optimisation}
+
+Optimisation de l'algorithme proposé dans la partie 3.2. Les notations utilisées sont les mêmes que dans la partie 3.2.
+
+\subsection{Rappel de l'algorithme à optimiser}
+
+\noindent Une \'{e}tape :\\
+\indent Faire simultan\'{e}ment:\\
+\indent \indent Pour tout j $\in$ \{1, 2, ..., nf\}:\\
+\indent \indent \indent Pour tout k $\in$ \{1, 2, ..., n\} :\\
+\indent \indent \indent \indent Affecter \`{a} $x_{j,k}$ la valeur $x_{j,k}-\alpha_X \frac{\partial J}{\partial x_{j,k}}$\\
+\indent Faire simultan\'{e}ment:\\
+\indent \indent Pour tout i $\in$ \{1, 2, ..., nu\}:\\
+\indent \indent \indent Pour tout k $\in$ \{1, 2, ..., n\} :\\
+\indent \indent \indent \indent Affecter \`{a} $\theta_{i,k}$ la valeur $\theta_{i,k}-\alpha_\Theta \frac{\partial J}{\partial \theta_{i,k}}$\\
+
+\noindent Cet algorithme poss\`{e}de deux fois deux boucles imbriqu\'{e}es ce qui le rend tr\`es lent: 30 secondes par \'{e}tapes avec 10 caract\'{e}ristiques sachant qu'il faut au moins 500 \'{e}tapes pour arriver à une approximation de Y correcte. C'est pourquoi nous voulons l'optimiser.
+
+\subsubsection{Utilisation du gradient}
+
+Or, nous remarquons que faire ce qui est décrit au dessus revient à faire à chaque étape :
+
+\begin{algorithm}
+\Entree{X, $\Theta$, $\alpha_X$, $\alpha_{\Theta}$, J}  
+\Res{X et $\Theta$ tels que J(X, $\Theta$) se soit rapproché du minimum de J}
+\BlankLine
+\textbf{Simultanément:}\\
+\indent \PourTous{j $\in$ \{1, 2, ..., $n_f$\}}{Affecter à $x_{j}$ la valeur $x_{j}-\alpha_X (\nabla_{(x_{j})^T}J(X, \Theta))^T$\;}
+\indent \PourTous{i $\in$ \{1, 2, ..., $n_u$\}}{Affecter à $\Theta_{i}$ la valeur $\theta_{i} - \alpha_{\Theta} (\nabla_{(\theta_{i})^T}J(X, \Theta))^T$\;}
+\caption{Étape de la descente du gradient}
+\end{algorithm}
+
+\noindent Cela en considérant une matrice colonne comme un vecteur pour calculer le gradient et en considérant le gradient comme une matrice colonne (voir \ref{notations}).\\
+Il faudrait maintenant être capable de calculer rapidement $\nabla_{(x_{j})^T}J(X, \Theta)$ $\forall j \in \{1, 2, ..., n_f\}$ et $\nabla_{(\theta_{i})^T} J(X, \Theta)$ $\forall i \in \{1, 2, ..., n_u\}$.
+Nous prouvons en \ref{P1} que $ \nabla_{(x_{j})^T}J(X, \Theta) = \nabla_{(x_{j})^T}\frac{1}{2}\Vert\tilde{\Theta}(x_{j})^{T}-\tilde{y}_{.,j}\Vert^{2}$ et que $ \nabla_{(\theta_i)^T}J(X, \Theta) = \nabla_{(\theta_{i})^T}\frac{1}{2}\Vert\tilde{X}(\theta_{i})^{T}-\tilde{y}_{i}\Vert^{2}$.\\\\
+Que sont $\tilde{\Theta}$, $\tilde{X}$, $\tilde{y}_i$ et $\tilde{y}_{., j}$ ? En fait $\tilde{y}_{.,j}$ est le vecteur $y_{.,j}$ auquel nous avons enlev\'{e} les composantes NaN : par exemple si $y_{.,j}=
 \begin{pmatrix}
 2\\3\\NaN\\5\\NaN
 \end{pmatrix}$
 alors $\tilde{y}_{.,j}=
 \begin{pmatrix}
 2\\3\\5
-\end{pmatrix}$. Et si nous avons pour cela retir\'{e} les lignes $l_{1}, l_{2}, \cdots$ et $l_{u}$ de y, nous retirons les m\^{e}mes lignes de $\theta$ pour former $\tilde{\theta}$.  D'o\`{u} $\tilde{\theta}$ d\'{e}pend de $y_{.,j}$ et donc de j. Même chose pour $\tilde{X}$ et $\tilde{y}_i$ : nous enlevons les colonnes de $y_i$ où il y a des NaN, puis les mêmes colonnes de X.
+\end{pmatrix}$. Et si nous avons pour cela retir\'{e} les lignes $l_{1}, l_{2}, \cdots$ et $l_{u}$ de y, nous retirons les m\^{e}mes lignes de $\theta$ pour former $\tilde{\Theta}$.  D'o\`{u} $\tilde{\Theta}$ d\'{e}pend de $y_{.,j}$ et donc de j. Même chose pour $\tilde{X}$ et $\tilde{y}_i$ : nous enlevons les colonnes de $y_i$ où il y a des NaN, puis les mêmes colonnes de X.\\\\
+Puis en \ref{P2} nous prouvons que $ \nabla_{(x_{j})^T}\frac{1}{2}\Vert\tilde{\theta}(x_{j})^{T}-\tilde{y}_{.,j}\Vert^{2} =  \tilde{\Theta}^{T}(\tilde{\Theta}(x_{j})^{T}-\tilde{y}_{.,j})$ et que $\nabla_{(\theta_{i})^T}\frac{1}{2}\Vert\tilde{X}(\theta_{i})^{T}-\tilde{y}_{i}\Vert^{2} =  \tilde{X}^{T}(\tilde{X}(\theta_{i})^{T}-\tilde{y}_{i})$. Ce qui nous permet de représenter une étape du gradient comme une série de produits de matrices rapidement calculables. Cela nous fait passer à une vitesse de 5 étapes par seconde avec $n = 10$.
+Ce qui nous donne ce nouvel algorithme beaucoup plus rapide :\\
+
+\noindent Une \'{e}tape :\\
+\indent Faire simultan\'{e}ment:\\
+\indent \indent Pour tout j $\in$ \{1, 2, ..., nf\}:\\
+\indent \indent \indent Affecter \`{a} $x_{j,k}$ la valeur $x_{j,k}-\alpha(\tilde{\theta}^{T}(\tilde{\theta}x_{j}^{T}-\tilde{y}_{.,j}))^{T}$\\
+\indent Faire simultan\'{e}ment:\\
+\indent \indent Pour tout i $\in$ \{1, 2, ..., nu\}:\\
+\indent \indent \indent Affecter \`{a} $\theta_{i,k}$ la valeur $\theta_{i,k}-\alpha(\tilde{X}^{T}(\tilde{X}\theta_{i}^{T}-\tilde{y}_{i}))^{T}$\\
 
 \newpage
 
@@ -348,7 +371,7 @@ alors $\tilde{y}_{.,j}=
 
 \subsection{}  
 \label{P1}
-Les notations utilisées sont les mêmes que dans la partie 3.2. Montrons : \[\nabla_{(x_{j})^T} J(\Theta, X) = \nabla_{(x_{j})^T}\frac{1}{2}\Vert\tilde{\Theta}(x_{j})^{T}-\tilde{y}_{.,j}\Vert^{2}\]
+Les notations utilisées sont les mêmes que dans la partie \ref{optimisation}. Montrons : \[\nabla_{(x_{j})^T} J(\Theta, X) = \nabla_{(x_{j})^T}\frac{1}{2}\Vert\tilde{\Theta}(x_{j})^{T}-\tilde{y}_{.,j}\Vert^{2}\]
 Nous avons :
 \begin{align*}
 \nabla_{(x_{j})^T} J(\Theta, X) &=  
