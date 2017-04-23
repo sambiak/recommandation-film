@@ -112,6 +112,8 @@ Nous pouvons ainsi trouver les films les plus en accord avec ses goûts en regar
 Pour ce rapport, dans un premier temps nous introduirons le sujet en expliquant notre approche du problème.
 Puis, nous verrons sur quel modèle mathématique nous nous sommes appuyés pour écrire notre algorithme, et nous finirons par expliquer comment marche notre algorithme et comment l’optimiser.
 
+\newpage
+
 \section{Qu'est ce qu'un système de recommandation?}
 
 \subsection{Notre approche}
@@ -254,7 +256,7 @@ Or, nous remarquons que faire ce qui est décrit au dessus revient à faire à c
 \caption{Étape de la descente du gradient}
 \end{algorithm}
 
-\noindent Cela en considérant une matrice colonne comme un vecteur pour calculer le gradient et en considérant le gradient comme une matrice colonne.\\
+\noindent Cela en considérant une matrice colonne comme un vecteur pour calculer le gradient et en considérant le gradient comme une matrice colonne (voir \ref{notations}).\\
 Il faudrait maintenant être capable de calculer rapidement $\nabla_{(x_{j})^T}J(X, \Theta)$ $\forall j \in \{1, 2, ..., n_f\}$ et $\nabla_{(\theta_{i})^T} J(X, \Theta)$ $\forall i \in \{1, 2, ..., n_u\}$.
 Nous prouvons en \ref{P1} que $ \nabla_{(x_{j})^T}J(X, \Theta) = \nabla_{(x_{j})^T}\frac{1}{2}\Vert\tilde{\Theta}(x_{j})^{T}-\tilde{y}_{.,j}\Vert^{2}$ et que $ \nabla_{(\theta_i)^T}J(X, \Theta) = \nabla_{(\theta_{i})^T}\frac{1}{2}\Vert\tilde{X}(\theta_{i})^{T}-\tilde{y}_{i}\Vert^{2}$.\\\\
 Que sont $\tilde{\Theta}$, $\tilde{X}$, $\tilde{y}_i$ et $\tilde{y}_{., j}$ ? En fait $\tilde{y}_{.,j}$ est le vecteur $y_{.,j}$ auquel nous avons enlev\'{e} les composantes NaN : par exemple si $y_{.,j}=
@@ -265,7 +267,7 @@ alors $\tilde{y}_{.,j}=
 \begin{pmatrix}
 2\\3\\5
 \end{pmatrix}$. Et si nous avons pour cela retir\'{e} les lignes $l_{1}, l_{2}, \cdots$ et $l_{u}$ de y, nous retirons les m\^{e}mes lignes de $\theta$ pour former $\tilde{\theta}$.  D'o\`{u} $\tilde{\theta}$ d\'{e}pend de $y_{.,j}$ et donc de j. Même chose pour $\tilde{X}$ et $\tilde{y}_i$ : nous enlevons les colonnes de $y_i$ où il y a des NaN, puis les mêmes colonnes de X.\\\\
-Puis en \ref{P2} nous prouvons que $ \nabla_{(x_{j})^T}\frac{1}{2}\Vert\tilde{\theta}(x_{j})^{T}-\tilde{y}_{.,j}\Vert^{2} =  \tilde{\Theta}^{T}(\tilde{\Theta}(x_{j})^{T}-\tilde{y}_{.,j})$ et que $\nabla_{(\theta_{i})^T}\frac{1}{2}\Vert\tilde{X}(\theta_{i})^{T}-\tilde{y}_{i}\Vert^{2} =  \tilde{X}^{T}(\tilde{X}(\theta_{i})^{T}-\tilde{y}_{i})$. Ce qui nous permet de représenter une étape du gradient comme une série de produits de matrices rapidement calculables. Cela nous fait passer à une vitesse de 5 étapes par seconde avec $n = 10$.
+Puis en \ref{P2} nous prouvons que $ \nabla_{(x_{j})^T}\frac{1}{2}\Vert\tilde{\theta}(x_{j})^{T}-\tilde{y}_{.,j}\Vert^{2} =  \tilde{\Theta}^{T}(\tilde{\Theta}(x_{j})^{T}-\tilde{y}_{.,j})$ et que $\nabla_{(\theta_{i})^T}\frac{1}{2}\Vert\tilde{X}(\theta_{i})^{T}-\tilde{y}_{i}\Vert^{2} =  \tilde{X}^{T}(\tilde{X}(\theta_{i})^{T}-\tilde{y}_{i})$. Ce qui nous permet de représenter une étape du gradient comme une série de produits de matrices rapidement calculables. Cela nous fait passer à une vitesse de 5 étapes par seconde avec $n = 10$. Et nous remarquons une convergence de la valeur de $J(X, \Theta)$ indiquant bien la présence d'un minimum que nous atteignons.
 
 \section{Mise en application de l'algorithme}
 \subsection{Familiarisation avec problème plus simple}
@@ -327,9 +329,23 @@ Au final, nous avons trouvé un taux d'erreur optimal pour $n = 10$, $\alpha_X =
 
 Au final une question intéressante est est-ce que le modèle arrivera d'une manière efficace à prédire les notes d'un nouvel utilisateur ?\\
 
-Pour mettre en place cela nous avons choisi de ne pas recalculer $X$ et $\Theta$ pour chaque nouvel utilisateur. À la place, nous supposons que l'ajout des notes d'un nouvel utilisateur ne va pratiquement pas modifier le calcul de $X$ et des profils des anciens utilisateurs. Il nous suffit donc de calculer et d'ajouter seulement une nouvelle ligne à $\Theta$, caractérisant le profil du nouvel utilisateur. Ceci peut alors se faire très rapidement. À partir de ces nouvelles données, il nous suffit de compléter la ligne de Y correspondant aux notes du nouvel utilisateur pour trouver la plus élevée et recommander à l'utilisateur le film associé.
+Pour mettre en place cela nous choisissons de ne pas recalculer $X$ et $\Theta$ pour chaque nouvel utilisateur. À la place, nous supposons que l'ajout des notes d'un nouvel utilisateur ne va pratiquement pas modifier le calcul de $X$ et des profils des anciens utilisateurs. Il nous suffit donc de calculer et d'ajouter seulement une nouvelle ligne à $\Theta$, caractérisant le profil du nouvel utilisateur. Ceci peut alors se faire très rapidement. À partir de ces nouvelles données, il nous suffit de compléter la ligne de Y correspondant aux notes du nouvel utilisateur pour trouver la plus élevée et recommander à l'utilisateur le film associé.
+
+\newpage
 
 \section*{Conclusion}
+
+Finalement, nous avons réussi à réaliser un programme qui, à partir d'un tableau de notes, peut prédire pour un certain nombre de films les notes d'utilisateurs quelconques ayant mis quelques notes. Cela avec une précision assez bonne : la moyenne des écarts absolus entre les notes prédites et la réalité vaut environ $0.79$. En tout cas, il s'agit d'une précision assez élevée pour pouvoir comparer des notes prédites pour un utilisateur et ainsi recommander le film ayant celle la plus élevée.\\
+
+Améliorer encore notre système de recommandation ? Nous avons quelques idée à ce sujet.\\
+D'abord utiliser une plus grande base de donnée : pour l'instant nous nous sommes limités à un peu plus de 9000 films mais nous pourrions largement augmenter ce nombre grâce aux donnée disponibles sur "movielens". Un plus grand nombre d'utilisateurs permettrait aussi une plus grande précision. Mais est un défi : une base de données trop grande rendrait notre algorithme très long à exécuter.\\
+Autre chose, certaines méthodes existent pour limiter le sur-apprentissage sont nous avons parlé et que nous n'avons pas utilisée : le faire permettrait une précision plus élevée.\\
+Développer une interface graphique pour notre système de recommandation serait aussi une chose intéressante : une application sur smartphone ou un site web rendrait facile d'utilisation notre système de recommandation et permettrait à beaucoup de personnes d'en profiter.\\
+Enfin, nous avons décidé de prendre en compte seulement des notes d'utilisateurs pour nos prédictions. Mais d'autres données seraient utilisables comme le genre du film et la date à laquelle il a été noté. Il serait intéressant de se demander si cela augmenterait la précision de nos prédictions. Le genre du film serait sûrement peu intéressant puisque notre programme propose lui même les caractéristiques les mieux appropriés qu'il déduit des notes. Par contre, la date à laquelle a été noté le film pourrait bien augmenter la précision (\cite{matrix})
+
+
+
+
 %1 page avec perspectives et limites de l'approche
 
 %-Rappel du probleme
