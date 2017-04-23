@@ -92,10 +92,9 @@ Nous avons choisi de nous intéresser à la recommandation automatique de films.
 Mais comment recommander à un utilisateur un film qu’il aimera ? Beaucoup de critères peuvent entrer en compte : 
 le genre du film, le jeu des acteurs, la date du film, ou tout simplement sa bonne qualité … Tout cela est très subjectif ! \\
 
-
 Nous en arrivons à la problématique suivante : Comment concevoir un programme informatique permettant une recommandation personnalisée pertinente ?
 En se limitant à un certain nombre de films, la méthode proposée lors de ce projet consiste à estimer les notes que mettrait l’utilisateur aux films qu'il n'a pas vu.
-Nous pouvons ainsi trouver les films les plus en accord avec ses goûts en regardant les plus hautes prédictions de note.\\
+Nous pouvons ainsi trouver les films les plus en accord avec ses goûts en regardant les plus hautes notes prédites.\\
 Pour ce rapport, dans un premier temps nous introduirons le sujet en expliquant notre approche du problème.
 Puis, nous verrons sur quel modèle mathématique nous nous sommes appuyés pour écrire notre algorithme, et nous finirons par expliquer comment marche notre algorithme et comment l’optimiser.
 
@@ -116,10 +115,10 @@ Notre objectif est alors de trouver un modèle mathématique permettant de déte
 Le besoin d'avoir des données nous guide vers une grande base de données ``movielens.org'' qui est un site communautaire de recommandation de films où les utilisateurs du site notent des films de 0 à 5.
 Plusieurs jeux de données y sont disponibles. 
 Nous choisissons de travailler avec des notes données par 670 utilisateurs à 9125 films.
-Par la suite nous nous référerons au nombre d'utilisateurs par $n_u$ et au nombre de films par $n_f$.
+Nous nous référons au nombre d'utilisateurs par $n_u$ et au nombre de films par $n_f$.
 Nous extrayons alors 2 fichiers : l’un contenant les $n_f$ films dans un tableau avec leurs titres et un numéro d'identification attribué, l’autre avec les notes des utilisateurs eux aussi numérotés par des identifiants. 
 Les données de ces deux fichiers étant peu pratiques à manipuler,  
-nous codons une fonction tableau\_des\_notes() qui renvoie une matrice de dimensions $n_u * n_f$ qui contient les notes données par les utilisateurs aux films. Seulement, aucun utilisateur n'a noté tous les films : il y a des cases vides dans notre tableau. Nous insérons alors dans ces cases des `` NaN ''(Not a Number), type de donnée facile à traiter dans notre programme.
+nous codons une fonction tableau\_des\_notes() qui renvoie une matrice de dimensions $n_u * n_f$ qui contient les notes données par les utilisateurs aux films. Les lignes du tableau correspondent aux utilisateurs et les colonnes aux films. Seulement, aucun utilisateur n'a noté tous les films : il y a des cases vides dans notre tableau. Nous insérons alors dans ces cases des ``NaN''(Not a Number), type de donnée facile à traiter dans notre programme.
 La matrice des notes est appelée Y.
 
 \begin{figure}[H]
@@ -130,22 +129,23 @@ La matrice des notes est appelée Y.
 
 \subsubsection{Analyse des données}
 
-Nous créons des fonctions permettant de faire des statistiques sur nos données.\\
+Nous codons des fonctions (voir annexe \ref{stat}) permettant de faire des statistiques sur nos données.\\
 
-Nous remarquons alors que plus de 90 \% des films possèdent entre 1 et 25 notes, et que le plus souvent un film a 2 notes. Le film auquel a été attribué le plus de notes a 339 notes.
+Nous remarquons alors que plus de 90 \% des films possèdent entre 1 et 25 notes, et que le plus souvent un film a 2 notes.\\
 
 \begin{figure}[H]
   \centering
 \includegraphics[scale=0.5]{hist2.png}
-\caption{Films les moins notés (90\% de nos films) triés en fonction du nombre de fois qu'ils ont été notés}
+\caption{Répartition des films les moins notés (90\% de nos films) en fonction du nombre de fois qu'ils ont été notés}
 \end{figure}
 
-Dans l’autre sens, nous voyons aussi que chaque utilisateur a noté 148 films en moyenne.
+Le film auquel a été attribué le plus de notes a 339 notes.\\
+Nous voyons aussi que chaque utilisateur a noté 148 films en moyenne.
 
 \begin{figure}[H]
   \centering
 \includegraphics[scale=0.5]{hist1.png}
-\caption{Utilisateurs classés selon le nombre de notes qu'ils ont mis}
+\caption{Répartition des utilisateurs selon le nombre de notes qu'ils ont mis}
 \end{figure}
 
 De plus, notre tableau présente 98,4 \% de NaN. Soit plus de 6 millions de notes à prédire !
@@ -464,6 +464,8 @@ Dans cet annexe figure notre code.
 \end{changemargin} 
  
 \subsection{Statistiques sur nos données, stat.py} 
+\label{stat}
+
 \begin{changemargin}{-4cm}{0cm} 
 \lstinputlisting{stat.py} 
 \end{changemargin} 
