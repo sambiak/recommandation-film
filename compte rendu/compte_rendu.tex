@@ -166,7 +166,7 @@ C'est ce que nous allons étudier dans cette partie.
 
 Toutes les notations utilisées sont précisées en annexe \ref{notations}.\\
 
-Posons $Y_f$ la matrice Y complétée. Elle contient toutes les prédictions exactes des notes qui nous manquent. C'est la matrice à laquelle nous voulons aboutir, celle que nous devons deviner. Voici notre méthode.\\
+Posons $Y_f$ la matrice Y complétée. Elle contient toutes les prédictions exactes des notes qui nous manquent. C'est la matrice à laquelle nous voulons aboutir, celle que nous devons deviner. Voici notre méthode, celle ci est inspirée du mooc\cite{mooc}.\\
 
 Nous supposons que nous sommes capables de déterminer à partir de Y deux matrices X et $\Theta$ telles que $\Theta X^T = Y_f$ avec $\Theta$ une matrice de dimensions $n_u \times n$ et X une matrice de dimensions $n_f \times n$. $n \in \mathbb{N}^*$ est quelconque, nous verrons par la suite que nous pouvons le fixer comme bon nous semble.\\ 
 Quelle est notre hypothèse sur l'interprétation de $\Theta$ et X ? Qu'est ce qui nous fait supposer leur existence ? Nous allons éclairer ces points tout de suite par des explications plus précises.\\
@@ -204,7 +204,7 @@ Soit $(\alpha_{x_1}, \alpha_{x_2}) \in (\mathbb{R}^{+*})^2$.
  et $\Delta x_{2} = -\alpha_{x_2} \frac{\partial f}{\partial x_{2}}$. Soit $\Delta f = f(x_1 + \Delta x_1, x_2 + \Delta x_2) - f(x_1, x_2)$. $\Delta f$ est la variation de f lorsque $x_1$ varie de $\Delta x_1$ et $x_2$ varie de $\Delta x_2$. 
 En faisant l'approximation $\Delta f = \frac{\partial f}{\partial x_{1}}\Delta  x_{1} + \frac{\partial f}{\partial x_{2}}\Delta x_{2}$ nous obtenons $\Delta f = -\alpha_{x_1} (\frac{\partial f}{\partial x_{1}}(x_1, x_2))^{2} - \alpha_{x_2} (\frac{\partial f}{\partial x_{2}}(x_1, x_2))^{2} < 0$.
 Ainsi, dans les limites de l'approximation faite au dessus, à chaque fois que nous modifions les $x_{k}$ de $- \alpha_{x_k} \frac{\partial f}{\partial x_{k}}(x_1, x_2)$
- nous avons une diminution de la valeur de $f(x_1, x_2)$. Et nous admettons que modifier un certain nombre de fois les $x_i$ de la sorte va faire converger la valeur $f(x_1, x_2)$ vers un minimum local.\\
+ nous avons une diminution de la valeur de $f(x_1, x_2)$. Et nous avons appris que modifier un certain nombre de fois les $x_i$ de la sorte va faire converger la valeur $f(x_1, x_2)$ vers un minimum local\cite{mooc}.\\
 
 C'est le principe de la descente du gradient et nous obtenons l'algorithme suivant pour minimiser f :
 \begin{algorithm}
