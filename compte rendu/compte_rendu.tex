@@ -89,7 +89,7 @@ Enfin, nous remercions toutes les personnes ayant participé à la relecture de 
 
 \section*{Introduction}
 
-A l’ère du numérique, la collecte de données d’une multitude d’utilisateurs peut devenir très intéressante pour leur faire des suggestions 
+À l’ère du numérique, la collecte de données d’une multitude d’utilisateurs peut devenir très intéressante pour leur faire des suggestions 
 personnalisées de tout type. C’est une pratique que l’on rencontre souvent : recommandations d’amis sur Facebook, suggestions d’achats sur Internet, etc.
 Nous avons choisi de nous intéresser à la recommandation automatique de films.
 Mais comment recommander à un utilisateur un film qu’il aimera ? De nombreux critères peuvent entrer en compte : 
@@ -121,7 +121,7 @@ Nous nous référons au nombre d'utilisateurs par $n_u$ et au nombre de films pa
 Nous extrayons alors 2 fichiers : l’un contenant les $n_f$ films dans un tableau avec leurs titres et un numéro d'identification attribué, l’autre avec les notes des utilisateurs eux aussi numérotés par des identifiants. 
 Les données de ces deux fichiers étant peu pratiques à manipuler,  
 nous codons une fonction tableau\_des\_notes() qui renvoie une matrice de dimensions $n_u \times n_f$ qui contient les notes données par les utilisateurs aux films.
-Les lignes du tableau correspondent aux utilisateurs et les colonnes aux films. Cependant, aucun utilisateur n'a noté tous les films : il y a des cases vides dans notre tableau.
+Les lignes de la matrice correspondent aux utilisateurs et les colonnes aux films. Cependant, aucun utilisateur n'a noté tous les films : il y a des notes manquantes dans notre matrice.
 Nous insérons alors dans ces cases des ``NaN''(Not a Number), type de donnée facile à traiter dans notre programme.
 La matrice des notes est appelée Y.
 
