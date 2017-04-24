@@ -230,7 +230,8 @@ Depuis le début nous parlons d'un minimum et pas du minimum. En fait la descent
 Nous voulons maintenant appliquer le même raisonnement sur $J$ pour modifier X et $\Theta$, initialement pris aléatoirement, un certain nombre de fois jusqu'à arriver à une valeur de $J(X, \Theta)$ assez faible. Voyons voir comment s'y prendre.\\
 
 La différence avec la partie précédente, c'est que nous parlons de matrices. Mais chacun des coefficients de ces matrices peut être considéré comme une variable. Nous pouvons alors utiliser la descente du gradient pour J en considérant qu'il s'agit d'une fonction à $n_u * n + n_f * n$ variables. Or utiliser la descente du gradient de manière brute comme ceci est beaucoup trop long : 30 secondes par étape avec $n = 10$ sachant qu'il nous faut plus de 500 étapes pour arriver à un résultat correct. C'est pourquoi nous réfléchissons à la manière d'optimiser le code, tout en gardant le même principe. Nous arrivons finalement à 0.2 seconde par étape avec $n = 10$. Pour en savoir plus sur cette partie importante de notre projet voir annexe \ref{optimisation}.\\
-Et nous remarquons une convergence de la valeur de $J(X, \Theta)$ indiquant bien la présence d'un minimum que nous atteignons.
+
+Avant d’utiliser ce modèle nous avions été familiarisés avec un problème plus simple qui est décrit en annexe \ref{extrait}.
 
 \section{Mise en application de l'algorithme}
 
