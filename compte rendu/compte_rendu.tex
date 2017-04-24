@@ -140,7 +140,7 @@ Nous remarquons alors que plus de 90 \% des films possèdent entre 1 et 25 notes
 \begin{figure}[H]
   \centering
 \includegraphics[scale=0.5]{hist2.png}
-\caption{Répartition des films les moins notés (90\% de nos films) en fonction du nombre de fois qu'ils ont été notés}
+\caption{Répartition des films en fonction du nombre de fois qu'ils ont été notés (apparaissent seulement 90\% de nos films : ceux les moins notés)}
 \end{figure}
 
 Nous voyons aussi que chaque utilisateur a noté 148 films en moyenne.
@@ -158,13 +158,13 @@ films deviner les notes qu'elle mettra aux films qu'elle n'a pas encore vu.
 
 \section{Modélisation du problème}
 
-Nous nous posons maintenant la question de comment nous y prendre pour prédire des notes ?
+Comment prédire des notes ?
 Notre seule ressource est la matrice Y incomplète. Sur quel modèle s'appuyer pour la compléter ?
 C'est ce que nous allons étudier dans cette partie.
 
 \subsection{Factorisation de matrices}
 
-Toutes les notations utilisées sont précisées en \ref{notations}.\\
+Toutes les notations utilisées sont précisées en annexe \ref{notations}.\\
 
 Posons $Y_f$ la matrice Y complétée. Elle contient toutes les prédictions exactes des notes qui nous manquent. C'est la matrice à laquelle nous voulons aboutir, celle que nous devons deviner. Voici notre méthode.\\
 
@@ -458,7 +458,7 @@ Maintenant nous pouvons nous demander à quel point cette méthode est précise.
 
 \section{Code} 
  
-Dans cet annexe figure notre code. 
+Dans cet annexe figure notre code. Il est aussi disponible 
  
 \subsection{Extraction des données et fonctions permettant leur manipulation, movielens.py} 
 \begin{changemargin}{-4cm}{0cm} 
