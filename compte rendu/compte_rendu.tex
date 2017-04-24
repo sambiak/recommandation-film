@@ -68,9 +68,11 @@
 
 \section*{Remerciements}
 
-Nous remercions notre encadrant de projet, Valentin Emiya qui nous a guidé et soutenu tout au long de ce projet. \\
+Nous remercions notre encadrant de projet, Valentin Emiya, qui nous a guidé et soutenu tout au long de ce projet. \\
 
-Nous remercions également Victoria Paolantoni qui nous a débloqué pour la rédaction de l'une des preuves mathématique.\\
+Nous remercions également Victoria Paolantoni qui nous a débloqués pour la rédaction de l'une des preuves mathématiques.\\
+
+Nous remercions Rania Alili pour son aide concernant la première page de ce rapport.\\
 
 Enfin, nous remercions toutes les personnes ayant participé à la relecture de ce rapport.
 \newpage
@@ -91,12 +93,12 @@ A l’ère du numérique, la collecte de données d’une multitude d’utilisat
 personnalisées de tout type. C’est une pratique que l’on rencontre souvent : recommandations d’amis sur Facebook, suggestions d’achats sur Internet, etc.
 Nous avons choisi de nous intéresser à la recommandation automatique de films.
 Mais comment recommander à un utilisateur un film qu’il aimera ? De nombreux critères peuvent entrer en compte : 
-le genre du film, le jeu des acteurs, la date du film, ou tout simplement sa bonne qualité … Tout cela est très subjectif ! \\
+le genre du film, le jeu des acteurs, la date du film, ou tout simplement sa bonne qualité. Tout cela est très subjectif ! \\
 
 Nous en arrivons à la problématique suivante : Comment concevoir un programme informatique permettant une recommandation personnalisée pertinente ?\\
 
 Pour ce rapport, dans un premier temps nous introduirons le sujet en expliquant notre approche du problème. 
-Puis, nous verrons sur quel modèle mathématique nous nous sommes appuyés pour écrire notre algorithme, et nous finirons par expliquer comment marche notre algorithme et comment l’optimiser.
+Puis, nous verrons sur quel modèle mathématique nous nous sommes appuyés pour écrire notre algorithme, et nous finirons par expliquer comment fonctionne notre algorithme et comment l’optimiser.
 
 \newpage
 
@@ -105,7 +107,7 @@ Puis, nous verrons sur quel modèle mathématique nous nous sommes appuyés pour
 \subsection{Notre approche}
 
 Le but de notre projet est de pouvoir recommander un film ou plusieurs à n'importe quel utilisateur. 
-Pour cela, nous devons savoir à quel point un utilisateur va aimer tel ou tel film pour le lui recommander ou pas. Ce qui parait alors pertinent est d'estimer pour chaque film une note que lui donnerait l'utilisateur s'il le voyait. 
+Pour cela, nous devons savoir à quel point un utilisateur va aimer tel ou tel film pour le lui recommander ou pas. Ce qui paraît alors pertinent est d'estimer pour chaque film une note que lui donnerait l'utilisateur s'il le voyait. 
 Nous pourrions ainsi recommander le film ayant la meilleur note prédite.
 Notre objectif est alors de trouver un modèle mathématique permettant de déterminer la note que mettrait un utilisateur à n'importe quel film qu'il n'a pas vu. Cependant il nous faut nous appuyer sur quelque chose. Pour commencer à travailler, il faut déjà connaître certaines informations : nous travaillerons à partir de notes de films données par un certain nombre d'utilisateurs. Et pour recommander un film à un utilisateur, il faudra avoir quelques informations sur ses goûts, il faudra qu'il ait donné quelques notes à quelques films.
 
@@ -262,7 +264,6 @@ Au final, nous trouvons un taux d'erreur optimal pour $n = 10$, $\alpha_X = 0.00
 \newpage
 
 \section*{Conclusion}
-%la faut changer la phrase trop longue
 Finalement, nous avons réussi à réaliser un programme qui, à partir d'un tableau de notes, peut en prédire de nouvelles. Il est capable de le faire pour des utilisateurs ayant donné quelques notes à quelques films. Cela avec une précision assez bonne : la moyenne des écarts absolus entre les notes prédites et la réalité est d'environ $0.8$. Cette précision est suffisante pour pouvoir comparer entre elles de manière significative les notes prédites d'un utilisateur. Ainsi nous pouvons recommander de manière fiable le film ayant la note la plus élevée.\\
 
 Pouvons nous encore améliorer notre système de recommandation ? Nous avons quelques idées à ce sujet.\\
@@ -485,6 +486,12 @@ Dans cet annexe figure notre code.
 \begin{changemargin}{-4cm}{0cm} 
 \lstinputlisting{etude_efficacite.py} 
 \end{changemargin}
+
+\subsection{Recommandation à un nouvel utilisateur, utilisateur.py} 
+\begin{changemargin}{-4cm}{0cm} 
+\lstinputlisting{utilisateur.py} 
+\end{changemargin}
+
 
 \newpage
 
