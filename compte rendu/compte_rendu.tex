@@ -7,8 +7,8 @@
 \usepackage{amsmath}
 \usepackage{color}
 \usepackage{float} 
-\usepackage{float} 
 \usepackage{listings}
+\usepackage{url}
 
 \lstset{language={Python}} 
  
@@ -168,8 +168,8 @@ Toutes les notations utilisées sont précisées en annexe \ref{notations}.\\
 
 Posons $Y_f$ la matrice Y complétée. Elle contient toutes les prédictions exactes des notes qui nous manquent. C'est la matrice à laquelle nous voulons aboutir, celle que nous devons deviner. Voici notre méthode.\\
 
-Nous supposons que nous sommes capable de déterminer à partir de Y deux matrices X et $\Theta$ telles que $\Theta X^T = Y_f$ avec $\Theta$ une matrice de dimensions $n_u \times n$ et X une matrice de dimensions $n_f \times n$. $n \in \mathbb{N}^*$ est quelconque, nous verrons par la suite que nous pouvons le fixer comme bon nous semble.\\ 
-Quel est notre hypothèse sur l'interprétation de $\Theta$ et X ? Qu'est ce qui nous fait supposer leur existence ? Nous allons éclairer ces points tout de suite par des explications plus précises.\\
+Nous supposons que nous sommes capables de déterminer à partir de Y deux matrices X et $\Theta$ telles que $\Theta X^T = Y_f$ avec $\Theta$ une matrice de dimensions $n_u \times n$ et X une matrice de dimensions $n_f \times n$. $n \in \mathbb{N}^*$ est quelconque, nous verrons par la suite que nous pouvons le fixer comme bon nous semble.\\ 
+Quelle est notre hypothèse sur l'interprétation de $\Theta$ et X ? Qu'est ce qui nous fait supposer leur existence ? Nous allons éclairer ces points tout de suite par des explications plus précises.\\
 
 Le paragraphe qui suit est la description de nos hypothèses sur l'interprétation que nous pouvons faire à propos de n, $\Theta$ et X. Après chaque verbe au conditionnel il est sous-entendu "d'après notre hypothèse".\\
 Parlons un peu du nombre n. Ce dernier serait en fait un nombre de caractéristiques quelconques, qui nous sont inconnues, et qui peuvent bien décrire nos films : si nous pensons qu'ils peuvent être décrits efficacement par 10 caractéristiques, nous choisissons de trouver $\Theta$ et X avec $n = 10$. 
@@ -179,7 +179,7 @@ Décrivons maintenant $\Theta$. $\forall i \in \{1, 2, ..., n_u\}$ $\theta_{i}$ 
 
 Voyons maintenant voir en quoi le produit $\Theta X^T$ peut valoir $Y_f$. D'après le produit matriciel, $\forall i \in \{1, 2, ..., n_u\}$ et $\forall j \in \{1, 2, ..., n_f\}$ on a $(y_{f})_{i,j} = \theta_{i}(x_{j})^{T}$ : la note que l'utilisateur i a donné ou donnera au film j dépend des caractéristiques du film et du profil de l'utilisateur. Et nous avons :
 \[(y_{f})_{i,j} = \sum_{k = 1}^{n} \theta_{i,k} * x_{j,k}\]
-Ce qui semble logique : la note est une combinaison linéaire des taux de caractéristiques du film avec des coefficient qui sont plus ou moins élevé suivant le goût de l'utilisateur pour la caractéristique concernée.
+Ce qui semble logique : la note est une combinaison linéaire des taux de caractéristiques du film avec des coefficients qui sont plus ou moins élevés suivant le goût de l'utilisateur pour la caractéristique concernée.
 
 \subsection{Fonction de coût}
 
@@ -221,7 +221,7 @@ Affecter à $x_2$ une valeur aléatoire\;
 \noindent Une partie de cet algorithme est répété un certain nombre de fois : nous l'appelons "étape du gradient" ou parfois simplement "étape".\\
 Remarquons que $x_1$ et $x_2$ sont fixés aléatoirement : leur valeur de départ peut être quelconque, l'algorithme minimisera quand même f.\\
 Notons que $\alpha_{x_1}$ et $\alpha_{x_2}$ sont appelés taux d'apprentissage.
-Chose importante, les approximations utilisées ne fonctionnent qu'avec des valeurs assez petite de $\Delta x_1$ et $\Delta x_2$. Il faut donc choisir des taux d'apprentissage eux aussi petits pour que la descente du gradient puisse fonctionner. Mais choisir des taux d'apprentissage trop petits modifierait trop peu les $x_i$ à chaque étape : il faudrait alors un très grand nombre d'étapes pour arriver à un minimum de $f$.\\
+Chose importante, les approximations utilisées ne fonctionnent qu'avec des valeurs assez petites de $\Delta x_1$ et $\Delta x_2$. Il faut donc choisir des taux d'apprentissage eux aussi petits pour que la descente du gradient puisse fonctionner. Mais choisir des taux d'apprentissage trop petits modifierait trop peu les $x_i$ à chaque étape : il faudrait alors un très grand nombre d'étapes pour arriver à un minimum de $f$.\\
 
 Depuis le début nous parlons d'un minimum et pas du minimum. En fait la descente du gradient permet d'arriver à un minimum local d'une fonction. Pour minimiser J, nous avons décidé de nous contenter d'un minimum.
 
@@ -229,7 +229,7 @@ Depuis le début nous parlons d'un minimum et pas du minimum. En fait la descent
 
 Nous voulons maintenant appliquer le même raisonnement sur $J$ pour modifier X et $\Theta$, initialement pris aléatoirement, un certain nombre de fois jusqu'à arriver à une valeur de $J(X, \Theta)$ assez faible. Voyons voir comment s'y prendre.\\
 
-La différence avec la partie précédente, c'est que nous parlons de matrices. Mais chacun des coefficients de ces matrice peut être considéré comme une variable. Nous pouvons alors utiliser la descente du gradient pour J en considérant qu'il s'agit d'une fonction à $n_u * n + n_f * n$ variables. Or utiliser la descente du gradient de manière brute comme ceci est beaucoup trop long : 30 secondes par étape avec $n = 10$ sachant qu'il nous faut plus de 500 étapes pour arriver à un résultat correct. C'est pourquoi nous réfléchissons à la manière d'optimiser le code, tout en gardant le même principe. Nous arrivons finalement à 0.2 seconde par étape avec $n = 10$. Pour en savoir plus sur cette partie importante de notre projet voir annexe \ref{optimisation}.\\
+La différence avec la partie précédente, c'est que nous parlons de matrices. Mais chacun des coefficients de ces matrices peut être considéré comme une variable. Nous pouvons alors utiliser la descente du gradient pour J en considérant qu'il s'agit d'une fonction à $n_u * n + n_f * n$ variables. Or utiliser la descente du gradient de manière brute comme ceci est beaucoup trop long : 30 secondes par étape avec $n = 10$ sachant qu'il nous faut plus de 500 étapes pour arriver à un résultat correct. C'est pourquoi nous réfléchissons à la manière d'optimiser le code, tout en gardant le même principe. Nous arrivons finalement à 0.2 seconde par étape avec $n = 10$. Pour en savoir plus sur cette partie importante de notre projet voir annexe \ref{optimisation}.\\
 Et nous remarquons une convergence de la valeur de $J(X, \Theta)$ indiquant bien la présence d'un minimum que nous atteignons.
 
 \section{Mise en application de l'algorithme}
@@ -458,8 +458,8 @@ Maintenant nous pouvons nous demander à quel point cette méthode est précise.
 
 \section{Code} 
  
-Dans cet annexe figure notre code. Il est aussi disponible 
- 
+Dans cet annexe figure notre code. Il est aussi disponible sur \url{https://github.com/sambiak/recommandation-film}.
+
 \subsection{Extraction des données et fonctions permettant leur manipulation, movielens.py} 
 \begin{changemargin}{-4cm}{0cm} 
 \lstinputlisting{movielens.py} 
