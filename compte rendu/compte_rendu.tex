@@ -166,7 +166,7 @@ C'est ce que nous allons étudier dans cette partie.
 
 Toutes les notations utilisées sont précisées en annexe \ref{notations}.\\
 
-Posons $Y_f$ la matrice Y complétée. Elle contient toutes les prédictions exactes des notes qui nous manquent. C'est la matrice à laquelle nous voulons aboutir, celle que nous devons deviner. Voici notre méthode.\\
+Posons $Y_f$ la matrice Y complétée. Elle contient toutes les prédictions exactes des notes qui nous manquent. C'est la matrice à laquelle nous voulons aboutir, celle que nous devons deviner. Voici notre méthode, celle-ci est inspirée du mooc\cite{mooc}.\\
 
 Nous supposons que nous sommes capables de déterminer à partir de Y deux matrices X et $\Theta$ telles que $\Theta X^T = Y_f$ avec $\Theta$ une matrice de dimensions $n_u \times n$ et X une matrice de dimensions $n_f \times n$. $n \in \mathbb{N}^*$ est quelconque, nous verrons par la suite que nous pouvons le fixer comme bon nous semble.\\ 
 Quelle est notre hypothèse sur l'interprétation de $\Theta$ et X ? Qu'est ce qui nous fait supposer leur existence ? Nous allons éclairer ces points tout de suite par des explications plus précises.\\
@@ -177,7 +177,7 @@ Une caractéristique peut être n'importe quoi, du taux d'action à la couleur d
 Décrivons X. Nous avons déjà dit que cette matrice possède $n_f$ lignes. Chaque ligne caractériserait un film. Ainsi $\forall j \in \{1, 2, ..., n_f\}$ le film j serait décrit par $x_j$ de dimensions $1 \times n$. Comment ? En fait $\forall k \in \{1, 2, ..., n\}$ $x_{j,k}$ correspondrait à un taux de correspondance entre le film j et la k-ième caractéristique. Si la k-ième caractéristique est l'action et si le film j est un film d'action tandis que le film j' ($j' \in \{1, 2, ..., n_f\}$) est un film romantique sans action alors $x_{j,k}$ sera un réel supérieur à $x_{j',k}$.\\
 Décrivons maintenant $\Theta$. $\forall i \in \{1, 2, ..., n_u\}$ $\theta_{i}$ représenterait les goûts de l'utilisateur i. $\forall k \in \{1, 2, ..., n\}$ $\theta_{i,k}$ serait un taux d'appréciation de la caractéristique k pour l'utilisateur i.\\
 
-Voyons maintenant voir en quoi le produit $\Theta X^T$ peut valoir $Y_f$. D'après le produit matriciel, $\forall i \in \{1, 2, ..., n_u\}$ et $\forall j \in \{1, 2, ..., n_f\}$ on a $(y_{f})_{i,j} = \theta_{i}(x_{j})^{T}$ : la note que l'utilisateur i a donné ou donnera au film j dépend des caractéristiques du film et du profil de l'utilisateur. Et nous avons :
+Voyons maintenant en quoi le produit $\Theta X^T$ peut valoir $Y_f$. D'après le produit matriciel, $\forall i \in \{1, 2, ..., n_u\}$ et $\forall j \in \{1, 2, ..., n_f\}$ on a $(y_{f})_{i,j} = \theta_{i}(x_{j})^{T}$ : la note que l'utilisateur i a donné ou donnera au film j dépend des caractéristiques du film et du profil de l'utilisateur. Et nous avons :
 \[(y_{f})_{i,j} = \sum_{k = 1}^{n} \theta_{i,k} * x_{j,k}\]
 Ce qui semble logique : la note est une combinaison linéaire des taux de caractéristiques du film avec des coefficients qui sont plus ou moins élevés suivant le goût de l'utilisateur pour la caractéristique concernée.
 
@@ -204,7 +204,7 @@ Soit $(\alpha_{x_1}, \alpha_{x_2}) \in (\mathbb{R}^{+*})^2$.
  et $\Delta x_{2} = -\alpha_{x_2} \frac{\partial f}{\partial x_{2}}$. Soit $\Delta f = f(x_1 + \Delta x_1, x_2 + \Delta x_2) - f(x_1, x_2)$. $\Delta f$ est la variation de f lorsque $x_1$ varie de $\Delta x_1$ et $x_2$ varie de $\Delta x_2$. 
 En faisant l'approximation $\Delta f = \frac{\partial f}{\partial x_{1}}\Delta  x_{1} + \frac{\partial f}{\partial x_{2}}\Delta x_{2}$ nous obtenons $\Delta f = -\alpha_{x_1} (\frac{\partial f}{\partial x_{1}}(x_1, x_2))^{2} - \alpha_{x_2} (\frac{\partial f}{\partial x_{2}}(x_1, x_2))^{2} < 0$.
 Ainsi, dans les limites de l'approximation faite au dessus, à chaque fois que nous modifions les $x_{k}$ de $- \alpha_{x_k} \frac{\partial f}{\partial x_{k}}(x_1, x_2)$
- nous avons une diminution de la valeur de $f(x_1, x_2)$. Et nous admettons que modifier un certain nombre de fois les $x_i$ de la sorte va faire converger la valeur $f(x_1, x_2)$ vers un minimum local.\\
+ nous avons une diminution de la valeur de $f(x_1, x_2)$. Et nous avons appris que modifier un certain nombre de fois les $x_i$ de la sorte va faire converger la valeur $f(x_1, x_2)$ vers un minimum local\cite{mooc}.\\
 
 C'est le principe de la descente du gradient et nous obtenons l'algorithme suivant pour minimiser f :
 \begin{algorithm}
@@ -218,7 +218,7 @@ Affecter à $x_2$ une valeur aléatoire\;
 \BlankLine
 \end{algorithm}
 
-\noindent Une partie de cet algorithme est répété un certain nombre de fois : nous l'appelons "étape du gradient" ou parfois simplement "étape".\\
+\noindent Une partie de cet algorithme est répétée un certain nombre de fois : nous l'appelons "étape du gradient" ou parfois simplement "étape".\\
 Remarquons que $x_1$ et $x_2$ sont fixés aléatoirement : leur valeur de départ peut être quelconque, l'algorithme minimisera quand même f.\\
 Notons que $\alpha_{x_1}$ et $\alpha_{x_2}$ sont appelés taux d'apprentissage.
 Chose importante, les approximations utilisées ne fonctionnent qu'avec des valeurs assez petites de $\Delta x_1$ et $\Delta x_2$. Il faut donc choisir des taux d'apprentissage eux aussi petits pour que la descente du gradient puisse fonctionner. Mais choisir des taux d'apprentissage trop petits modifierait trop peu les $x_i$ à chaque étape : il faudrait alors un très grand nombre d'étapes pour arriver à un minimum de $f$.\\
@@ -249,12 +249,12 @@ Nous obtenons ainsi un écart moyen, le taux d'erreur, indiquant la fiabilité d
 
 Il est intéressant d'étudier les facteurs qui peuvent rendre notre prédiction plus ou moins fiable. Bien entendu, nous excluons l'impact de la méthode de prédiction utilisée, celle-ci étant fixée à la base de notre projet (voir annexe \ref{extrait} pour une autre méthode). Nous nous demandons donc comment améliorer la fiabilité de notre prédiction sans changer complètement de méthode.\\
 
-Clairement le nombre d'étapes dépend de n, le nombre de caractéristiques et des taux d'apprentissage $\alpha_X$ et $\alpha_\Theta$.\\
-Le nombre d'étape à effectuer est aussi important : faire trop d'étapes entraîne une remontée du taux d'erreur. Il s'agit du "sur-apprentissage" terme utilisé en apprentissage automatique.\\
+Clairement le taux d'erreur dépend de n, le nombre de caractéristiques et des taux d'apprentissage $\alpha_X$ et $\alpha_\Theta$.\\
+Le nombre d'étape à effectuer est aussi important : faire trop d'étapes entraîne une remontée du taux d'erreur. Il s'agit du "sur-apprentissage", terme utilisé en apprentissage automatique.\\
 Nous avons donc décidé de trouver le nombre d'étapes optimal pour les taux d'apprentissage et le nombre de caractéristiques optimal.\\
 
 Pour cela, nous testons un grand nombre de combinaisons de $n$ et des $\alpha$. Et pour chaque combinaison nous effectuons la descente du gradient en traçant un graphique du taux d'erreur en fonction du nombre d'étapes.
-Au final, nous trouvons un taux d'erreur optimal pour $n = 10$, $\alpha_X = 0.000125$, $\alpha_\Theta = 0.0001$, $nb_{etapes} \in [900,950]$. La moyenne des écarts absolus entre les notes prédites et la réalité vaut alors environ $0.8$.
+Au final, nous trouvons un taux d'erreur optimal pour $n = 10$, $\alpha_X = 0.000125$, $\alpha_\Theta = 0.0001$, $nb_etapes \in [900,950]$. La moyenne des écarts absolus entre les notes prédites et la réalité vaut alors environ $0.8$.
 
 \begin{figure}[H]
 \centering
@@ -272,7 +272,14 @@ D'abord utiliser une plus grande base de donnée : pour l'instant nous nous somm
 sur "movielens". Un plus grand nombre d'utilisateurs permettrait aussi une plus grande précision. Mais ce serait un défi : une base de données trop grande rendrait notre algorithme très long à exécuter.\\
 De plus, certaines méthodes que nous n'avons pas utilisées existent pour limiter le sur-apprentissage : ceci permettrait une précision plus élevée (référence \cite{mooc}).\\
 Développer une interface graphique pour notre système de recommandation serait aussi une chose à faire : une application sur smartphone ou un site web rendrait facile d'utilisation notre système de recommandation et permettrait à beaucoup de personnes d'en profiter.\\
-Enfin, nous avons décidé de prendre en compte seulement des notes d'utilisateurs pour nos prédictions. Mais d'autres données pourraient être utilisables comme le genre du film et, pour chaque note, la date à laquelle elle a été donnée. Il serait intéressant de se demander si cela augmenterait la précision de nos prédictions. Le genre du film serait sûrement peu utile puisque notre programme propose lui même les caractéristiques les mieux appropriées qu'il déduit des notes. Par contre, la date à laquelle chaque note a été donnée pourrait bien augmenter la précision, référence \cite{matrix}. En effet, notre programme actuel ne prend en compte que des caractéristique de films et d'utilisateurs : pas des caractéristiques des notes.\\
+Enfin, nous avons d´ecid´e de prendre en compte seulement des notes d’utilisateurs pour nos pr´edictions. Mais d’autres donn´ees pourraient ^etre utilisables
+comme le genre du film et la date `a laquelle il a ´et´e not´e. Il serait int´eressant
+de se demander si cela augmenterait la pr´ecision de nos pr´edictions. Le genre
+du film serait s^urement peu utile puisque notre programme propose lui m^eme
+les caract´eristiques les mieux appropri´ees qu’il d´eduit des notes. Par contre, la
+date `a laquelle a ´et´e not´e le film pourrait bien augmenter la pr´ecision, r´ef´erence
+[1].
+Enfin, nous avons décidé de prendre en compte seulement des notes d'utilisateurs pour nos prédictions. Mais d'autres données pourraient être utilisables comme le genre du film, sa date de sortie, ou même la date à laquelle a été mise la note. Il serait intéressant de se demander si cela augmenterait la précision de nos prédictions. Le genre du film et sa date de sortie seraient sûrement peu utiles puisque notre programme propose lui même les caractéristiques les mieux appropriées qu'il déduit des notes. Par contre, la date à laquelle chaque note a été donnée pourrait bien augmenter la précision, référence \cite{matrix}. En effet, notre programme actuel ne prend en compte que des caractéristique de films et d'utilisateurs : pas des caractéristiques des notes.
 
 Pour chacun de nous, ce projet fut passionnant et a apporté de nombreuses connaissances. Nous avons pu découvrir une partie du domaine de l'apprentissage automatique. Nous avons essayé d'améliorer notre travail en groupe au fur et à mesure de l'avancée du projet. L'outil de travail collaboratif utilisé Github fut une découverte pour plusieurs d'entre nous et sera sûrement réutilisé par la suite. C'est aussi durant ce projet que certains ont appris à utiliser Latex, et cela nous sera aussi sûrement utile pour plus tard.\\
 Pour toutes ces raisons ce projet nous a beaucoup apportés.
@@ -288,15 +295,15 @@ Pour toutes ces raisons ce projet nous a beaucoup apportés.
 \newpage
 
 \appendix
-\section{Notations utilisés}
+\section{Notations utilisées}
 \label{notations}
 
-Introduisons dans cette section les notations utilisés dans tout le rapport.\\ 
+Introduisons dans cette section les notations utilisées dans tout le rapport.\\ 
 
 Nous travaillons tout au long de ce rapport avec des matrices réelles. $\forall (n, p) \in \mathbb{N}^2$ nous notons l'ensemble des matrices réelles de dimension $n * p$ : ${\cal M}_{n, p}$.\\ 
 $\forall (n, p) \in \mathbb{N}^2$ $\forall A \in {\cal M}_{n, p}$ $\forall i \in \{1, 2, ..., n\}$ $a_i$ est la i-ème ligne de la matrice A et nous avons $a_i \in {\cal M}_{1, p}$. Et $\forall j \in \{1, 2, ..., p\}$ $a_{., j}$ est la j-ème colonne de la matrice A et nous avons $a_j \in {\cal M}_{n, 1}$. Remarquons que des majuscules sont utilisées pour des matrices qui ne sont ni des matrices lignes ni des matrices colonnes et des minuscules autrement. Nous utilisons aussi des minuscules pour les coefficients des matrices.\\ 
 Sauf indication contraire, lorsque nous utilisons la lettre j il s'agit d'un entier naturel quelconque non nul et inférieur ou égal à $n_f$. De la même façon la lettre i représente, lorsque ça n'est pas précisé, un entier naturel quelconque non nul et inférieur ou égal à $n_u$.\\ 
-Enfin, le film numéro j est le film dont les notes se trouvent à la j-ème colonne de Y et l'utilisateur i est l'utilisateur dont les notes qu'il a donné sont à la i-ème ligne de Y.\\
+Enfin, le film numéro j est le film dont les notes se trouvent à la j-ème colonne de Y et l'utilisateur i est l'utilisateur dont les notes qu'il a données sont à la i-ème ligne de Y.\\
 
 $||a|| = \sqrt{\sum_{k = 1}^{m} a_{k}^{2}}$ avec $m \in \mathbb{N}^*$ et $a \in {\cal M}_{m}$\\
 
