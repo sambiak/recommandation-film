@@ -231,7 +231,7 @@ Nous voulons maintenant appliquer le même raisonnement sur $J$ pour modifier X 
 
 La différence avec la partie précédente, c'est que nous parlons de matrices. Mais chacun des coefficients de ces matrices peut être considéré comme une variable. Nous pouvons alors utiliser la descente du gradient pour J en considérant qu'il s'agit d'une fonction à $n_u * n + n_f * n$ variables. Or utiliser la descente du gradient de manière brute comme ceci est beaucoup trop long : 30 secondes par étape avec $n = 10$ sachant qu'il nous faut plus de 500 étapes pour arriver à un résultat correct. C'est pourquoi nous réfléchissons à la manière d'optimiser le code, tout en gardant le même principe. Nous arrivons finalement à 0.2 seconde par étape avec $n = 10$. Pour en savoir plus sur cette partie importante de notre projet voir annexe \ref{optimisation}.\\
 
-Avant d’utiliser ce modèle nous avions été familiarisés avec un problème plus simple qui est décrit en annexe \ref{extrait}.
+Avant d’utiliser ce modèle nous nous sommes familiarisé avec la descente du gradient grâce à un problème plus simple qui est décrit en annexe \ref{extrait}.
 
 \section{Mise en application de l'algorithme}
 
