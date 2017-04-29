@@ -186,6 +186,3 @@ def tableau_bricolé_de_l_lignes_et_c_colonnes(tableau_des_notes,l,c):
             nb_de_notes[a]=compte
             num_colonne[a]=i
     return tableau_bricolé.take(num_colonne,axis=1), num_colonne, num_ligne
-
-
-print(len(sous_ensemble()), len(sous_ensemble()[0]))
